@@ -1,12 +1,7 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		PRAGMAS.HPP
-** COMPONENT:	Core C++ Library
-** DESCRIPTION:	Disable annoying Level 4 warnings.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \author Chris Oldwood
+//! \file   PRAGMAS.HPP
+//! \brief  Disables annoying Level 4 warnings.
 
 // Check for previous inclusion
 #ifndef PRAGMAS_HPP

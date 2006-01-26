@@ -1,12 +1,7 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		NULLPTR.HPP
-** COMPONENT:	Core C++ Library
-** DESCRIPTION:	The nullptr class declaration.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \author Chris Oldwood
+//! \file   NULLPTR.HPP
+//! \brief  The nullptr class declaration.
 
 // Check for previous inclusion
 #ifndef NULLPTR_HPP
@@ -16,37 +11,37 @@
 #pragma once
 #endif
 
-/******************************************************************************
-**
-** Adapted from the May 2004 CUJ article by Herb Sutter.
-**
-*******************************************************************************
-*/
-
 // VC++ 7.x
 #if _MSC_VER > 1200
 
-const								// this is a const object...
-class
+////////////////////////////////////////////////////////////////////////////////
+//! A class to simulate the proposed nullptr keyword. This was adapted from the
+//! May 2004 CUJ article by Herb Sutter.
+
+const class nullptr_t
 {
 public:
-	template<class T>				// convertible to any type
-	operator T*() const				// of null non-member pointer...
+	//! Allow conversion to any type of null non-member pointer.
+	template<class T>
+	operator T*() const
 	{ return 0; }
 
-	template<class C, class T>		// or any type of null
-	operator T C::*() const			// member pointer...
+	//! Allow conversion to any type of null member pointer.
+	template<class C, class T>
+	operator T C::*() const
 	{ return 0; }
 
 private:
-	void operator&() const;			// whose address can't be taken
+	//! Don't allow address to be taken.
+	void operator&() const;
 
-} nullptr = {};						// and whose name is nullptr.
+} nullptr = {};
 
 // VC++ 6.x
 #else
 
-#define nullptr 0
+// Pre VC++ 6.x can't cope with the template.
+#define nullptr 0					
 
 #endif
 

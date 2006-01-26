@@ -1,12 +1,7 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		TSTRING.HPP
-** COMPONENT:	Core C++ Library
-** DESCRIPTION:	Build independent string defintions.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \author Chris Oldwood
+//! \file   TSTRING.HPP
+//! \brief  Build independent string defintions.
 
 // Check for previous inclusion
 #ifndef TSTRING_HPP
@@ -16,32 +11,24 @@
 #pragma once
 #endif
 
-/******************************************************************************
-**
-** Standard headers.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// Standard headers.
 
 //#include <string>
 
-/******************************************************************************
-** 
-** The following #defines mirror the Windows style TCHAR definitions. These
-** allow the same codebase to support both ANSI and UNICODE builds. They use a
-** consistent 't' prefix for both the types and functions rather than the _tcs
-** prefix used by the Windows header.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// The following #defines mirror the Windows style TCHAR definitions. These
+// allow the same codebase to support both ANSI and UNICODE builds. They use a
+// consistent 't' prefix for both the types and functions rather than the _tcs
+// prefix used by the Windows header.
 
 // ANSI build.
 #ifndef _UNICODE
 
 // Basic types.
-typedef char	tchar;
-#define tstring	string
-#define TXT(x)	x
+typedef char	tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+#define tstring	string		//!< Build agnostic string type. Maps to string or wstring.
+#define TXT(x)	x			//!< Build agnostic string literal. Maps to "" or L"".
 
 // String functions.
 
@@ -49,9 +36,9 @@ typedef char	tchar;
 #else
 
 // Basic types.
-typedef wchar_t	tchar;
-#define tstring	wstring
-#define TXT(x)	L ## x
+typedef wchar_t	tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+#define tstring	wstring		//!< Build agnostic string type. Maps to string or wstring.
+#define TXT(x)	L ## x		//!< Build agnostic string literal. Maps to "" or L"".
 
 // String functions.
 

@@ -1,12 +1,7 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		COMMON.HPP
-** COMPONENT:	Core C++ Library
-** DESCRIPTION:	File to include the most commonly used headers.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \author Chris Oldwood
+//! \file   COMMON.HPP
+//! \brief  File to include the most commonly used headers.
 
 // Check for previous inclusion
 #ifndef COMMON_HPP
@@ -16,44 +11,28 @@
 #pragma once
 #endif
 
-/******************************************************************************
-** 
-** Build control.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// Build control.
 
 #include <Core/Pragmas.hpp>			// Default pragmas.
 
-/******************************************************************************
-** 
-** Standard headers that conflict with <crtdbg.h> because it remaps malloc,
-** calloc, free etc. using #defines.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// Standard headers that conflict with <crtdbg.h> because it remaps malloc,
+// calloc, free etc. using #defines.
 
 #include <stdlib.h>
 #include <malloc.h>
 
-/******************************************************************************
-** 
-** Debugging macros and functions.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// Debugging macros and functions.
 
 #ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
 #include <crtdbg.h>					// CRT debug macros and functions.
 #endif
 
-/******************************************************************************
-** 
-** Library headers.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+// Library headers.
 
 #include <Core/nullptr.hpp>			// Simulated nullptr proposed keyword.
 #include <Core/Types.hpp>			// Typedefs for basic types.

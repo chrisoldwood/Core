@@ -1,12 +1,7 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		SHAREDPTR.HPP
-** COMPONENT:	Core C++ Library
-** DESCRIPTION:	The SharedPtr class declaration.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \author Chris Oldwood
+//! \file   SHAREDPTR.HPP
+//! \brief  The SharedPtr template class declaration.
 
 // Check for previous inclusion
 #ifndef SHAREDPTR_HPP
@@ -19,58 +14,64 @@
 namespace Core
 {
 
-/******************************************************************************
-** 
-** A reference counted smart pointer class.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! A reference counted smart pointer.
 
 template <typename T>
 class SharedPtr
 {
 public:
-	//
-	// Constructors/Destructor.
-	//
+	//! Default constructor.
 	SharedPtr();
+
+	//! Construction from a raw pointer.
 	SharedPtr(T* pPointer);
+
+	//! Copy constructor.
 	SharedPtr(const SharedPtr<T>& oPointer);
+
+	//! Destructor.
 	~SharedPtr();
 	
 	//
 	// Operators.
 	//
+
+	//! Assignment operator.
 	SharedPtr& operator=(const SharedPtr<T>& oPointer);
-	T&         operator*() const;
-	const T*   operator->() const;
-	T*         operator->();
-    bool       operator!() const;
+
+	//! Pointer dereference operator.
+	T& operator*() const;
+
+	//! Pointer-to-member operator.
+	const T* operator->() const;
+
+	//! Pointer-to-member operator.
+	T* operator->();
+
+	//! Not operator.
+    bool operator!() const;
 
 	//
 	// Methods.
 	//
-	T*   Get() const;
+
+	//! Access owned pointer.
+	T* Get() const;
+
+	//! Change pointer ownership.
 	void Reset(T* pPointer = nullptr);
 
-protected:
+private:
 	//
 	// Members.
 	//
-	T*		m_pPointer;		// The pointer being shared.
-	ulong*	m_pRefCnt;		// The reference count.
+	T*		m_pPointer;		//!< The pointer being shared.
+	ulong*	m_pRefCnt;		//!< The pointer reference count.
 };
 
-/******************************************************************************
-**
-** Implementation of inline functions.
-**
-*******************************************************************************
-*/
-
-/******************************************************************************
-** Default constructor.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Default constructor. Sets pointer and reference count to NULL.
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr()
@@ -79,9 +80,8 @@ inline SharedPtr<T>::SharedPtr()
 {
 }
 
-/******************************************************************************
-** Construction from a new pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Construction from a raw pointer. Takes ownership of a new pointer.
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr(T* pPointer)
@@ -91,9 +91,8 @@ inline SharedPtr<T>::SharedPtr(T* pPointer)
 	Reset(pPointer);
 }
 
-/******************************************************************************
-** Copy constructor.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Copy constructor. Takes shared ownership of another pointer.
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
@@ -104,9 +103,8 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
 		++(*m_pRefCnt);
 }
 
-/******************************************************************************
-** Destructor.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Destructor. Frees the pointer if the last reference.
 
 template <typename T>
 inline SharedPtr<T>::~SharedPtr()
@@ -114,9 +112,9 @@ inline SharedPtr<T>::~SharedPtr()
 	Reset(nullptr);
 }
 
-/******************************************************************************
-** Assignment operator.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Assignment operator. Frees the current pointer if the last reference and
+//! takes shared ownership of another pointer.
 
 template <typename T>
 inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
@@ -142,9 +140,8 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 	return *this;
 }
 
-/******************************************************************************
-** Access the underlying pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Pointer dereference operator. Returns the currently shared pointer.
 
 template <typename T>
 inline T& SharedPtr<T>::operator*() const
@@ -152,9 +149,8 @@ inline T& SharedPtr<T>::operator*() const
 	return *m_pPointer;
 }
 
-/******************************************************************************
-** Access the underlying pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Pointer-to-member operator. Returns the currently shared pointer.
 
 template <typename T>
 inline const T* SharedPtr<T>::operator->() const
@@ -162,9 +158,8 @@ inline const T* SharedPtr<T>::operator->() const
 	return m_pPointer;
 }
 
-/******************************************************************************
-** Access the underlying pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Pointer-to-member operator. Returns the currently shared pointer.
 
 template <typename T>
 inline T* SharedPtr<T>::operator->()
@@ -172,9 +167,8 @@ inline T* SharedPtr<T>::operator->()
 	return m_pPointer;
 }
 
-/******************************************************************************
-** ! Operator.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Not operator. Tests for a NULL pointer.
 
 template <typename T>
 bool SharedPtr<T>::operator!() const
@@ -182,9 +176,8 @@ bool SharedPtr<T>::operator!() const
 	return (m_pPointer == nullptr);
 }
 
-/******************************************************************************
-** Get the underlying shared pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Access owned pointer. Returns the currently shared pointer.
 
 template <typename T>
 inline T* SharedPtr<T>::Get() const
@@ -192,9 +185,9 @@ inline T* SharedPtr<T>::Get() const
 	return m_pPointer;
 }
 
-/******************************************************************************
-** Replace the existing pointer.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Change pointer ownership. Frees the current pointer if the last reference
+//! and takes shared ownership of another pointer, if provided.
 
 template <typename T>
 inline void SharedPtr<T>::Reset(T* pPointer)
@@ -220,9 +213,8 @@ inline void SharedPtr<T>::Reset(T* pPointer)
 	}
 }
 
-/******************************************************************************
-** Global == Operator.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! SharedPtr<T> equality operator. Compare two SharedPtr's for equality.
 
 template <typename T>
 inline bool operator==(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
@@ -230,9 +222,8 @@ inline bool operator==(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
 	return (oLHS.Get() == oRHS.Get());
 }
 
-/******************************************************************************
-** Global != Operator.
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! SharedPtr<T> inequality operator. Compare two SharedPtr's for inequality.
 
 template <typename T>
 inline bool operator!=(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
