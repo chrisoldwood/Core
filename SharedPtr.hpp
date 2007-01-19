@@ -59,6 +59,9 @@ public:
 	//! Access owned pointer.
 	T* Get() const;
 
+	//! Access owned pointer as a reference.
+	T& GetRef() const;
+
 	//! Change pointer ownership.
 	void Reset(T* pPointer = nullptr);
 
@@ -183,6 +186,15 @@ template <typename T>
 inline T* SharedPtr<T>::Get() const
 {
 	return m_pPointer;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Access owned pointer as a reference.
+
+template <typename T>
+inline T& SharedPtr<T>::GetRef() const
+{
+	return *m_pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
