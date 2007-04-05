@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   NULLPTR.HPP
+//! \file   nullptr.hpp
 //! \brief  The nullptr class declaration.
 
 // Check for previous inclusion

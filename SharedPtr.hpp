@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   SHAREDPTR.HPP
+//! \file   SharedPtr.hpp
 //! \brief  The SharedPtr template class declaration.
 
 // Check for previous inclusion

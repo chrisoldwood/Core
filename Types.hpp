@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   TYPES.HPP
+//! \file   Types.hpp
 //! \brief  Common data types, defines and macros.
 
 // Check for previous inclusion

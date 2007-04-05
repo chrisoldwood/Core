@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   COMMON.HPP
+//! \file   Common.hpp
 //! \brief  File to include the most commonly used headers.
 
 // Check for previous inclusion

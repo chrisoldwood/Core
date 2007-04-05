@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   PRAGMAS.HPP
+//! \file   Pragmas.hpp
 //! \brief  Disables annoying Level 4 warnings.
 
 // Check for previous inclusion
