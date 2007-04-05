@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \author Chris Oldwood
-//! \file   TSTRING.HPP
+//! \file   tstring.hpp
 //! \brief  Build independent string defintions.
 
 // Check for previous inclusion
@@ -14,7 +14,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Standard headers.
 
-//#include <string>
+#include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
 // The following #defines mirror the Windows style TCHAR definitions. These
@@ -26,9 +26,13 @@
 #ifndef _UNICODE
 
 // Basic types.
-typedef char	tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
-#define tstring	string		//!< Build agnostic string type. Maps to string or wstring.
-#define TXT(x)	x			//!< Build agnostic string literal. Maps to "" or L"".
+typedef char			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+#define TXT(x)			x			//!< Build agnostic string literal. Maps to "" or L"".
+
+namespace std
+{
+typedef	std::string		tstring;	//!< Build agnostic string type. Maps to string or wstring.
+}
 
 // String functions.
 
@@ -36,9 +40,13 @@ typedef char	tchar;		//!< Build agnostic character type. Maps to char or wchat_t
 #else
 
 // Basic types.
-typedef wchar_t	tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
-#define tstring	wstring		//!< Build agnostic string type. Maps to string or wstring.
-#define TXT(x)	L ## x		//!< Build agnostic string literal. Maps to "" or L"".
+typedef wchar_t			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+#define TXT(x)			L ## x		//!< Build agnostic string literal. Maps to "" or L"".
+
+namespace std
+{
+typedef	std::wstring	tstring;	//!< Build agnostic string type. Maps to string or wstring.
+}
 
 // String functions.
 
