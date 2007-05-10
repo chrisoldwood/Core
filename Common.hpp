@@ -1,19 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   Common.hpp
 //! \brief  File to include the most commonly used headers.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef CORE_COMMON_HPP
+#define CORE_COMMON_HPP
 
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+// Library documentation
+//
+//! \namespace Core
+//! \brief     The Core Library namespace.
+
+////////////////////////////////////////////////////////////////////////////////
 // Build control.
 
+#include <Core/BuildConfig.hpp>		// Build configuation.
 #include <Core/Pragmas.hpp>			// Default pragmas.
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +31,7 @@
 #include <malloc.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-// Debugging macros and functions.
+// Compiler provided debugging macros and functions.
 
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
@@ -36,7 +43,9 @@
 
 #include <Core/nullptr.hpp>			// Simulated nullptr proposed keyword.
 #include <Core/Types.hpp>			// Typedefs for basic types.
+#include <Core/Assert.hpp>			// Debugging marocs.
 #include <Core/tstring.hpp>			// ANSI/UNICODE string mapping #defines.
-#include <Core/SharedPtr.hpp>		// Reference counted pointer class.
+#include <Core/NotCopyable.hpp>		// Base class to disable copying.
+#include <Core/SharedPtr.hpp>		// Reference counted smart-pointer class.
 
-#endif // COMMON_HPP
+#endif // CORE_COMMON_HPP
