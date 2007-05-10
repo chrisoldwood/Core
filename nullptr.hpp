@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   nullptr.hpp
 //! \brief  The nullptr class declaration.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef NULLPTR_HPP
-#define NULLPTR_HPP
+#ifndef CORE_NULLPTR_HPP
+#define CORE_NULLPTR_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -45,4 +45,4 @@ private:
 
 #endif
 
-#endif // NULLPTR_HPP
+#endif // CORE_NULLPTR_HPP

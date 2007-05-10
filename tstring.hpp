@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   tstring.hpp
 //! \brief  Build independent string defintions.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef TSTRING_HPP
-#define TSTRING_HPP
+#ifndef CORE_TSTRING_HPP
+#define CORE_TSTRING_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -52,4 +52,4 @@ typedef	std::wstring	tstring;	//!< Build agnostic string type. Maps to string or
 
 #endif
 
-#endif // TSTRING_HPP
+#endif // CORE_TSTRING_HPP

@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   Pragmas.hpp
 //! \brief  Disables annoying Level 4 warnings.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef PRAGMAS_HPP
-#define PRAGMAS_HPP
+#ifndef CORE_PRAGMAS_HPP
+#define CORE_PRAGMAS_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -51,4 +51,4 @@
 
 #endif
 
-#endif //PRAGMAS_HPP
+#endif // CORE_PRAGMAS_HPP
