@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   Types.hpp
 //! \brief  Common data types, defines and macros.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef TYPES_HPP
-#define TYPES_HPP
+#ifndef CORE_TYPES_HPP
+#define CORE_TYPES_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -36,4 +36,11 @@ typedef unsigned short		uint16;		//!< 16 bit unsigned integer.
 typedef unsigned long		uint32;		//!< 32 bit unsigned integer.
 typedef unsigned __int64	uint64;		//!< 64 bit unsigned integer.
 
-#endif //TYPES_HPP
+////////////////////////////////////////////////////////////////////////////////
+// Common macros.
+
+#ifndef ARRAYSIZE
+#define	ARRAYSIZE(array)	(sizeof(array)/sizeof(array[0]))
+#endif
+
+#endif // CORE_TYPES_HPP
