@@ -1,14 +1,9 @@
-/******************************************************************************
-** (C) Chris Oldwood
-**
-** MODULE:		ASSERT.CPP
-** COMPONENT:	Windows C++ Library.
-** DESCRIPTION:	Debugging output functions.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! \file   Assert.cpp
+//! \brief  Debug reporting functions.
+//! \author Chris Oldwood
 
-#include "wcl.hpp"
+#include <Core/Common.hpp>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -17,23 +12,33 @@
 #define new DBGCRT_NEW
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+// Avoid bringing in <windows.h>.
+
+extern "C" void __stdcall OutputDebugStringA(const char*);
+extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
+
+#ifdef _UNICODE
+#define	OutputDebugString	OutputDebugStringW
+#else
+#define	OutputDebugString	OutputDebugStringA
+#endif
+
+namespace Core
+{
+
+////////////////////////////////////////////////////////////////////////////////
+// Debug build only functions.
+
 #ifdef _DEBUG
 
-/******************************************************************************
-** Function:	AssertFail()
-**
-** Description:	This is called when an ASSERT fails. It displays a message box
-**				with details about why and where the assert failed. If asked
-**				it will also cause an INT 3 to kick in the debugger.
-**
-** Parameters:	pszExpression	A string representation of the ASSERT.
-**				pszFile			The file in which it occurs.
-**				iLine			The line where it occurs.
-**
-** Returns:		Nothing.
-**
-*******************************************************************************
-*/
+//! Size of debug output buffer in characters.
+const size_t MAX_CHARS = 1024;
+
+////////////////////////////////////////////////////////////////////////////////
+//! The function invoked when an ASSERT fails. It displays a message box with
+//! details about why and where the assert failed. If asked it will also cause
+//! an INT 3 to kick in the debugger.
 
 void AssertFail(const char* pszExpression, const char* pszFile, uint iLine)
 {
@@ -42,35 +47,46 @@ void AssertFail(const char* pszExpression, const char* pszFile, uint iLine)
 		_CrtDbgBreak();
 }
 
-/******************************************************************************
-** Function:	TraceEx()
-**
-** Description:	This is a printf() style function for outputing debugging
-**				messages. It uses vsprintf() and so is restricted to the types
-**				it can handle.
-**
-** Parameters:	pszFormat	The format of the output string.
-**				...			Variable number of arguments.
-**
-** Returns:		Nothing.
-**
-*******************************************************************************
-*/
+////////////////////////////////////////////////////////////////////////////////
+//! Function to write a message to the debugger output. This is a printf() style
+//! function for outputing debugging messages. It uses vsprintf() and so is
+//! restricted to the types it can handle.
 
 void TraceEx(const char* pszFormat, ...)
 {
+	char szBuffer[MAX_CHARS+1] = {0};
+
 	va_list	args;
 	va_start(args, pszFormat);
 
-	CString str;
-
-	str.FormatEx(pszFormat, args);
+	_vsnprintf(szBuffer, MAX_CHARS, pszFormat, args);
 
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, str) == 1)
+	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, szBuffer) == 1)
 		_CrtDbgBreak();
 
 	va_end(args);
 }
 
 #endif // _DEBUG
+
+////////////////////////////////////////////////////////////////////////////////
+//! Write a message to the debugger stream in both Debug and Release builds.
+//! Unlike TraceEx() this goes directly to OutputDebugString().
+
+void DebugWrite(const char* pszFormat, ...)
+{
+	char szBuffer[MAX_CHARS+1] = {0};
+
+	va_list	args;
+	va_start(args, pszFormat);
+
+	_vsnprintf(szBuffer, MAX_CHARS, pszFormat, args);
+
+	::OutputDebugString(szBuffer);
+
+	va_end(args);
+}
+
+//namespace Core
+}
