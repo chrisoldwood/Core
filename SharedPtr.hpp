@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \author Chris Oldwood
 //! \file   SharedPtr.hpp
 //! \brief  The SharedPtr template class declaration.
+//! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef SHAREDPTR_HPP
-#define SHAREDPTR_HPP
+#ifndef CORE_SHAREDPTR_HPP
+#define CORE_SHAREDPTR_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -25,7 +25,7 @@ public:
 	SharedPtr();
 
 	//! Construction from a raw pointer.
-	SharedPtr(T* pPointer);
+	explicit SharedPtr(T* pPointer);
 
 	//! Copy constructor.
 	SharedPtr(const SharedPtr<T>& oPointer);
@@ -70,7 +70,7 @@ private:
 	// Members.
 	//
 	T*		m_pPointer;		//!< The pointer being shared.
-	ulong*	m_pRefCnt;		//!< The pointer reference count.
+	long*	m_pRefCnt;		//!< The pointer reference count.
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
 	, m_pRefCnt(oPointer.m_pRefCnt)
 {
 	if (m_pRefCnt != nullptr)
-		++(*m_pRefCnt);
+		::InterlockedIncrement(m_pRefCnt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 	if (this != &oPointer)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (--(*m_pRefCnt) == 0))
+		if ((m_pRefCnt != nullptr) && (::InterlockedDecrement(m_pRefCnt) == 0))
 		{
 			delete m_pPointer;
 			delete m_pRefCnt;
@@ -137,7 +137,7 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 
 		// Share ownership.
 		if (m_pRefCnt != nullptr)
-			++(*m_pRefCnt);
+			::InterlockedIncrement(m_pRefCnt);
 	}
 
 	return *this;
@@ -205,7 +205,7 @@ template <typename T>
 inline void SharedPtr<T>::Reset(T* pPointer)
 {
 	// Final reference?
-	if ((m_pRefCnt != nullptr) && (--(*m_pRefCnt) == 0))
+	if ((m_pRefCnt != nullptr) && (::InterlockedDecrement(m_pRefCnt) == 0))
 	{
 		delete m_pPointer;
 		delete m_pRefCnt;
@@ -215,7 +215,7 @@ inline void SharedPtr<T>::Reset(T* pPointer)
 	if (pPointer != nullptr)
 	{
 		m_pPointer = pPointer;
-		m_pRefCnt  = new ulong(1);
+		m_pRefCnt  = new long(1);
 	}
 	// Reset members.
 	else
@@ -246,4 +246,4 @@ inline bool operator!=(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
 //namespace Core
 }
 
-#endif // SHAREDPTR_HPP
+#endif // CORE_SHAREDPTR_HPP
