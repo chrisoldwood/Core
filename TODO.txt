@@ -1,0 +1,3 @@
+- Change TraceEx and DebugWrite to use a dynamic string buffer.
+
+- Add string conversion functions.
