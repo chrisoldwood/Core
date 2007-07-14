@@ -32,7 +32,8 @@
 				EnableFunctionLevelLinking="TRUE"
 				ForceConformanceInForLoopScope="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Common.hpp"
 				WarningLevel="4"
 				WarnAsError="TRUE"
 				DebugInformationFormat="3"/>
@@ -75,7 +76,8 @@
 				EnableFunctionLevelLinking="TRUE"
 				ForceConformanceInForLoopScope="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="Common.hpp"
 				WarningLevel="4"
 				WarnAsError="TRUE"
 				DebugInformationFormat="3"/>
@@ -142,6 +144,9 @@
 			</File>
 			<File
 				RelativePath=".\SharedPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\SmartPtr.hpp">
 			</File>
 			<File
 				RelativePath=".\tstring.hpp">
