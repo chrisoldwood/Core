@@ -35,6 +35,7 @@ typedef	std::string		tstring;	//!< Build agnostic string type. Maps to string or
 }
 
 // String functions.
+#define tstrlen			strlen
 
 // UNICODE build.
 #else
@@ -49,6 +50,7 @@ typedef	std::wstring	tstring;	//!< Build agnostic string type. Maps to string or
 }
 
 // String functions.
+#define tstrlen			wcslen
 
 #endif
 
