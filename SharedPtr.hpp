@@ -18,7 +18,7 @@ namespace Core
 //! A reference counted smart pointer.
 
 template <typename T>
-class SharedPtr
+class SharedPtr : public SmartPtr<T>
 {
 public:
 	//! Default constructor.
@@ -40,27 +40,9 @@ public:
 	//! Assignment operator.
 	SharedPtr& operator=(const SharedPtr<T>& oPointer);
 
-	//! Pointer dereference operator.
-	T& operator*() const;
-
-	//! Pointer-to-member operator.
-	const T* operator->() const;
-
-	//! Pointer-to-member operator.
-	T* operator->();
-
-	//! Not operator.
-    bool operator!() const;
-
 	//
 	// Methods.
 	//
-
-	//! Access owned pointer.
-	T* Get() const;
-
-	//! Access owned pointer as a reference.
-	T& GetRef() const;
 
 	//! Change pointer ownership.
 	void Reset(T* pPointer = nullptr);
@@ -69,7 +51,6 @@ private:
 	//
 	// Members.
 	//
-	T*		m_pPointer;		//!< The pointer being shared.
 	long*	m_pRefCnt;		//!< The pointer reference count.
 };
 
@@ -78,8 +59,7 @@ private:
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr()
-	: m_pPointer(nullptr)
-	, m_pRefCnt(nullptr)
+	: m_pRefCnt(nullptr)
 {
 }
 
@@ -88,8 +68,7 @@ inline SharedPtr<T>::SharedPtr()
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr(T* pPointer)
-	: m_pPointer(nullptr)
-	, m_pRefCnt(nullptr)
+	: m_pRefCnt(nullptr)
 {
 	Reset(pPointer);
 }
@@ -99,7 +78,7 @@ inline SharedPtr<T>::SharedPtr(T* pPointer)
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
-	: m_pPointer(oPointer.m_pPointer)
+	: SmartPtr<T>(oPointer.m_pPointer)
 	, m_pRefCnt(oPointer.m_pRefCnt)
 {
 	if (m_pRefCnt != nullptr)
@@ -141,60 +120,6 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 	}
 
 	return *this;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Pointer dereference operator. Returns the currently shared pointer.
-
-template <typename T>
-inline T& SharedPtr<T>::operator*() const
-{
-	return *m_pPointer;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Pointer-to-member operator. Returns the currently shared pointer.
-
-template <typename T>
-inline const T* SharedPtr<T>::operator->() const
-{
-	return m_pPointer;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Pointer-to-member operator. Returns the currently shared pointer.
-
-template <typename T>
-inline T* SharedPtr<T>::operator->()
-{
-	return m_pPointer;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Not operator. Tests for a NULL pointer.
-
-template <typename T>
-bool SharedPtr<T>::operator!() const
-{
-	return (m_pPointer == nullptr);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Access owned pointer. Returns the currently shared pointer.
-
-template <typename T>
-inline T* SharedPtr<T>::Get() const
-{
-	return m_pPointer;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Access owned pointer as a reference.
-
-template <typename T>
-inline T& SharedPtr<T>::GetRef() const
-{
-	return *m_pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
