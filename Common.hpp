@@ -46,6 +46,7 @@
 #include <Core/Assert.hpp>			// Debugging marocs.
 #include <Core/tstring.hpp>			// ANSI/UNICODE string mapping #defines.
 #include <Core/NotCopyable.hpp>		// Base class to disable copying.
+#include <Core/SmartPtr.hpp>		// Smart-pointer base class.
 #include <Core/SharedPtr.hpp>		// Reference counted smart-pointer class.
 
 #endif // CORE_COMMON_HPP
