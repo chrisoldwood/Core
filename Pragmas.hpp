@@ -11,6 +11,9 @@
 #pragma once
 #endif
 
+// Automatically excluding '?' while importing type library.
+#pragma warning ( disable : 4192 )
+
 // Nameless struct/union.
 #pragma warning ( disable : 4201 )
 
