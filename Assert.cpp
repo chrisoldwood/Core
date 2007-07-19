@@ -27,13 +27,13 @@ extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
 namespace Core
 {
 
+//! Size of debug output buffer in characters.
+const size_t MAX_CHARS = 1024;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Debug build only functions.
 
 #ifdef _DEBUG
-
-//! Size of debug output buffer in characters.
-const size_t MAX_CHARS = 1024;
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The function invoked when an ASSERT fails. It displays a message box with
