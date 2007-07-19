@@ -39,6 +39,15 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+// Common STL headers that generate level 4 warnings.
+
+#pragma warning ( push )
+#pragma warning ( disable : 4702 )
+#include <vector>
+#include <list>
+#pragma warning ( pop )
+
+////////////////////////////////////////////////////////////////////////////////
 // Library headers.
 
 #include <Core/nullptr.hpp>			// Simulated nullptr proposed keyword.
