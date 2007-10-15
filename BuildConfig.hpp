@@ -12,6 +12,21 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+// Check build flags.
+
+#ifndef _MT
+#error Multi-threaded runtime required
+#endif
+
+#if !defined(_WIN32) && !defined(_WIN64)
+#error Build platform not specified - _WIN32 or _WIN64
+#endif
+
+#if !defined(_MBCS) && !defined(_UNICODE)
+#error Character set must be Multi-Byte or Unicode
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 // These defintions control what versions of Windows we are targetting.
 
 #define WINVER			0x0400		//! Target Windows 95+
