@@ -11,6 +11,16 @@
 #pragma once
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+// Manually define the intrinsic forms of the Interlocked*() functions to avoid
+// bringing in <windows.h>.
+
+extern "C" long __cdecl _InterlockedIncrement(volatile long *lpValue);
+extern "C" long __cdecl _InterlockedDecrement(volatile long *lpValue);
+
+#pragma intrinsic(_InterlockedIncrement)
+#pragma intrinsic(_InterlockedDecrement)
+
 namespace Core
 {
 
@@ -105,7 +115,7 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 	if (this != &oPointer)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (::InterlockedDecrement(m_pRefCnt) == 0))
+		if ((m_pRefCnt != nullptr) && (_InterlockedDecrement(m_pRefCnt) == 0))
 		{
 			delete m_pPointer;
 			delete m_pRefCnt;
@@ -116,7 +126,7 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<T>& oPointer)
 
 		// Share ownership.
 		if (m_pRefCnt != nullptr)
-			::InterlockedIncrement(m_pRefCnt);
+			_InterlockedIncrement(m_pRefCnt);
 	}
 
 	return *this;
@@ -130,7 +140,7 @@ template <typename T>
 inline void SharedPtr<T>::Reset(T* pPointer)
 {
 	// Final reference?
-	if ((m_pRefCnt != nullptr) && (::InterlockedDecrement(m_pRefCnt) == 0))
+	if ((m_pRefCnt != nullptr) && (_InterlockedDecrement(m_pRefCnt) == 0))
 	{
 		delete m_pPointer;
 		delete m_pRefCnt;
@@ -148,24 +158,6 @@ inline void SharedPtr<T>::Reset(T* pPointer)
 		m_pPointer = nullptr;
 		m_pRefCnt  = nullptr;
 	}
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! SharedPtr<T> equality operator. Compare two SharedPtr's for equality.
-
-template <typename T>
-inline bool operator==(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
-{
-	return (oLHS.Get() == oRHS.Get());
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! SharedPtr<T> inequality operator. Compare two SharedPtr's for inequality.
-
-template <typename T>
-inline bool operator!=(const SharedPtr<T>& oLHS, const SharedPtr<T>& oRHS)
-{
-	return (oLHS.Get() != oRHS.Get());
 }
 
 //namespace Core
