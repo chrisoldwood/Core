@@ -1,5 +1,1 @@
-- Change TraceEx and DebugWrite to use a dynamic string buffer.
-
 - Add string conversion functions.
-
-- C++ replacement for USES_CONVERSION, i.e. using narrow/widen.
