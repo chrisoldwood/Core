@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \file   tstring.hpp
-//! \brief  Build independent string defintions.
+//! \brief  Build independent string definitions.
 //! \author Chris Oldwood
 
 // Check for previous inclusion
@@ -14,6 +14,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Standard headers.
 
+#pragma push_macro("new")
+#undef new
+// Includes internal headers that redefine 'new' .
+#include <streambuf>
+#pragma pop_macro("new")
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +42,11 @@ typedef	std::string		tstring;	//!< Build agnostic string type. Maps to string or
 // String functions.
 #define tstrlen			strlen
 
+// Standard streams
+#define tcin			cin
+#define tcout			cout
+#define tcerr			cerr
+
 // UNICODE build.
 #else
 
@@ -51,6 +61,11 @@ typedef	std::wstring	tstring;	//!< Build agnostic string type. Maps to string or
 
 // String functions.
 #define tstrlen			wcslen
+
+// Standard streams
+#define tcin			wcin
+#define tcout			wcout
+#define tcerr			wcerr
 
 #endif
 
