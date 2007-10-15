@@ -1,16 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   Assert.cpp
+//! \file   Debug.cpp
 //! \brief  Debug reporting functions.
 //! \author Chris Oldwood
 
-#include <Core/Common.hpp>
+#include "Common.hpp"
 #include <stdio.h>
 #include <stdarg.h>
-
-#ifdef _DEBUG
-// For memory leak detection.
-#define new DBGCRT_NEW
-#endif
+#include "StringUtils.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Avoid bringing in <windows.h>.
@@ -54,15 +50,12 @@ void AssertFail(const char* pszExpression, const char* pszFile, uint iLine)
 
 void TraceEx(const char* pszFormat, ...)
 {
-	char szBuffer[MAX_CHARS+1] = {0};
-
 	va_list	args;
+
 	va_start(args, pszFormat);
 
-	_vsnprintf(szBuffer, MAX_CHARS, pszFormat, args);
-
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, szBuffer) == 1)
+	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, FmtEx(pszFormat, args).c_str()) == 1)
 		_CrtDbgBreak();
 
 	va_end(args);
@@ -76,14 +69,11 @@ void TraceEx(const char* pszFormat, ...)
 
 void DebugWrite(const char* pszFormat, ...)
 {
-	char szBuffer[MAX_CHARS+1] = {0};
-
 	va_list	args;
+
 	va_start(args, pszFormat);
 
-	_vsnprintf(szBuffer, MAX_CHARS, pszFormat, args);
-
-	::OutputDebugString(szBuffer);
+	::OutputDebugString(FmtEx(pszFormat, args).c_str());
 
 	va_end(args);
 }
