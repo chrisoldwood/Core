@@ -48,11 +48,16 @@
 #pragma warning ( pop )
 
 ////////////////////////////////////////////////////////////////////////////////
+// Common STL headers that use the 'new' keyword which is later remamped.
+
+#include <map>
+
+////////////////////////////////////////////////////////////////////////////////
 // Library headers.
 
 #include <Core/nullptr.hpp>			// Simulated nullptr proposed keyword.
 #include <Core/Types.hpp>			// Typedefs for basic types.
-#include <Core/Assert.hpp>			// Debugging marocs.
+#include <Core/Debug.hpp>			// Debugging marocs.
 #include <Core/tstring.hpp>			// ANSI/UNICODE string mapping #defines.
 #include <Core/NotCopyable.hpp>		// Base class to disable copying.
 #include <Core/SmartPtr.hpp>		// Smart-pointer base class.
