@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   Assert.hpp
-//! \brief  Debugging macros.
+//! \file   Debug.hpp
+//! \brief  Debug reporting functions and macros.
 //! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef CORE_ASSERT_HPP
-#define CORE_ASSERT_HPP
+#ifndef CORE_DEBUG_HPP
+#define CORE_DEBUG_HPP
 
 #if _MSC_VER > 1000
 #pragma once
@@ -45,8 +45,14 @@ void DebugWrite(const char* pszFormat, ...);
 //! Map calls to 'new' to the debug version and track the file and line number.
 #define DBGCRT_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
+//! Enable tracking of 'new' calls by default.
+#define new DBGCRT_NEW
+
 //! Mark a variable as only used in debug to avoid 'unreferenced variable' warnings.
 #define DEBUG_USE_ONLY(x)
+
+//! Compile time ASSERT.
+#define STATIC_ASSERT(x)		char static_assert##__LINE__[(x) ? 1 : -1];static_assert##__LINE__
 
 ////////////////////////////////////////////////////////////////////////////////
 // Release versions
@@ -68,9 +74,11 @@ void DebugWrite(const char* pszFormat, ...);
 
 #define DEBUG_USE_ONLY(x)	(x)
 
+#define STATIC_ASSERT(x)
+
 #endif // _DEBUG
 
 //namespace Core
 }
 
-#endif // CORE_ASSERT_HPP
+#endif // CORE_DEBUG_HPP
