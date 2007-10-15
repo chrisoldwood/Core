@@ -97,6 +97,8 @@ inline SmartPtr<T>::~SmartPtr()
 template <typename T>
 inline T& SmartPtr<T>::operator*() const
 {
+	ASSERT(m_pPointer != nullptr);
+
 	return *m_pPointer;
 }
 
@@ -106,6 +108,8 @@ inline T& SmartPtr<T>::operator*() const
 template <typename T>
 inline const T* SmartPtr<T>::operator->() const
 {
+	ASSERT(m_pPointer != nullptr);
+
 	return m_pPointer;
 }
 
@@ -115,6 +119,8 @@ inline const T* SmartPtr<T>::operator->() const
 template <typename T>
 inline T* SmartPtr<T>::operator->()
 {
+	ASSERT(m_pPointer != nullptr);
+
 	return m_pPointer;
 }
 
@@ -143,6 +149,24 @@ template <typename T>
 inline T& SmartPtr<T>::GetRef() const
 {
 	return *m_pPointer;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! SmartPtr<T> equality operator. Compare two SmartPtr's for equality.
+
+template <typename T>
+inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<T>& oRHS)
+{
+	return (oLHS.Get() == oRHS.Get());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! SmartPtr<T> inequality operator. Compare two SmartPtr's for inequality.
+
+template <typename T>
+inline bool operator!=(const SmartPtr<T>& oLHS, const SmartPtr<T>& oRHS)
+{
+	return (oLHS.Get() != oRHS.Get());
 }
 
 //namespace Core
