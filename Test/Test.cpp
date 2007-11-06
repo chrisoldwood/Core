@@ -11,7 +11,11 @@ class LeakCheck
 {
 public:
 	~LeakCheck()
-	{ _CrtDumpMemoryLeaks(); }
+	{
+#ifdef _DEBUG
+		_CrtDumpMemoryLeaks();
+#endif
+	}
 
 } g_oChecker;
 
@@ -62,6 +66,7 @@ void TestDebug()
 //	bool bFalse = false;
 
 	ASSERT(bTrue);
+	DEBUG_USE_ONLY(bTrue);
 
 //	ASSERT(bFalse);
 
