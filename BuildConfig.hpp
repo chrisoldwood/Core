@@ -26,6 +26,14 @@
 #error Character set must be Multi-Byte or Unicode
 #endif
 
+#if !defined(_NATIVE_WCHAR_T_DEFINED)
+#error wchar_t is not enabled as a built-in type
+#endif
+
+#if !defined(_CPPRTTI)
+#error RTTI is not enabled
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // These defintions control what versions of Windows we are targetting.
 
