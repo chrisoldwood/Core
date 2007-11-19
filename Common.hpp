@@ -20,21 +20,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Build control.
 
-#include <Core/BuildConfig.hpp>		// Build configuation.
+#include <Core/BuildConfig.hpp>		// Build configuration.
+#include <Core/WinTargets.hpp>		// Windows versions.
 #include <Core/Pragmas.hpp>			// Default pragmas.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Standard headers that conflict with <crtdbg.h> because it remaps malloc,
 // calloc, free etc. using #defines.
 
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
+#endif
+
 #include <stdlib.h>
 #include <malloc.h>
+#include <locale>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Compiler provided debugging macros and functions.
 
 #ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
 #include <crtdbg.h>					// CRT debug macros and functions.
 #endif
 
