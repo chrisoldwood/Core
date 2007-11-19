@@ -39,8 +39,9 @@ typedef unsigned __int64	uint64;		//!< 64 bit unsigned integer.
 ////////////////////////////////////////////////////////////////////////////////
 // Common macros.
 
-#ifndef ARRAYSIZE
-#define	ARRAYSIZE(array)	(sizeof(array)/sizeof(array[0]))
+#ifndef ARRAY_SIZE
+//! Calculate the number of elements in a simple array.
+#define	ARRAY_SIZE(array)	(sizeof(array)/sizeof((array)[0]))
 #endif
 
 #endif // CORE_TYPES_HPP

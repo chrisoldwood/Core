@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include <tchar.h>
 #include <Core/IFacePtr.hpp>
 #include <Core/AnsiWide.hpp>
 #include <Core/StringUtils.hpp>
@@ -77,6 +78,9 @@ void TestDebug()
 	TRACE1("Test TraceEx(\"%s\")\n", "Hello World");
 
 	Core::DebugWrite("Test DebugWrite(\"%s\")\n", "Hello World");
+
+	strcpy(static_cast<char*>(malloc(10)), "Malloc");
+	strcpy(new char[5], "new");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
