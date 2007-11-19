@@ -190,6 +190,9 @@
 			<File
 				RelativePath=".\Types.hpp">
 			</File>
+			<File
+				RelativePath=".\WinTargets.hpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
