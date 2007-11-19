@@ -35,15 +35,13 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// These defintions control what versions of Windows we are targetting.
+// Disable VC++ 8.0 warnings about potentially unsafe CRT and STL functions.
 
-#define WINVER			0x0400		//! Target Windows 95+
-#define _WIN32_WINNT	0x0400		//! Target Windows NT 4.0+
-#define _WIN32_WINDOWS	0x0400		//! Target Windows 95+
-#define _WIN32_IE		0x0400		//! Target Internet Explorer 4.0+
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
 
 ////////////////////////////////////////////////////////////////////////////////
-// These additional defintions control other aspects of <windows.h>
+// These additional definitions control other aspects of <windows.h>
 
 #define STRICT						//! Ensures handles are distinct types.
 #define VC_EXTRALEAN				//! Trim uncommon portions of <windows.h>
