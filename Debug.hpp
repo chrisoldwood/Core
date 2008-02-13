@@ -15,21 +15,27 @@ namespace Core
 {
 
 ////////////////////////////////////////////////////////////////////////////////
+// Functions available in all builds.
+
+// Enable or disable memory leak reporting.
+void EnableLeakReporting(bool bEnable);
+
+// Write a message to the debugger stream in both Debug and Release builds.
+void DebugWrite(const tchar* pszFormat, ...);
+
+////////////////////////////////////////////////////////////////////////////////
 // Debug versions
 
 #ifdef _DEBUG
 
 // The function invoked when an ASSERT fails in a Debug build.
-void AssertFail(const char* pszExpression, const char* pszFile, uint iLine);
+void AssertFail(const char* pszExpression, const char* pszFile, uint nLine);
 
 // Function to write a message to the debugger output in a Debug build.
-void TraceEx(const char* pszFormat, ...);
-
-// Write a message to the debugger stream in both Debug and Release builds.
-void DebugWrite(const char* pszFormat, ...);
+void TraceEx(const tchar* pszFormat, ...);
 
 //! Evaluate the expression, and complain if 'false'.
-#define ASSERT(x)		if (x) {} else Core::AssertFail(#x, __FILE__, __LINE__)
+#define ASSERT(x)		if (x) {} else Core::AssertFail((#x), __FILE__, __LINE__)
 
 //! Always fail.
 #define ASSERT_FALSE()	Core::AssertFail("FALSE", __FILE__, __LINE__)
@@ -52,15 +58,12 @@ void DebugWrite(const char* pszFormat, ...);
 #define DEBUG_USE_ONLY(x)
 
 //! Compile time ASSERT.
-#define STATIC_ASSERT(x)		char static_assert##__LINE__[(x) ? 1 : -1];static_assert##__LINE__
+#define STATIC_ASSERT(x)		short static_assert##__LINE__[(x) ? 1 : -1];static_assert##__LINE__
 
 ////////////////////////////////////////////////////////////////////////////////
 // Release versions
 
 #else // NDEBUG
-
-//! Write a message to the debugger stream in both Debug and Release builds.
-void DebugWrite(const char* pszFormat, ...);
 
 #define ASSERT(x)
 #define ASSERT_FALSE()

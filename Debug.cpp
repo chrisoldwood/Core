@@ -7,17 +7,20 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "StringUtils.hpp"
+#include "AnsiWide.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Avoid bringing in <windows.h>.
 
+#ifndef _STLPORT_VERSION
 extern "C" void __stdcall OutputDebugStringA(const char*);
+#endif
 extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
 
-#ifdef _UNICODE
-#define	OutputDebugString	OutputDebugStringW
-#else
+#ifdef ANSI_BUILD
 #define	OutputDebugString	OutputDebugStringA
+#else
+#define	OutputDebugString	OutputDebugStringW
 #endif
 
 namespace Core
@@ -36,10 +39,10 @@ const size_t MAX_CHARS = 1024;
 //! details about why and where the assert failed. If asked it will also cause
 //! an INT 3 to kick in the debugger.
 
-void AssertFail(const char* pszExpression, const char* pszFile, uint iLine)
+void AssertFail(const char* pszExpression, const char* pszFile, uint nLine)
 {
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_ASSERT, pszFile, iLine, NULL, pszExpression) == 1)
+	if (_CrtDbgReport(_CRT_ASSERT, pszFile, nLine, NULL, "%s", pszExpression) == 1)
 		_CrtDbgBreak();
 }
 
@@ -48,14 +51,14 @@ void AssertFail(const char* pszExpression, const char* pszFile, uint iLine)
 //! function for outputing debugging messages. It uses vsprintf() and so is
 //! restricted to the types it can handle.
 
-void TraceEx(const char* pszFormat, ...)
+void TraceEx(const tchar* pszFormat, ...)
 {
 	va_list	args;
 
 	va_start(args, pszFormat);
 
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, FmtEx(pszFormat, args).c_str()) == 1)
+	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(FmtEx(pszFormat, args).c_str())) == 1)
 		_CrtDbgBreak();
 
 	va_end(args);
@@ -67,7 +70,7 @@ void TraceEx(const char* pszFormat, ...)
 //! Write a message to the debugger stream in both Debug and Release builds.
 //! Unlike TraceEx() this goes directly to OutputDebugString().
 
-void DebugWrite(const char* pszFormat, ...)
+void DebugWrite(const tchar* pszFormat, ...)
 {
 	va_list	args;
 
