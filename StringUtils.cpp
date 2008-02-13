@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \file   StringUtils.cpp
-//! \brief  .
+//! \brief  Utility functions for formatting strings.
 //! \author Chris Oldwood
 
 #include "Common.hpp"
@@ -8,6 +8,9 @@
 #include <stdarg.h>
 #include <tchar.h>
 #include <limits>
+#include <stdio.h>
+#include <stdexcept>
+#include "AnsiWide.hpp"
 
 namespace Core
 {
@@ -21,7 +24,7 @@ std::tstring FmtEx(const tchar* pszFormat, va_list args)
 	// Allocate the buffer.
 	int nLength = _vsctprintf(pszFormat, args);
 
-	std::tstring str(nLength, '\0');
+	std::tstring str(nLength, TXT('\0'));
 
 	// Format the string.
 	int nResult = _vsntprintf(&str[0], nLength, pszFormat, args);
@@ -30,7 +33,7 @@ std::tstring FmtEx(const tchar* pszFormat, va_list args)
 
 	// Check for buffer overrun.
 	if (nResult < 0)
-		throw std::logic_error(Fmt("Insufficient buffer size calculated in Fmt(). Result: %d", nResult));
+		throw std::logic_error(T2A(Fmt(TXT("Insufficient buffer size calculated in Fmt(). Result: %d"), nResult)));
 
 	return str;
 }
