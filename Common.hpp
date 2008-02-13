@@ -28,10 +28,6 @@
 // Standard headers that conflict with <crtdbg.h> because it remaps malloc,
 // calloc, free etc. using #defines.
 
-#ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
-#endif
-
 #include <stdlib.h>
 #include <malloc.h>
 #include <locale>
@@ -62,8 +58,8 @@
 
 #include <Core/nullptr.hpp>			// Simulated nullptr proposed keyword.
 #include <Core/Types.hpp>			// Typedefs for basic types.
-#include <Core/Debug.hpp>			// Debugging marocs.
 #include <Core/tstring.hpp>			// ANSI/UNICODE string mapping #defines.
+#include <Core/Debug.hpp>			// Debugging macros.
 #include <Core/NotCopyable.hpp>		// Base class to disable copying.
 #include <Core/SmartPtr.hpp>		// Smart-pointer base class.
 #include <Core/SharedPtr.hpp>		// Reference counted smart-pointer class.
