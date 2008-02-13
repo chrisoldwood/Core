@@ -35,6 +35,15 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+// Define our own ANSI/Unicode build flags.
+
+#if defined(_UNICODE) || defined(UNICODE)
+#define UNICODE_BUILD
+#else
+#define ANSI_BUILD
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 // Disable VC++ 8.0 warnings about potentially unsafe CRT and STL functions.
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -45,5 +54,25 @@
 
 #define STRICT						//! Ensures handles are distinct types.
 #define VC_EXTRALEAN				//! Trim uncommon portions of <windows.h>
+
+////////////////////////////////////////////////////////////////////////////////
+// Configure debug CRT functions in <crtdbg.h>
+
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC			//!< Enables debug versions of malloc etc.
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+// STLport configuration.
+
+#ifdef _DEBUG
+#define _STLP_DEBUG									//!< Enable checked iterators etc.
+#define _STLP_DEBUG_LEVEL _STLP_STANDARD_DBG_LEVEL	//!< Maximum debug checking.
+#endif
+
+#define _STLP_NO_ANACHRONISMS		//!< Disable all extensions.
+#define _STLP_NO_EXTENSIONS			//!< Disable all extensions.
+
+//#define _STLP_VERBOSE_AUTO_LINK	//!< Display the linkage type.
 
 #endif // CORE_BUILDCONFIG_HPP
