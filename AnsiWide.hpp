@@ -82,27 +82,37 @@ public:
 	//! Construct from an ANSI string.
 	ANSI2WIDE(const char* psz);
 
-	//! Free the converted string.
-	~ANSI2WIDE()
-	{
-		delete[] m_psz;
-	}
-/*
+	//! Construct from an ANSI string.
+	explicit ANSI2WIDE(const std::string& str);
+
+	//! Destructor
+	~ANSI2WIDE();
+
 	//! Conversion operator for a wide string.
-	operator wchar_t*()
-	{
-		return m_psz;
-	}
-*/
-	//! Conversion operator for a wide string.
-	operator const wchar_t*() const
-	{
-		return m_psz;
-	}
+	operator const wchar_t*() const;
 
 private:
+	//
+	// Members.
+	//
 	wchar_t*	m_psz;	//! The converted string.
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//! Destructor
+
+inline ANSI2WIDE::~ANSI2WIDE()
+{
+	delete[] m_psz;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Conversion operator for a wide string.
+
+inline ANSI2WIDE::operator const wchar_t*() const
+{
+	return m_psz;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The class used to do the conversion from Wide to ANSI via the X2Y() macros.
@@ -114,27 +124,37 @@ public:
 	//! Construct from a wide string.
 	WIDE2ANSI(const wchar_t* psz);
 
-	//! Free the converted string.
-	~WIDE2ANSI()
-	{
-		delete[] m_psz;
-	}
-/*
+	//! Construct from a wide string.
+	explicit WIDE2ANSI(const std::wstring& str);
+
+	//! Destructor.
+	~WIDE2ANSI();
+
 	//! Conversion operator for an ANSI string.
-	operator char*()
-	{
-		return m_psz;
-	}
-*/
-	//! Conversion operator for an ANSI string.
-	operator const char*() const
-	{
-		return m_psz;
-	}
+	operator const char*() const;
 
 private:
+	//
+	// Members.
+	//
 	char*	m_psz;	//! The converted string.
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//! Destructor.
+
+inline WIDE2ANSI::~WIDE2ANSI()
+{
+	delete[] m_psz;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Conversion operator for an ANSI string.
+
+inline WIDE2ANSI::operator const char*() const
+{
+	return m_psz;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Compatibility macros and classes to replace use of <atlconv.h>
@@ -146,7 +166,7 @@ private:
 #define W2A(psz)	static_cast<const char*>(Core::WIDE2ANSI(psz))
 
 // ANSI build.
-#ifndef _UNICODE
+#ifdef ANSI_BUILD
 
 //! Convert an ANSI string to a TCHAR string.
 #define A2T(psz)	(psz)

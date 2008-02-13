@@ -76,7 +76,22 @@ Core::ANSI2WIDE::ANSI2WIDE(const char* psz)
 
 	AnsiToWide(psz, psz+nLength, m_psz);
 
-	m_psz[nLength] = '\0';
+	m_psz[nLength] = L'\0';
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Construct from an ANSI string.
+
+Core::ANSI2WIDE::ANSI2WIDE(const std::string& str)
+{
+	size_t      nLength = str.length();
+	const char* psz     = (str.empty()) ? nullptr : &str[0];
+
+	m_psz = new wchar_t[nLength+1];
+
+	AnsiToWide(psz, psz+nLength, m_psz);
+
+	m_psz[nLength] = L'\0';
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +100,21 @@ Core::ANSI2WIDE::ANSI2WIDE(const char* psz)
 Core::WIDE2ANSI::WIDE2ANSI(const wchar_t* psz)
 {
 	size_t nLength = wcslen(psz);
+
+	m_psz = new char[nLength+1];
+
+	WideToAnsi(psz, psz+nLength, m_psz);
+
+	m_psz[nLength] = '\0';
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Construct from a wide string.
+
+Core::WIDE2ANSI::WIDE2ANSI(const std::wstring& str)
+{
+	size_t         nLength = str.length();
+	const wchar_t* psz     = (str.empty()) ? nullptr : &str[0];
 
 	m_psz = new char[nLength+1];
 
