@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \file   StringUtils.hpp
-//! \brief  .
+//! \brief  Utility functions for formatting strings.
 //! \author Chris Oldwood
 
 // Check for previous inclusion
