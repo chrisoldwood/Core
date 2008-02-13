@@ -44,4 +44,16 @@ typedef unsigned __int64	uint64;		//!< 64 bit unsigned integer.
 #define	ARRAY_SIZE(array)	(sizeof(array)/sizeof((array)[0]))
 #endif
 
+namespace Core
+{
+
+////////////////////////////////////////////////////////////////////////////////
+// Common constants.
+
+//! A general purpose equivalent to basic_string::npos
+static const size_t npos = static_cast<size_t>(-1);
+
+//namespace Core
+}
+
 #endif // CORE_TYPES_HPP
