@@ -12,7 +12,11 @@
 
 extern void TestDebug();
 extern void TestMisc();
-extern void TestPointers();
+extern void TestSharedPtr();
+extern void TestUniquePtr();
+extern void TestArrayPtr();
+extern void TestRefCounted();
+extern void TestRefCntPtr();
 extern void TestStrings();
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,23 +24,17 @@ extern void TestStrings();
 
 int _tmain(int /*argc*/, _TCHAR* /*argv*/[])
 {
-#ifdef _DEBUG
-	Core::EnableLeakReporting(true);
-#endif
-
-	try
+	TEST_SUITE_BEGIN
 	{
 		TestDebug();
 		TestMisc();
-		TestPointers();
+		TestSharedPtr();
+		TestUniquePtr();
+		TestArrayPtr();
+		TestRefCounted();
 		TestStrings();
-	}
-	catch (std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-	}
 
-	Core::WriteTestsSummary();
-
-	return Core::GetTestProcessResult();
+		Core::SetTestRunFinalStatus(true);
+	}
+	TEST_SUITE_END
 }
