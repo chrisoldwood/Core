@@ -26,9 +26,6 @@ extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
 namespace Core
 {
 
-//! Size of debug output buffer in characters.
-const size_t MAX_CHARS = 1024;
-
 ////////////////////////////////////////////////////////////////////////////////
 // Debug build only functions.
 
