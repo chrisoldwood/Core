@@ -164,6 +164,12 @@
 				RelativePath=".\AnsiWide.hpp">
 			</File>
 			<File
+				RelativePath=".\ArrayPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\BadLogicException.hpp">
+			</File>
+			<File
 				RelativePath=".\BuildConfig.hpp">
 			</File>
 			<File
@@ -176,7 +182,10 @@
 				RelativePath=".\Exception.hpp">
 			</File>
 			<File
-				RelativePath=".\IFacePtr.hpp">
+				RelativePath=".\Interlocked.hpp">
+			</File>
+			<File
+				RelativePath=".\InvalidArgException.hpp">
 			</File>
 			<File
 				RelativePath=".\NotCopyable.hpp">
@@ -188,7 +197,16 @@
 				RelativePath=".\nullptr.hpp">
 			</File>
 			<File
+				RelativePath=".\NullPtrException.hpp">
+			</File>
+			<File
 				RelativePath=".\Pragmas.hpp">
+			</File>
+			<File
+				RelativePath=".\RefCntPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\RefCounted.hpp">
 			</File>
 			<File
 				RelativePath=".\SharedPtr.hpp">
@@ -204,6 +222,9 @@
 			</File>
 			<File
 				RelativePath=".\Types.hpp">
+			</File>
+			<File
+				RelativePath=".\UniquePtr.hpp">
 			</File>
 			<File
 				RelativePath=".\UnitTest.hpp">
