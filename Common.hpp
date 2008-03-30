@@ -16,6 +16,12 @@
 //
 //! \namespace Core
 //! \brief     The Core Library namespace.
+//!
+//! \mainpage  Core C++ Library
+//! \section   introduction Introduction
+//! This is the base class library for all applications. It provides the basic
+//! services such as string handling, smart pointers and debugging utility
+//! functions. It also includes a simple unit testing framework.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Build control.
