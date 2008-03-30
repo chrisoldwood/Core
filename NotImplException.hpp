@@ -22,23 +22,12 @@ namespace Core
 class NotImplException : public Exception
 {
 public:
-	//! Default constructor.
-	NotImplException();
-
-	//! Construction from a string containg the details.
+	//! Construction from a string containing the details.
 	NotImplException(const std::tstring& strDetails);
 
 	//! Destructor.
 	virtual ~NotImplException();
 };
-
-////////////////////////////////////////////////////////////////////////////////
-//! Default constructor.
-
-inline NotImplException::NotImplException()
-	: Exception(TXT("Not implemented"))
-{
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containg the details.
