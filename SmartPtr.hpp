@@ -7,6 +7,8 @@
 #ifndef CORE_SMARTPTR_HPP
 #define CORE_SMARTPTR_HPP
 
+#include "NullPtrException.hpp"
+
 #if _MSC_VER > 1000
 #pragma once
 #endif
@@ -97,7 +99,8 @@ inline SmartPtr<T>::~SmartPtr()
 template <typename T>
 inline T& SmartPtr<T>::operator*() const
 {
-	ASSERT(m_pPointer != nullptr);
+	if (m_pPointer == nullptr)
+		throw NullPtrException();
 
 	return *m_pPointer;
 }
@@ -108,7 +111,8 @@ inline T& SmartPtr<T>::operator*() const
 template <typename T>
 inline const T* SmartPtr<T>::operator->() const
 {
-	ASSERT(m_pPointer != nullptr);
+	if (m_pPointer == nullptr)
+		throw NullPtrException();
 
 	return m_pPointer;
 }
@@ -119,7 +123,8 @@ inline const T* SmartPtr<T>::operator->() const
 template <typename T>
 inline T* SmartPtr<T>::operator->()
 {
-	ASSERT(m_pPointer != nullptr);
+	if (m_pPointer == nullptr)
+		throw NullPtrException();
 
 	return m_pPointer;
 }
