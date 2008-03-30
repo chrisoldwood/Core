@@ -15,12 +15,12 @@ namespace Core
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Convert a string from ANSI to Wide.
+// Convert a string from ANSI to Wide.
 
 void AnsiToWide(const char* pszBegin, const char* pszEnd, wchar_t* pszDst);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Convert a string from ANSI to Wide.
+// Convert a string from ANSI to Wide.
 
 std::wstring AnsiToWide(const char* pszBegin, const char* pszEnd);
 
@@ -44,12 +44,12 @@ inline std::wstring AnsiToWide(const std::string& str)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Convert a string from Wide to ANSI.
+// Convert a string from Wide to ANSI.
 
 void WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd, char* pszDst);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Convert a string from Wide to ANSI.
+// Convert a string from Wide to ANSI.
 
 std::string WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd);
 
