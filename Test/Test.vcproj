@@ -150,22 +150,34 @@
 				RelativePath=".\Test.cpp">
 			</File>
 			<File
+				RelativePath=".\TestArrayPtr.cpp">
+			</File>
+			<File
 				RelativePath=".\TestDebug.cpp">
 			</File>
 			<File
 				RelativePath=".\TestMisc.cpp">
 			</File>
 			<File
-				RelativePath=".\TestPointers.cpp">
+				RelativePath=".\TestRefCounted.cpp">
+			</File>
+			<File
+				RelativePath=".\TestSharedPtr.cpp">
 			</File>
 			<File
 				RelativePath=".\TestStrings.cpp">
+			</File>
+			<File
+				RelativePath=".\TestUniquePtr.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\PtrTest.hpp">
+			</File>
 			<File
 				RelativePath=".\stdafx.h">
 			</File>
