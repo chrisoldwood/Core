@@ -6,6 +6,9 @@
 #include "stdafx.h"
 #include <Core/UnitTest.hpp>
 #include <Core/NotImplException.hpp>
+#include <Core/NullPtrException.hpp>
+#include <Core/InvalidArgException.hpp>
+#include <Core/BadLogicException.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The test concrete class.
@@ -30,10 +33,14 @@ void TestNotCopyable()
 
 void TestException()
 {
-//	Core::Exception x;			// Shouldn't compile.
-	Core::NotImplException e;
-
-	Core::DebugWrite(TXT("%s"), e.What());
+//	Core::Exception dc;											// Shouldn't compile.
+//	Core::Exception cc(Core::NullPtrException(TXT("Test")));	// Shouldn't compile.
+	Core::NotImplException e(TXT("Test"));
+	Core::NullPtrException npe(TXT("Test"));
+	Core::InvalidArgException iae(TXT("Test"));
+	Core::BadLogicException ble(TXT("Test"));
+	
+	Core::DebugWrite(TXT("%s\n"), e.What());
 //	Core::DebugWrite("%s", e.what());		// Shouldn't compile.
 }
 
