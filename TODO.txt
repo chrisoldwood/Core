@@ -1,11 +1,5 @@
 - String conversion functions.
 
-- Basic exception types - Exception, NullPtr, InvalidArg (remove stdexcept)
-
-- Scoped Ptr type (UniquePtr).
-
-- Array ptr type.
-
-- Shared ptr static and dynamic casts.
-
 - Handle type for sharing.
+
+- Toggle class for use instead of AutoBool.
