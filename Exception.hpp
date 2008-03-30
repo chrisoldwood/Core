@@ -19,7 +19,7 @@ namespace Core
 //! to be ANSI or Unicode, unlike std::exception which is ANSI only. The ctor
 //! is protected as you should be throwing a specific derived exception type.
 
-class Exception : public std::exception, private NotCopyable
+class Exception : public std::exception
 {
 public:
 	//! Destructor.
@@ -38,6 +38,9 @@ protected:
 
 	//! Construction from a string containg the details.
 	Exception(const std::tstring& strDetails);
+
+	//! Copy constructor.
+	Exception(const Exception& rhs);
 
 	//
 	// Members.
