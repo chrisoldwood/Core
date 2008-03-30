@@ -9,7 +9,7 @@
 #include <tchar.h>
 #include <limits>
 #include <stdio.h>
-#include <stdexcept>
+#include <Core/BadLogicException.hpp>
 #include "AnsiWide.hpp"
 
 namespace Core
@@ -33,7 +33,7 @@ std::tstring FmtEx(const tchar* pszFormat, va_list args)
 
 	// Check for buffer overrun.
 	if (nResult < 0)
-		throw std::logic_error(T2A(Fmt(TXT("Insufficient buffer size calculated in Fmt(). Result: %d"), nResult)));
+		throw BadLogicException(Fmt(TXT("Insufficient buffer size calculated in Fmt(). Result: %d"), nResult));
 
 	return str;
 }
