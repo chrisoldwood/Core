@@ -17,8 +17,11 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 // The unit test functions.
 
-// Write the test results to stdout.
+// Write the test result to stdout.
 void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed);
+
+// Set how the test run completed.
+void SetTestRunFinalStatus(bool bSuccess);
 
 // Write the summary of the test results to stdout.
 void WriteTestsSummary();
@@ -53,6 +56,18 @@ int GetTestProcessResult();
 						} catch(...) {															\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
+
+//! Test suite preparation.
+#define TEST_SUITE_BEGIN	Core::EnableLeakReporting(true);	\
+							try
+
+//! Test suite reporting and cleanup.
+#define TEST_SUITE_END		catch (const Core::Exception& e)											\
+							{	std::tcout << TXT("Unhandled exception: ") << e.What() << std::endl; }	\
+							catch (...)																	\
+							{	std::tcout << TXT("Unhandled exception: UNKNOWN") << std::endl; }		\
+							Core::WriteTestsSummary();													\
+							return Core::GetTestProcessResult();
 
 //namespace Core
 }

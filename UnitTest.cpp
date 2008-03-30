@@ -14,10 +14,12 @@ extern "C" int __stdcall IsDebuggerPresent();
 namespace Core
 {
 
+//! The overall state of the test run.
+static bool s_bSuccess = false;
 //! The number of tests that passed.
-static size_t s_nPassed = 0;
+static uint s_nPassed = 0;
 //! The number of tests that failed
-static size_t s_nFailed = 0;
+static uint s_nFailed = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Write the test results to stdout.
@@ -50,19 +52,33 @@ void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpressi
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Write the summary of the test results to stdout.
+//! Set how the test run completed.
 
-void WriteTestsSummary()
+void SetTestRunFinalStatus(bool bSuccess)
 {
-	std::tcout << std::endl << Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed) << std::endl;
+	s_bSuccess = bSuccess;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Get the test process result code.
+//! Write the summary of the test results to the debugger stream and stdout.
+
+void WriteTestsSummary()
+{
+	std::tstring str = Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
+
+	if (!s_bSuccess)
+		str += TXT(" [Run terminated abormally]");
+
+	DebugWrite(TXT("%s\n"), str.c_str());
+	std::tcout << std::endl << str << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Get the test process result code.
 
 int GetTestProcessResult()
 {
-	return (s_nFailed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+	return (s_bSuccess && (s_nFailed == 0)) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 //namespace Core
