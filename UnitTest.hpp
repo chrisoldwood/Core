@@ -11,6 +11,10 @@
 #pragma once
 #endif
 
+// Avoid bringing in <windows.h>.
+extern "C" __declspec(dllimport) void __stdcall DebugBreak();
+extern "C" __declspec(dllimport) int  __stdcall IsDebuggerPresent();
+
 namespace Core
 {
 
@@ -62,10 +66,13 @@ int GetTestProcessResult();
 							try
 
 //! Test suite reporting and cleanup.
-#define TEST_SUITE_END		catch (const Core::Exception& e)											\
-							{	std::tcout << TXT("Unhandled exception: ") << e.What() << std::endl; }	\
-							catch (...)																	\
-							{	std::tcout << TXT("Unhandled exception: UNKNOWN") << std::endl; }		\
+#define TEST_SUITE_END		catch (const Core::Exception& e) {											\
+								if (::IsDebuggerPresent()) ::DebugBreak();								\
+								std::tcout << TXT("Unhandled exception: ") << e.What() << std::endl; 	\
+							} catch (...) {																\
+								if (::IsDebuggerPresent()) ::DebugBreak();								\
+								std::tcout << TXT("Unhandled exception: UNKNOWN") << std::endl;			\
+							}																			\
 							Core::WriteTestsSummary();													\
 							return Core::GetTestProcessResult();
 
