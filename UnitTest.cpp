@@ -4,12 +4,9 @@
 //! \author Chris Oldwood
 
 #include "Common.hpp"
+#include "UnitTest.hpp"
 #include "StringUtils.hpp"
 #include <iostream>
-
-// Avoid bringing in <windows.h>.
-extern "C" void __stdcall DebugBreak();
-extern "C" int __stdcall IsDebuggerPresent();
 
 namespace Core
 {
@@ -64,7 +61,7 @@ void SetTestRunFinalStatus(bool bSuccess)
 
 void WriteTestsSummary()
 {
-	std::tstring str = Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
+	tstring str = Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
 
 	if (!s_bSuccess)
 		str += TXT(" [Run terminated abormally]");
