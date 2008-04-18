@@ -1,3 +1,5 @@
+- Remove tstring from std namespace.
+
 - String conversion functions.
 
 - Handle type for sharing.
