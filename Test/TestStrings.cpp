@@ -22,8 +22,8 @@ void TestStrings()
 	TEST_TRUE(std::string(W2A(wpsz)) == psz);
 	TEST_TRUE(std::wstring(A2W(psz)) == wpsz);
 
-	TEST_TRUE(std::tstring(W2T(wpsz)) == tpsz);
-	TEST_TRUE(std::tstring(A2T(psz))  == tpsz);
+	TEST_TRUE(tstring(W2T(wpsz)) == tpsz);
+	TEST_TRUE(tstring(A2T(psz))  == tpsz);
 }
 {
 	const tchar* tpsz = TXT("[A]NSI [U]NICODE");
