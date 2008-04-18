@@ -19,12 +19,12 @@ namespace Core
 //! Format the string ala printf. This function is used internally as the
 //! underlying function used for all var args string formatting.
 
-std::tstring FmtEx(const tchar* pszFormat, va_list args)
+tstring FmtEx(const tchar* pszFormat, va_list args)
 {
 	// Allocate the buffer.
 	int nLength = _vsctprintf(pszFormat, args);
 
-	std::tstring str(nLength, TXT('\0'));
+	tstring str(nLength, TXT('\0'));
 
 	// Format the string.
 	int nResult = _vsntprintf(&str[0], nLength, pszFormat, args);
@@ -41,7 +41,7 @@ std::tstring FmtEx(const tchar* pszFormat, va_list args)
 ////////////////////////////////////////////////////////////////////////////////
 //! Format the string ala printf.
 
-std::tstring Fmt(const tchar* pszFormat, ...)
+tstring Fmt(const tchar* pszFormat, ...)
 {
 	va_list	args;
 

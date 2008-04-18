@@ -17,12 +17,12 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 // Format the string ala printf.
 
-std::tstring FmtEx(const tchar* pszFormat, va_list args);
+tstring FmtEx(const tchar* pszFormat, va_list args);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Format the string ala printf.
 
-std::tstring Fmt(const tchar* pszFormat, ...);
+tstring Fmt(const tchar* pszFormat, ...);
 
 //namespace Core
 }
