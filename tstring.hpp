@@ -68,12 +68,9 @@ inline size_t NumBytes(const wchar_t* psz)
 typedef char			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
 #define TXT(x)			x			//!< Build agnostic string literal. Maps to "" or L"".
 
-namespace std
-{
 typedef	std::string		tstring;	//!< Build agnostic string type.
 typedef std::ostream	tostream;	//!< Build agnostic output stream type.
 typedef std::istream	tistream;	//!< Build agnostic input stream type.
-}
 
 // String functions.
 #define tstrlen			strlen
@@ -108,12 +105,9 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 typedef wchar_t			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
 #define TXT(x)			L ## x		//!< Build agnostic string literal. Maps to "" or L"".
 
-namespace std
-{
 typedef	std::wstring	tstring;	//!< Build agnostic string type.
 typedef std::wostream	tostream;	//!< Build agnostic output stream type.
 typedef std::wistream	tistream;	//!< Build agnostic input stream type.
-}
 
 // String functions.
 #define tstrlen			wcslen
