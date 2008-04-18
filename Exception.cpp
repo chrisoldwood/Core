@@ -20,7 +20,7 @@ Exception::Exception()
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containg the details.
 
-Exception::Exception(const std::tstring& strDetails)
+Exception::Exception(const tstring& strDetails)
 	: m_strDetails(strDetails)
 {
 }
