@@ -159,8 +159,8 @@ inline T& SmartPtr<T>::GetRef() const
 ////////////////////////////////////////////////////////////////////////////////
 //! SmartPtr<T> equality operator. Compare two SmartPtr's for equality.
 
-template <typename T>
-inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<T>& oRHS)
+template <typename T, typename U>
+inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
 {
 	return (oLHS.Get() == oRHS.Get());
 }
@@ -168,8 +168,8 @@ inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<T>& oRHS)
 ////////////////////////////////////////////////////////////////////////////////
 //! SmartPtr<T> inequality operator. Compare two SmartPtr's for inequality.
 
-template <typename T>
-inline bool operator!=(const SmartPtr<T>& oLHS, const SmartPtr<T>& oRHS)
+template <typename T, typename U>
+inline bool operator!=(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
 {
 	return (oLHS.Get() != oRHS.Get());
 }
