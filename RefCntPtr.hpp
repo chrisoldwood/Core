@@ -85,11 +85,11 @@ private:
 
 	//! Allow member access for the static_cast like function.
 	template<typename T, typename U>
-	friend RefCntPtr<T> static_ptr_cast(RefCntPtr<U>& oPointer);
+	friend RefCntPtr<T> static_ptr_cast(const RefCntPtr<U>& oPointer);
 
 	//! Allow member access for the dynamic_cast like function.
 	template<typename T, typename U>
-	friend RefCntPtr<T> dynamic_ptr_cast(RefCntPtr<U>& oPointer);
+	friend RefCntPtr<T> dynamic_ptr_cast(const RefCntPtr<U>& oPointer);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ inline T** AttachTo(RefCntPtr<T>& ptr)
 //! derived ptr type from the base ptr type.
 
 template<typename T, typename U>
-inline RefCntPtr<T> static_ptr_cast(RefCntPtr<U>& oPtr)
+inline RefCntPtr<T> static_ptr_cast(const RefCntPtr<U>& oPtr)
 {
 	return RefCntPtr<T>(static_cast<T*>(oPtr.m_pPointer), true);
 }
@@ -240,7 +240,7 @@ inline RefCntPtr<T> static_ptr_cast(RefCntPtr<U>& oPtr)
 //! derived ptr type from the base ptr type.
 
 template<typename T, typename U>
-inline RefCntPtr<T> dynamic_ptr_cast(RefCntPtr<U>& oPtr)
+inline RefCntPtr<T> dynamic_ptr_cast(const RefCntPtr<U>& oPtr)
 {
 	return RefCntPtr<T>(dynamic_cast<T*>(oPtr.m_pPointer), true);
 }
