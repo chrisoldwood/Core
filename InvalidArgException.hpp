@@ -24,7 +24,7 @@ class InvalidArgException : public Exception
 {
 public:
 	//! Construction from a string containing the details.
-	InvalidArgException(const std::tstring& strDetails);
+	InvalidArgException(const tstring& strDetails);
 
 	//! Destructor.
 	virtual ~InvalidArgException();
@@ -33,7 +33,7 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline InvalidArgException::InvalidArgException(const std::tstring& strDetails)
+inline InvalidArgException::InvalidArgException(const tstring& strDetails)
 	: Exception(strDetails)
 {
 }

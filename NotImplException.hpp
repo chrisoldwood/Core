@@ -23,7 +23,7 @@ class NotImplException : public Exception
 {
 public:
 	//! Construction from a string containing the details.
-	NotImplException(const std::tstring& strDetails);
+	NotImplException(const tstring& strDetails);
 
 	//! Destructor.
 	virtual ~NotImplException();
@@ -32,7 +32,7 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containg the details.
 
-inline NotImplException::NotImplException(const std::tstring& strDetails)
+inline NotImplException::NotImplException(const tstring& strDetails)
 	: Exception(strDetails)
 {
 }
