@@ -76,11 +76,11 @@ private:
 
 	//! Allow member access for the static_cast like function.
 	template<typename T, typename U>
-	friend SharedPtr<T> static_ptr_cast(SharedPtr<U>& oPointer);
+	friend SharedPtr<T> static_ptr_cast(const SharedPtr<U>& oPointer);
 
 	//! Allow member access for the dynamic_cast like function.
 	template<typename T, typename U>
-	friend SharedPtr<T> dynamic_ptr_cast(SharedPtr<U>& oPointer);
+	friend SharedPtr<T> dynamic_ptr_cast(const SharedPtr<U>& oPointer);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ inline SharedPtr<T>::SharedPtr(T* pPointer, long* pRefCnt)
 //! derived ptr type from the base ptr type.
 
 template<typename T, typename U>
-inline SharedPtr<T> static_ptr_cast(SharedPtr<U>& oPointer)
+inline SharedPtr<T> static_ptr_cast(const SharedPtr<U>& oPointer)
 {
 	return SharedPtr<T>(static_cast<T*>(oPointer.m_pPointer), oPointer.m_pRefCnt);
 }
@@ -251,7 +251,7 @@ inline SharedPtr<T> static_ptr_cast(SharedPtr<U>& oPointer)
 //! derived ptr type from the base ptr type.
 
 template<typename T, typename U>
-inline SharedPtr<T> dynamic_ptr_cast(SharedPtr<U>& oPointer)
+inline SharedPtr<T> dynamic_ptr_cast(const SharedPtr<U>& oPointer)
 {
 	T*    pTmpPtr = dynamic_cast<T*>(oPointer.m_pPointer);
 	long* pTmpCnt = oPointer.m_pRefCnt;
