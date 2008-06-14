@@ -24,7 +24,7 @@ static uint s_nFailed = 0;
 void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed)
 {
 	// The result strings.
-	const tchar* pszResult = (bPassed) ? TXT("PASSED") : TXT("FAILED");
+	const tchar* pszResult = (bPassed) ? TXT("Passed") : TXT("FAILED");
 
 	// Strip path from filename, if present.
 	const char* pszFileName = strrchr(pszFile, '\\');
@@ -64,7 +64,7 @@ void WriteTestsSummary()
 	tstring str = Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
 
 	if (!s_bSuccess)
-		str += TXT(" [Run terminated abormally]");
+		str += TXT(" [RUN TERMINATED ABORMALLY]");
 
 	DebugWrite(TXT("%s\n"), str.c_str());
 	std::tcout << std::endl << str << std::endl;
