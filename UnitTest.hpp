@@ -40,7 +40,11 @@ int GetTestProcessResult();
 #define TEST_TRUE(x)	try {																	\
 							if (x)	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);	\
 							else	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);	\
+						} catch(const Core::Exception& e) {										\
+							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());		\
+							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						} catch(...) {															\
+							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 
@@ -48,7 +52,11 @@ int GetTestProcessResult();
 #define TEST_FALSE(x)	try {																	\
 							if (x)	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);	\
 							else	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);	\
+						} catch(const Core::Exception& e) {										\
+							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());		\
+							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						} catch(...) {															\
+							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 //! Test that the expression casuses an exception.
@@ -66,12 +74,14 @@ int GetTestProcessResult();
 							try
 
 //! Test suite reporting and cleanup.
-#define TEST_SUITE_END		catch (const Core::Exception& e) {											\
+#define TEST_SUITE_END		catch(const Core::Exception& e) {											\
+								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());			\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								std::tcout << TXT("Unhandled exception: ") << e.What() << std::endl; 	\
-							} catch (...) {																\
+								std::tcout << TXT("Unhandled Exception: ") << e.What() << std::endl; 	\
+							} catch(...) {																\
+								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								std::tcout << TXT("Unhandled exception: UNKNOWN") << std::endl;			\
+								std::tcout << TXT("Unhandled Exception: UNKNOWN") << std::endl;			\
 							}																			\
 							Core::WriteTestsSummary();													\
 							return Core::GetTestProcessResult();
