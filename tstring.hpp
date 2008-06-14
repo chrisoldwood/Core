@@ -66,6 +66,7 @@ inline size_t NumBytes(const wchar_t* psz)
 
 // Basic types.
 typedef char			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+typedef unsigned char	utchar;		//!< Build agnostic unsigned character type.
 #define TXT(x)			x			//!< Build agnostic string literal. Maps to "" or L"".
 
 typedef	std::string		tstring;	//!< Build agnostic string type.
@@ -90,6 +91,9 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tstrtol			strtol
 #define tstrtoul		strtoul
 #define tstrtod			strtod
+#define tatoi			atoi
+#define tatol			atol
+#define tisspace		isspace
 
 // Standard streams
 #define tcin			cin
@@ -103,6 +107,7 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 
 // Basic types.
 typedef wchar_t			tchar;		//!< Build agnostic character type. Maps to char or wchat_t.
+typedef wchar_t			utchar;		//!< Build agnostic unsigned character type.
 #define TXT(x)			L ## x		//!< Build agnostic string literal. Maps to "" or L"".
 
 typedef	std::wstring	tstring;	//!< Build agnostic string type.
@@ -127,6 +132,9 @@ typedef std::wistream	tistream;	//!< Build agnostic input stream type.
 #define tstrtol			wcstol
 #define tstrtoul		wcstoul
 #define tstrtod			wcstod
+#define tatoi			_wtoi
+#define tatol			_wtol
+#define tisspace		iswspace
 
 // Standard streams
 #define tcin			wcin
