@@ -163,6 +163,8 @@ inline T** ArrayPtr<T>::GetPtrMember()
 template <typename T>
 inline T** AttachTo(ArrayPtr<T>& ptr)
 {
+	ASSERT(*ptr.GetPtrMember() == nullptr);
+
 	return ptr.GetPtrMember();
 }
 

@@ -129,6 +129,8 @@ inline T** UniquePtr<T>::GetPtrMember()
 template <typename T>
 inline T** AttachTo(UniquePtr<T>& ptr)
 {
+	ASSERT(*ptr.GetPtrMember() == nullptr);
+
 	return ptr.GetPtrMember();
 }
 

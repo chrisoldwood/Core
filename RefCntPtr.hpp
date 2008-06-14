@@ -222,6 +222,8 @@ inline T** RefCntPtr<T>::GetPtrMember()
 template <typename T>
 inline T** AttachTo(RefCntPtr<T>& ptr)
 {
+	ASSERT(*ptr.GetPtrMember() == nullptr);
+
 	return ptr.GetPtrMember();
 }
 
