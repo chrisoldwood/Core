@@ -31,7 +31,6 @@
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="TRUE"
 				RuntimeLibrary="1"
-				EnableFunctionLevelLinking="FALSE"
 				TreatWChar_tAsBuiltInType="TRUE"
 				ForceConformanceInForLoopScope="TRUE"
 				RuntimeTypeInfo="TRUE"
@@ -39,13 +38,11 @@
 				PrecompiledHeaderThrough="Common.hpp"
 				WarningLevel="4"
 				WarnAsError="TRUE"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/Core.lib"/>
+				Name="VCLibrarianTool"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -74,13 +71,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHa"
-				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories="../../Lib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				StringPooling="TRUE"
 				ExceptionHandling="FALSE"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="FALSE"
 				TreatWChar_tAsBuiltInType="TRUE"
 				ForceConformanceInForLoopScope="TRUE"
 				RuntimeTypeInfo="TRUE"
@@ -88,13 +83,11 @@
 				PrecompiledHeaderThrough="Common.hpp"
 				WarningLevel="4"
 				WarnAsError="TRUE"
-				DebugInformationFormat="3"
-				CompileAs="0"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/Core.lib"/>
+				Name="VCLibrarianTool"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -124,6 +117,9 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
 				RelativePath=".\AnsiWide.cpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineParser.cpp">
 			</File>
 			<File
 				RelativePath=".\Debug.cpp">
@@ -173,6 +169,15 @@
 				RelativePath=".\BuildConfig.hpp">
 			</File>
 			<File
+				RelativePath=".\CmdLineException.hpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineParser.hpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineSwitch.hpp">
+			</File>
+			<File
 				RelativePath=".\Common.hpp">
 			</File>
 			<File
@@ -216,6 +221,9 @@
 			</File>
 			<File
 				RelativePath=".\StringUtils.hpp">
+			</File>
+			<File
+				RelativePath=".\tiostream.hpp">
 			</File>
 			<File
 				RelativePath=".\tstring.hpp">
