@@ -20,6 +20,9 @@
 // 'this' used in base member initialisation list.
 #pragma warning ( disable : 4355 )
 
+// Decorated name length exceeded, name was truncated.
+#pragma warning ( disable : 4503 )
+
 // Unreferenced local function has been removed.
 #pragma warning ( disable : 4505 )
 
