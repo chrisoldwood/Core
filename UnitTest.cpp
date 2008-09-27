@@ -6,7 +6,7 @@
 #include "Common.hpp"
 #include "UnitTest.hpp"
 #include "StringUtils.hpp"
-#include <iostream>
+#include "tiostream.hpp"
 
 namespace Core
 {
@@ -35,7 +35,7 @@ void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpressi
 		pszFileName = pszFile;
 
 	// Write the result to the debugger output.
-	std::tcout << Core::Fmt(TXT("%s [%hs, %4u] %s"), pszResult, pszFileName, nLine, pszExpression) << std::endl;
+	tcout << Core::Fmt(TXT("%s [%hs, %4u] %s"), pszResult, pszFileName, nLine, pszExpression) << std::endl;
 
 	// Break into debugger, if present.
 	if (!bPassed && ::IsDebuggerPresent())

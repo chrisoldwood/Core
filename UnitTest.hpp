@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include "tiostream.hpp"
+
 // Avoid bringing in <windows.h>.
 extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 extern "C" __declspec(dllimport) int  __stdcall IsDebuggerPresent();
@@ -63,9 +65,14 @@ int GetTestProcessResult();
 #define TEST_THROWS(x)	try {																	\
 							(x);																\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
-						} catch(const std::exception& /*e*/) {									\
+						} catch(const Core::Exception& e) {										\
+							Core::DebugWrite(TXT("Thrown: %s\n"), e.What());					\
+							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);			\
+						} catch(const std::exception& e) {										\
+							Core::DebugWrite(TXT("Thrown: %hs\n"), e.what());					\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);			\
 						} catch(...) {															\
+							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
 							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 
@@ -77,11 +84,11 @@ int GetTestProcessResult();
 #define TEST_SUITE_END		catch(const Core::Exception& e) {											\
 								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());			\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								std::tcout << TXT("Unhandled Exception: ") << e.What() << std::endl; 	\
+								tcout << TXT("Unhandled Exception: ") << e.What() << std::endl; 	\
 							} catch(...) {																\
 								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								std::tcout << TXT("Unhandled Exception: UNKNOWN") << std::endl;			\
+								tcout << TXT("Unhandled Exception: UNKNOWN") << std::endl;			\
 							}																			\
 							Core::WriteTestsSummary();													\
 							return Core::GetTestProcessResult();
