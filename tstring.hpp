@@ -95,11 +95,6 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tatol			atol
 #define tisspace		isspace
 
-// Standard streams
-#define tcin			cin
-#define tcout			cout
-#define tcerr			cerr
-
 //
 // UNICODE build.
 //
@@ -135,11 +130,6 @@ typedef std::wistream	tistream;	//!< Build agnostic input stream type.
 #define tatoi			_wtoi
 #define tatol			_wtol
 #define tisspace		iswspace
-
-// Standard streams
-#define tcin			wcin
-#define tcout			wcout
-#define tcerr			wcerr
 
 #endif
 
