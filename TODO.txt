@@ -1,7 +1,9 @@
-- Remove tstring from std namespace.
-
 - String conversion functions.
 
 - Handle type for sharing.
 
 - Toggle class for use instead of AutoBool.
+
+- IOStream for tracing out.
+
+- tstring based Tokeniser.
