@@ -153,6 +153,9 @@
 				RelativePath=".\TestArrayPtr.cpp">
 			</File>
 			<File
+				RelativePath=".\TestCmdLineParser.cpp">
+			</File>
+			<File
 				RelativePath=".\TestDebug.cpp">
 			</File>
 			<File

@@ -18,6 +18,7 @@ extern void TestArrayPtr();
 extern void TestRefCounted();
 extern void TestRefCntPtr();
 extern void TestStrings();
+extern void TestCmdLineParser();
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The entry point for the test harness.
@@ -33,6 +34,7 @@ int _tmain(int /*argc*/, _TCHAR* /*argv*/[])
 		TestArrayPtr();
 		TestRefCounted();
 		TestStrings();
+		TestCmdLineParser();
 
 		Core::SetTestRunFinalStatus(true);
 	}
