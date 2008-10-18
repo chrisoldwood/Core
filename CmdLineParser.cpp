@@ -7,6 +7,7 @@
 #include "CmdLineParser.hpp"
 #include "CmdLineException.hpp"
 #include "StringUtils.hpp"
+#include <algorithm>
 
 namespace Core
 {
