@@ -50,5 +50,59 @@ tstring Fmt(const tchar* pszFormat, ...)
 	return FmtEx(pszFormat, args);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//! Convert a string to upper case.
+
+void makeUpper(tstring& string)
+{
+	if (string.empty())
+		return;
+
+	std::locale  loc;
+	tchar*       begin = &string[0];
+	const tchar* end   = begin + string.length();
+
+	std::use_facet< std::ctype<tchar> >(loc).toupper(begin, end);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Create an upper case version of a string.
+
+tstring createUpper(const tstring& string)
+{
+	tstring upper(string);
+
+	makeUpper(upper);
+
+	return upper;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Convert a string to lower case.
+
+void makeLower(tstring& string)
+{
+	if (string.empty())
+		return;
+
+	std::locale  loc;
+	tchar*       begin = &string[0];
+	const tchar* end   = begin + string.length();
+
+	std::use_facet< std::ctype<tchar> >(loc).tolower(begin, end);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Create a lower case version of a string.
+
+tstring createLower(const tstring& string)
+{
+	tstring lower(string);
+
+	makeLower(lower);
+
+	return lower;
+}
+
 //namespace Core
 }
