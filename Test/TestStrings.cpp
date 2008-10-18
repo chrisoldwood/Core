@@ -61,4 +61,16 @@ void TestStrings()
 	TEST_TRUE(Core::Fmt(TXT("%g"),    dSmall) == TXT("-0.123457"));
 	TEST_TRUE(Core::Fmt(TXT("%G"),    dLarge) == TXT("-1.23457E+020"));
 }
+{
+	const tchar* string = TXT("TeSt StRiNg");
+	tstring str(string);
+
+	Core::makeUpper(str);
+	TEST_TRUE(str == TXT("TEST STRING"));
+	TEST_TRUE(Core::createUpper(string) == TXT("TEST STRING"));
+
+	Core::makeLower(str);
+	TEST_TRUE(str == TXT("test string"));
+	TEST_TRUE(Core::createLower(string) == TXT("test string"));
+}
 }
