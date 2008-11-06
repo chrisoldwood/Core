@@ -205,6 +205,9 @@
 				RelativePath=".\NullPtrException.hpp">
 			</File>
 			<File
+				RelativePath=".\ParseException.hpp">
+			</File>
+			<File
 				RelativePath=".\Pragmas.hpp">
 			</File>
 			<File
