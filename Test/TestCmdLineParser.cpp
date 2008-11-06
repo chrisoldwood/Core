@@ -144,6 +144,24 @@ void TestCmdLineParser()
 
 	TEST_TRUE((vec.size() == 4) && (vec[0] == TXT("value1")) && (vec[1] == TXT("value2")) && (vec[2] == TXT("value3")) && (vec[3] == TXT("value4")) );
 	TEST_TRUE(mapArgs.find(FLAG) != mapArgs.end());
+	TEST_TRUE(oParser.GetUnnamedArgs().empty());
+}
+
+{
+	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.GetNamedArgs();
+
+	static tchar* argv[] = { TXT("program.exe"), TXT("--multi"), TXT("value") };
+	static int argc = ARRAY_SIZE(argv);
+
+	oParser.Parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT); // !ALLOW_UNNAMED.
+
+	Core::CmdLineParser::NamedArgs::const_iterator it  = mapArgs.find(MULTIPLE);
+	const Core::CmdLineParser::StringVector&       vec = it->second;
+
+	TEST_TRUE((vec.size() == 1) && (vec[0] == TXT("value")));
+	TEST_TRUE(oParser.GetUnnamedArgs().empty());
 }
 
 {

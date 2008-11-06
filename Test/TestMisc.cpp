@@ -9,6 +9,7 @@
 #include <Core/NullPtrException.hpp>
 #include <Core/InvalidArgException.hpp>
 #include <Core/BadLogicException.hpp>
+#include <Core/ParseException.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The test concrete class.
@@ -39,6 +40,7 @@ void TestException()
 	Core::NullPtrException npe(TXT("Test"));
 	Core::InvalidArgException iae(TXT("Test"));
 	Core::BadLogicException ble(TXT("Test"));
+	Core::ParseException pe(TXT("Test"));
 	
 	Core::DebugWrite(TXT("%s\n"), e.What());
 //	Core::DebugWrite("%s", e.what());		// Shouldn't compile.
