@@ -4,18 +4,18 @@
 //! \author Chris Oldwood
 
 // Check for previous inclusion
-#ifndef XML_PARSEEXCEPTION_HPP
-#define XML_PARSEEXCEPTION_HPP
+#ifndef CORE_PARSEEXCEPTION_HPP
+#define CORE_PARSEEXCEPTION_HPP
 
 #if _MSC_VER > 1000
 #pragma once
 #endif
 
-namespace XML
+namespace Core
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-//! The type of exception thrown during parsing of an XML document.
+//! The type of exception thrown for parsing errors.
 
 class ParseException : public Core::Exception
 {
@@ -42,7 +42,7 @@ inline ParseException::~ParseException()
 {
 }
 
-//namespace XML
+//namespace Core
 }
 
-#endif // XML_PARSEEXCEPTION_HPP
+#endif // CORE_PARSEEXCEPTION_HPP
