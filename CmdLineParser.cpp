@@ -165,7 +165,7 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 					}
 
 					// Need to rewind to before the last value.
-					itArg -= 2;
+					--itArg;
 				}
 			}
 			// Not expecting one, but found one?
