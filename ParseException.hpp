@@ -20,7 +20,7 @@ namespace Core
 class ParseException : public Core::Exception
 {
 public:
-	//! Default constructor.
+	//! Construction from a string containing the details.
 	ParseException(const tstring& strDetails);
 
 	//! Destructor.
@@ -28,7 +28,7 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Default constructor.
+//! Construction from a string containing the details.
 
 inline ParseException::ParseException(const tstring& strDetails)
 	: Exception(strDetails)
