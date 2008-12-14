@@ -147,6 +147,9 @@
 				RelativePath=".\Test.cpp">
 			</File>
 			<File
+				RelativePath=".\TestAlgorithm.cpp">
+			</File>
+			<File
 				RelativePath=".\TestArrayPtr.cpp">
 			</File>
 			<File
@@ -166,6 +169,9 @@
 			</File>
 			<File
 				RelativePath=".\TestStrings.cpp">
+			</File>
+			<File
+				RelativePath=".\TestTokeniser.cpp">
 			</File>
 			<File
 				RelativePath=".\TestUniquePtr.cpp">

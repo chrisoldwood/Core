@@ -10,6 +10,8 @@
 #include <Core/InvalidArgException.hpp>
 #include <Core/BadLogicException.hpp>
 #include <Core/ParseException.hpp>
+#include <Core/ConfigurationException.hpp>
+#include <Core/RuntimeException.hpp>
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The test concrete class.
@@ -41,6 +43,8 @@ void TestException()
 	Core::InvalidArgException iae(TXT("Test"));
 	Core::BadLogicException ble(TXT("Test"));
 	Core::ParseException pe(TXT("Test"));
+	Core::ConfigurationException ce(TXT("Test"));
+	Core::RuntimeException re(TXT("Test"));
 	
 	Core::DebugWrite(TXT("%s\n"), e.What());
 //	Core::DebugWrite("%s", e.what());		// Shouldn't compile.
