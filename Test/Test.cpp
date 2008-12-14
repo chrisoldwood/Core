@@ -19,22 +19,26 @@ extern void TestRefCounted();
 extern void TestRefCntPtr();
 extern void TestStrings();
 extern void TestCmdLineParser();
+extern void TestAlgorithm();
+extern void TestTokeniser();
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The entry point for the test harness.
 
-int _tmain(int /*argc*/, _TCHAR* /*argv*/[])
+int _tmain(int argc, _TCHAR* argv[])
 {
-	TEST_SUITE_BEGIN
+	TEST_SUITE_BEGIN(argc, argv)
 	{
-		TestDebug();
-		TestMisc();
-		TestSharedPtr();
-		TestUniquePtr();
-		TestArrayPtr();
-		TestRefCounted();
-		TestStrings();
-		TestCmdLineParser();
+		TEST_CASE(TestDebug);
+		TEST_CASE(TestMisc);
+		TEST_CASE(TestSharedPtr);
+		TEST_CASE(TestUniquePtr);
+		TEST_CASE(TestArrayPtr);
+		TEST_CASE(TestRefCounted);
+		TEST_CASE(TestStrings);
+		TEST_CASE(TestCmdLineParser);
+		TEST_CASE(TestAlgorithm);
+		TEST_CASE(TestTokeniser);
 
 		Core::SetTestRunFinalStatus(true);
 	}
