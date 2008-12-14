@@ -11,7 +11,9 @@
 #pragma once
 #endif
 
+#include <set>
 #include "tiostream.hpp"
+#include "StringUtils.hpp"
 
 // Avoid bringing in <windows.h>.
 extern "C" __declspec(dllimport) void __stdcall DebugBreak();
@@ -20,8 +22,14 @@ extern "C" __declspec(dllimport) int  __stdcall IsDebuggerPresent();
 namespace Core
 {
 
+//! A collection of test suite names.
+typedef std::set<tstring> TestCases;
+
 ////////////////////////////////////////////////////////////////////////////////
 // The unit test functions.
+
+// Parse the command line.
+void parseCmdLine(int argc, tchar* argv[], TestCases& cases);
 
 // Write the test result to stdout.
 void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed);
@@ -77,8 +85,14 @@ int GetTestProcessResult();
 						}
 
 //! Test suite preparation.
-#define TEST_SUITE_BEGIN	Core::EnableLeakReporting(true);	\
-							try
+#define TEST_SUITE_BEGIN(c, v)	Core::TestCases cases;				\
+								Core::parseCmdLine(c, v, cases);	\
+								Core::EnableLeakReporting(true);	\
+								try
+
+//! Define a test case.
+#define TEST_CASE(t)			if ( (cases.empty()) || (cases.find(Core::createLower(TXT(#t))) != cases.end()) )	\
+								{ t(); }
 
 //! Test suite reporting and cleanup.
 #define TEST_SUITE_END		catch(const Core::Exception& e) {											\

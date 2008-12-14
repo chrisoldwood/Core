@@ -7,6 +7,7 @@
 #include "UnitTest.hpp"
 #include "StringUtils.hpp"
 #include "tiostream.hpp"
+#include "CmdLineException.hpp"
 
 namespace Core
 {
@@ -17,6 +18,28 @@ static bool s_bSuccess = false;
 static uint s_nPassed = 0;
 //! The number of tests that failed
 static uint s_nFailed = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+//! Parse the command line. This extracts the list of test cases to run.
+
+void parseCmdLine(int argc, tchar* argv[], TestCases& cases)
+{
+	tchar** arg = argv;
+	tchar** end = argv + argc;
+
+	// First argument should be the program name.
+	if (arg == end)
+		throw CmdLineException(TXT("The first argument must be the process name"));
+
+	++arg;
+
+	// Build the test case list.
+	while (arg != end)
+	{
+		cases.insert(Core::createLower(*arg));
+		++arg;
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Write the test results to stdout.
