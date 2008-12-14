@@ -54,6 +54,7 @@
 
 #define STRICT						//! Ensures handles are distinct types.
 #define VC_EXTRALEAN				//! Trim uncommon portions of <windows.h>
+#define NOMINMAX					//! Don't define min/max as macros.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configure debug CRT functions in <crtdbg.h>
