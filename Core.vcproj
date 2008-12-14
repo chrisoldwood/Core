@@ -149,6 +149,9 @@
 				RelativePath=".\StringUtils.cpp">
 			</File>
 			<File
+				RelativePath=".\Tokeniser.cpp">
+			</File>
+			<File
 				RelativePath=".\UnitTest.cpp">
 			</File>
 		</Filter>
@@ -156,6 +159,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath=".\Algorithm.hpp">
+			</File>
 			<File
 				RelativePath=".\AnsiWide.hpp">
 			</File>
@@ -179,6 +185,9 @@
 			</File>
 			<File
 				RelativePath=".\Common.hpp">
+			</File>
+			<File
+				RelativePath=".\ConfigurationException.hpp">
 			</File>
 			<File
 				RelativePath=".\Debug.hpp">
@@ -217,6 +226,9 @@
 				RelativePath=".\RefCounted.hpp">
 			</File>
 			<File
+				RelativePath=".\RuntimeException.hpp">
+			</File>
+			<File
 				RelativePath=".\SharedPtr.hpp">
 			</File>
 			<File
@@ -227,6 +239,9 @@
 			</File>
 			<File
 				RelativePath=".\tiostream.hpp">
+			</File>
+			<File
+				RelativePath=".\Tokeniser.hpp">
 			</File>
 			<File
 				RelativePath=".\tstring.hpp">
