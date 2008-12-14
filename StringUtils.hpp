@@ -25,6 +25,66 @@ tstring FmtEx(const tchar* pszFormat, va_list args);
 tstring Fmt(const tchar* pszFormat, ...);
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Skip any leading whitespace.
+
+template<typename First, typename Last>
+First skipWhitespace(First first, Last last)
+{
+	while ( (first != last) && ((*first == TXT(' ')) || (*first == TXT('\t')) || (*first == TXT('\r')) || (*first == TXT('\n'))) )
+		++first;
+
+	return first;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Format a value into a string.
+
+template<typename T>
+tstring format(const T& value);
+
+////////////////////////////////////////////////////////////////////////////////
+// Format a boolean value into a string.
+
+template<>
+tstring format(const bool& value);
+
+////////////////////////////////////////////////////////////////////////////////
+// Format a signed integer value into a string.
+
+template<>
+tstring format(const int& value);
+
+////////////////////////////////////////////////////////////////////////////////
+// Format an unsigned integer value into a string.
+
+template<>
+tstring format(const uint& value);
+
+////////////////////////////////////////////////////////////////////////////////
+//! Parse a value from a string.
+
+template<typename T>
+T parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse a boolean value from a string.
+
+template<>
+bool parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse a signed integer value from a string.
+
+template<>
+int parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse an unsigned integer value from a string.
+
+template<>
+uint parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
 // Convert a string to upper case.
 
 void makeUpper(tstring& string);
