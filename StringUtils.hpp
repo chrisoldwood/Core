@@ -61,6 +61,12 @@ template<>
 tstring format(const uint& value);
 
 ////////////////////////////////////////////////////////////////////////////////
+// Format a 64-bit unsigned integer value into a string.
+
+template<>
+tstring format(const uint64& value);
+
+////////////////////////////////////////////////////////////////////////////////
 //! Parse a value from a string.
 
 template<typename T>
@@ -83,6 +89,12 @@ int parse(const tstring& buffer); // throw(ParseException)
 
 template<>
 uint parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse a 64-bit unsigned integer value from a string.
+
+template<>
+uint64 parse(const tstring& buffer); // throw(ParseException)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Convert a string to upper case.

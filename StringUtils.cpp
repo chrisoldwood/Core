@@ -93,6 +93,17 @@ tstring format(const uint& value)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Format a 64-bit unsigned integer value into a string.
+
+template<>
+tstring format(const uint64& /*value*/)
+{
+	ASSERT_FALSE();
+
+	return _T("");
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Parse a boolean value from a string.
 
 template<>
@@ -205,6 +216,17 @@ uint parse(const tstring& buffer)
 		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
 
 	return value;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Parse a 64-bit unsigned integer value from a string.
+
+template<>
+uint64 parse(const tstring& /*buffer*/)
+{
+	ASSERT_FALSE();
+
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
