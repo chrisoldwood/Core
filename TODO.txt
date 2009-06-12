@@ -7,3 +7,7 @@
 - Nullable<T>
 
 - 64-bit parse/format.
+
+- Switch to c++ headers e.g. <cstdarg> instead of <stdarg.h>
+
+- camelCase all function names.
