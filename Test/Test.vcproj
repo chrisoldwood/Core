@@ -159,6 +159,9 @@
 				RelativePath=".\TestDebug.cpp">
 			</File>
 			<File
+				RelativePath=".\TestInterlocked.cpp">
+			</File>
+			<File
 				RelativePath=".\TestMisc.cpp">
 			</File>
 			<File

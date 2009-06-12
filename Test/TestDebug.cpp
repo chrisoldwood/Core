@@ -6,6 +6,10 @@
 #include "stdafx.h"
 #include <Core/UnitTest.hpp>
 
+#ifdef __GNUG__
+#pragma GCC diagnostic ignored "-Wunused-value"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the debugging functions.
 

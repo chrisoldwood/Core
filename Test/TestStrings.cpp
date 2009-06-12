@@ -8,6 +8,11 @@
 #include <Core/AnsiWide.hpp>
 #include <Core/StringUtils.hpp>
 #include <limits>
+#include <limits.h>
+
+#ifdef __GNUG__
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the string conversion functions.

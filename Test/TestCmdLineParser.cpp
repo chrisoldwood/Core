@@ -8,6 +8,10 @@
 #include <Core/CmdLineParser.hpp>
 #include <Core/CmdLineException.hpp>
 
+#ifdef __GNUG__
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the CmdLineParser class.
 
@@ -25,7 +29,7 @@ void TestCmdLineParser()
 		INTERNAL,
 	};
 
-	static Core::CmdLineSwitch s_aoSwitches[] = 
+	static Core::CmdLineSwitch s_aoSwitches[] =
 	{
 		{ SHORT_ONLY,	TXT("short"),	NULL,			Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Short switch")		},
 		{ LONG_ONLY,	NULL,			TXT("long"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Long switch")		},
@@ -167,7 +171,7 @@ void TestCmdLineParser()
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const tchar* psz1 = 
+	const tchar* psz1 =
 	TXT("-short                     Short switch\n")
 	TXT("--long                     Long switch\n")
 	TXT("-b | --both                Both types\n")
@@ -181,7 +185,7 @@ void TestCmdLineParser()
 //	TRACE1(TXT("\n%s\n"), strUsage1.c_str());
 	TEST_TRUE(strUsage1 == psz1);
 
-	const tchar* psz2 = 
+	const tchar* psz2 =
 	TXT("/short                    Short switch\n")
 	TXT("/long                     Long switch\n")
 	TXT("/b | /both                Both types\n")

@@ -21,6 +21,7 @@ extern void TestStrings();
 extern void TestCmdLineParser();
 extern void TestAlgorithm();
 extern void TestTokeniser();
+extern void TestInterlocked();
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The entry point for the test harness.
@@ -39,6 +40,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		TEST_CASE(TestCmdLineParser);
 		TEST_CASE(TestAlgorithm);
 		TEST_CASE(TestTokeniser);
+		TEST_CASE(TestInterlocked);
 
 		Core::SetTestRunFinalStatus(true);
 	}
