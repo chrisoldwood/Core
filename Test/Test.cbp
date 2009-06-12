@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Test" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_4x_compiler" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option platforms="Windows;" />
+				<Option output="Debug\Test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug" />
+				<Option external_deps="..\Debug\libCore.a;..\Release\libCore.a;" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_4x_compiler" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_CONSOLE" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\..\Lib" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release Win32">
+				<Option platforms="Windows;" />
+				<Option output="Release\Test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_4x_compiler" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\..\Lib" />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="..\..\..\Lib" />
+		</Compiler>
+		<Linker>
+			<Add library="..\lib.a" />
+		</Linker>
+		<Unit filename="PtrTest.hpp" />
+		<Unit filename="Test.cpp" />
+		<Unit filename="TestAlgorithm.cpp" />
+		<Unit filename="TestArrayPtr.cpp" />
+		<Unit filename="TestCmdLineParser.cpp" />
+		<Unit filename="TestDebug.cpp" />
+		<Unit filename="TestInterlocked.cpp" />
+		<Unit filename="TestMisc.cpp" />
+		<Unit filename="TestRefCounted.cpp" />
+		<Unit filename="TestSharedPtr.cpp" />
+		<Unit filename="TestStrings.cpp" />
+		<Unit filename="TestTokeniser.cpp" />
+		<Unit filename="TestUniquePtr.cpp" />
+		<Unit filename="stdafx.cpp" />
+		<Unit filename="stdafx.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

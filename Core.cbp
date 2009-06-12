@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Core" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_4x_compiler" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="lib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Debug" />
+				<Option type="2" />
+				<Option compiler="gnu_gcc_4x_compiler" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O0" />
+					<Add option="-frtti" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_LIB" />
+					<Add directory="..\..\Lib" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\Lib" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="lib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="Release" />
+				<Option type="2" />
+				<Option compiler="gnu_gcc_4x_compiler" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-frtti" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_LIB" />
+					<Add directory="..\..\Lib" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="..\..\Lib" />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="C:\Tools\mingwrt-3.15.2\include" />
+		</Compiler>
+		<Unit filename="Algorithm.hpp" />
+		<Unit filename="AnsiWide.cpp" />
+		<Unit filename="AnsiWide.hpp" />
+		<Unit filename="ArrayPtr.hpp" />
+		<Unit filename="BadLogicException.hpp" />
+		<Unit filename="BuildConfig.hpp" />
+		<Unit filename="CmdLineException.hpp" />
+		<Unit filename="CmdLineParser.cpp" />
+		<Unit filename="CmdLineParser.hpp" />
+		<Unit filename="CmdLineSwitch.hpp" />
+		<Unit filename="Common.hpp" />
+		<Unit filename="ConfigurationException.hpp" />
+		<Unit filename="Debug.cpp" />
+		<Unit filename="Debug.hpp" />
+		<Unit filename="Doxygen.cfg" />
+		<Unit filename="Exception.cpp" />
+		<Unit filename="Exception.hpp" />
+		<Unit filename="Interlocked.hpp" />
+		<Unit filename="InvalidArgException.hpp" />
+		<Unit filename="LeakReporter.cpp" />
+		<Unit filename="NotCopyable.hpp" />
+		<Unit filename="NotImplException.hpp" />
+		<Unit filename="NullPtrException.hpp" />
+		<Unit filename="ParseException.hpp" />
+		<Unit filename="Pragmas.hpp" />
+		<Unit filename="ReadMe.txt" />
+		<Unit filename="RefCntPtr.hpp" />
+		<Unit filename="RefCounted.hpp" />
+		<Unit filename="RuntimeException.hpp" />
+		<Unit filename="SharedPtr.hpp" />
+		<Unit filename="SmartPtr.hpp" />
+		<Unit filename="StringUtils.cpp" />
+		<Unit filename="StringUtils.hpp" />
+		<Unit filename="TODO.txt" />
+		<Unit filename="Tokeniser.cpp" />
+		<Unit filename="Tokeniser.hpp" />
+		<Unit filename="Types.hpp" />
+		<Unit filename="UniquePtr.hpp" />
+		<Unit filename="UnitTest.cpp" />
+		<Unit filename="UnitTest.hpp" />
+		<Unit filename="WinTargets.hpp" />
+		<Unit filename="nullptr.hpp" />
+		<Unit filename="pch.cpp" />
+		<Unit filename="tiostream.hpp" />
+		<Unit filename="tstring.hpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
