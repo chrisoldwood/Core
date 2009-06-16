@@ -80,7 +80,7 @@ inline long RefCounted::IncRefCount()
 {
 	ASSERT(m_lRefCount > 0);
 
-	long lRefCount = _InterlockedIncrement(&m_lRefCount);
+	long lRefCount = Core::atomicIncrement(m_lRefCount);
 
 	return lRefCount;
 }
@@ -90,7 +90,7 @@ inline long RefCounted::DecRefCount()
 {
 	ASSERT(m_lRefCount > 0);
 
-	long lRefCount = _InterlockedDecrement(&m_lRefCount);
+	long lRefCount = Core::atomicDecrement(m_lRefCount);
 
 	if (lRefCount == 0)
 		delete this;
