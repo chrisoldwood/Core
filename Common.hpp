@@ -31,33 +31,41 @@
 #include <Core/Pragmas.hpp>			// Default pragmas.
 
 ////////////////////////////////////////////////////////////////////////////////
+// Compiler provided debugging macros and functions.
+
+#ifdef _DEBUG
+
+#ifdef _MSC_VER
+
 // Standard headers that conflict with <crtdbg.h> because it remaps malloc,
 // calloc, free etc. using #defines.
-
 #include <stdlib.h>
 #include <malloc.h>
 #include <locale>
 
-////////////////////////////////////////////////////////////////////////////////
-// Compiler provided debugging macros and functions.
+// CRT debug macros and functions.
+#include <crtdbg.h>
+#define CORE_CRTDBG_ENABLED		//!< Flag CRT debug functions as available.
 
-#ifdef _DEBUG
-#include <crtdbg.h>					// CRT debug macros and functions.
-#endif
+// Common STL headers that use the 'new' keyword which is later remamped.
+#include <map>
+
+#endif // _MSC_VER
+
+#endif // _DEBUG
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common STL headers that generate level 4 warnings.
 
-#pragma warning ( push )
-#pragma warning ( disable : 4702 )
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4702)
+
 #include <vector>
 #include <list>
-#pragma warning ( pop )
 
-////////////////////////////////////////////////////////////////////////////////
-// Common STL headers that use the 'new' keyword which is later remamped.
-
-#include <map>
+#pragma warning(pop)
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Library headers.
