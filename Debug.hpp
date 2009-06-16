@@ -51,11 +51,16 @@ void TraceEx(const tchar* pszFormat, ...);
 //! Map calls to 'new' to the debug version and track the file and line number.
 #define DBGCRT_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
+#ifdef _MSC_VER
 //! Enable tracking of 'new' calls by default.
 #define new DBGCRT_NEW
+#endif
 
 //! Mark a variable as only used in debug to avoid 'unreferenced variable' warnings.
 #define DEBUG_USE_ONLY(x)
+
+//! Mark a variable or parameter as unused in any build.
+#define UNUSED_VARIABLE(x)		(x)
 
 //! Compile time ASSERT.
 #define STATIC_ASSERT(x)		short static_assert##__LINE__[(x) ? 1 : -1];static_assert##__LINE__
@@ -76,6 +81,8 @@ void TraceEx(const tchar* pszFormat, ...);
 #define TRACE5(x,a,b,c,d,e)
 
 #define DEBUG_USE_ONLY(x)	(x)
+
+#define UNUSED_VARIABLE(x)	(x)
 
 #define STATIC_ASSERT(x)
 
