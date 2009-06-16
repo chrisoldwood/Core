@@ -9,6 +9,11 @@
 #include "StringUtils.hpp"
 #include "AnsiWide.hpp"
 
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
+// Caused by the UNUSED_VARIABLE macro.
+#pragma GCC diagnostic ignored "-Wunused-value"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Avoid bringing in <windows.h>.
 
@@ -38,9 +43,15 @@ namespace Core
 
 void AssertFail(const char* pszExpression, const char* pszFile, uint nLine)
 {
+#ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
 	if (_CrtDbgReport(_CRT_ASSERT, pszFile, nLine, NULL, "%s", pszExpression) == 1)
 		_CrtDbgBreak();
+#else
+	UNUSED_VARIABLE(pszExpression);
+	UNUSED_VARIABLE(pszFile);
+	UNUSED_VARIABLE(nLine);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,9 +65,11 @@ void TraceEx(const tchar* pszFormat, ...)
 
 	va_start(args, pszFormat);
 
+#ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
 	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(FmtEx(pszFormat, args).c_str())) == 1)
 		_CrtDbgBreak();
+#endif
 
 	va_end(args);
 }
