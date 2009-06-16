@@ -14,12 +14,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Standard headers.
 
+#ifdef _MSC_VER
 #pragma push_macro("new")
 #undef new
+#endif
+
 // Includes internal headers that redefine 'new' .
 #include <streambuf>
+
+#ifdef _MSC_VER
 #pragma pop_macro("new")
+#endif
+
 #include <string>
+#include <string.h>
 
 namespace Core
 {

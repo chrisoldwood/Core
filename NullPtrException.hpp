@@ -32,7 +32,7 @@ public:
 	NullPtrException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~NullPtrException();
+	virtual ~NullPtrException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ inline NullPtrException::NullPtrException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline NullPtrException::~NullPtrException()
+inline NullPtrException::~NullPtrException() throw()
 {
 }
 

@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include <vector>
+#include <map>
 #include "CmdLineSwitch.hpp"
 
 namespace Core
@@ -64,7 +66,7 @@ public:
 
 	//! Destructor.
 	~CmdLineParser();
-	
+
 	//
 	// Properties.
 	//

@@ -24,8 +24,8 @@ public:
 	CmdLineException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~CmdLineException();
-	
+	virtual ~CmdLineException() throw();
+
 private:
 	//
 	// Members.
@@ -43,7 +43,7 @@ inline CmdLineException::CmdLineException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline CmdLineException::~CmdLineException()
+inline CmdLineException::~CmdLineException() throw()
 {
 }
 

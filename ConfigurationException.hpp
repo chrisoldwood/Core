@@ -24,7 +24,7 @@ public:
 	ConfigurationException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~ConfigurationException();
+	virtual ~ConfigurationException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ inline ConfigurationException::ConfigurationException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline ConfigurationException::~ConfigurationException()
+inline ConfigurationException::~ConfigurationException() throw()
 {
 }
 

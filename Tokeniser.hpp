@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include <vector>
+
 namespace Core
 {
 

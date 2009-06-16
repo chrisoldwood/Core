@@ -12,6 +12,7 @@
 #endif
 
 #include <algorithm>
+#include <vector>
 
 namespace Core
 {
@@ -31,7 +32,7 @@ inline bool exists(const std::vector<T>& container, T value)
 template<typename T>
 inline void deepCopy(const std::vector< Core::SharedPtr<T> >& input, std::vector< Core::SharedPtr<T> >& output)
 {
-	typedef std::vector<Core::SharedPtr<T> >::const_iterator ConstIter;
+	typedef typename std::vector<Core::SharedPtr<T> >::const_iterator ConstIter;
 
 	for (ConstIter it = input.begin(); it != input.end(); ++it)
 		output.push_back(Core::SharedPtr<T>(new T(*(*it))));

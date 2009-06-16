@@ -11,6 +11,9 @@
 #pragma once
 #endif
 
+// Visual C++
+#ifdef _MSC_VER
+
 // Automatically excluding '?' while importing type library.
 #pragma warning ( disable : 4192 )
 
@@ -55,6 +58,9 @@
 // Caused by ASSERT macros when compiling a release build with asserts.
 #pragma warning ( disable : 4702 )
 
+#endif
+
+// Visual C++
 #endif
 
 #endif // CORE_PRAGMAS_HPP

@@ -36,7 +36,7 @@ Exception::Exception(const Exception& rhs)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-Exception::~Exception()
+Exception::~Exception() throw()
 {
 }
 
@@ -54,7 +54,7 @@ const tchar* Exception::What() const
 //! However it could still be invoked through the base class, so we still need
 //! to generate an ANSI version on demand.
 
-const char* Exception::what() const
+const char* Exception::what() const throw()
 {
 #ifdef ANSI_BUILD
 	return m_strDetails.c_str();

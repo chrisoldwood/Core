@@ -27,7 +27,7 @@ public:
 	InvalidArgException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~InvalidArgException();
+	virtual ~InvalidArgException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ inline InvalidArgException::InvalidArgException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline InvalidArgException::~InvalidArgException()
+inline InvalidArgException::~InvalidArgException() throw()
 {
 }
 

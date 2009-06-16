@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include <stddef.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Standard types.
 
@@ -29,12 +31,12 @@ typedef unsigned long		dword;		//!< 32 bit unsigned integer.
 typedef signed char			int8;		//!< 8 bit signed integer.
 typedef signed short		int16;		//!< 16 bit signed integer.
 typedef signed long			int32;		//!< 32 bit signed integer.
-typedef signed __int64		int64;		//!< 64 bit signed integer.
+typedef signed long long	int64;		//!< 64 bit signed integer.
 
 typedef unsigned char		uint8;		//!< 8 bit unsigned integer.
 typedef unsigned short		uint16;		//!< 16 bit unsigned integer.
 typedef unsigned long		uint32;		//!< 32 bit unsigned integer.
-typedef unsigned __int64	uint64;		//!< 64 bit unsigned integer.
+typedef unsigned long long	uint64;		//!< 64 bit unsigned integer.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common macros.

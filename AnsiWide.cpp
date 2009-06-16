@@ -5,6 +5,7 @@
 
 #include "Common.hpp"
 #include "AnsiWide.hpp"
+#include <locale>
 
 namespace Core
 {

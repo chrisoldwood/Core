@@ -23,8 +23,8 @@ class Exception : public std::exception
 {
 public:
 	//! Destructor.
-	virtual ~Exception();
-	
+	virtual ~Exception() throw();
+
 	//
 	// Methods.
 	//
@@ -52,7 +52,7 @@ protected:
 
 private:
 	//! Get the ANSI only exception details.
-	virtual const char* what() const;
+	virtual const char* what() const throw();
 };
 
 //namespace Core

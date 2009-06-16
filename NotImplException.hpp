@@ -26,7 +26,7 @@ public:
 	NotImplException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~NotImplException();
+	virtual ~NotImplException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ inline NotImplException::NotImplException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline NotImplException::~NotImplException()
+inline NotImplException::~NotImplException() throw()
 {
 }
 

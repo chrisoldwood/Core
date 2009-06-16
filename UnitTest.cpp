@@ -8,6 +8,7 @@
 #include "StringUtils.hpp"
 #include "tiostream.hpp"
 #include "CmdLineException.hpp"
+#include <stdlib.h>
 
 namespace Core
 {

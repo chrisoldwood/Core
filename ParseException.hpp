@@ -24,7 +24,7 @@ public:
 	ParseException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~ParseException();
+	virtual ~ParseException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ inline ParseException::ParseException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline ParseException::~ParseException()
+inline ParseException::~ParseException() throw()
 {
 }
 

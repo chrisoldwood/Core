@@ -24,7 +24,7 @@ public:
 	RuntimeException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~RuntimeException();
+	virtual ~RuntimeException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ inline RuntimeException::RuntimeException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline RuntimeException::~RuntimeException()
+inline RuntimeException::~RuntimeException() throw()
 {
 }
 

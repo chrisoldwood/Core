@@ -27,7 +27,7 @@ public:
 	BadLogicException(const tstring& strDetails);
 
 	//! Destructor.
-	virtual ~BadLogicException();
+	virtual ~BadLogicException() throw();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ inline BadLogicException::BadLogicException(const tstring& strDetails)
 ////////////////////////////////////////////////////////////////////////////////
 //! Destructor.
 
-inline BadLogicException::~BadLogicException()
+inline BadLogicException::~BadLogicException() throw()
 {
 }
 
