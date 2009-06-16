@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include <stdarg.h>
+
 namespace Core
 {
 

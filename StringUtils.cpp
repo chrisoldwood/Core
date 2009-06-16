@@ -12,6 +12,8 @@
 #include <Core/BadLogicException.hpp>
 #include <Core/ParseException.hpp>
 #include "AnsiWide.hpp"
+#include <locale>
+#include <stdlib.h>
 
 namespace Core
 {
@@ -23,7 +25,11 @@ namespace Core
 tstring FmtEx(const tchar* pszFormat, va_list args)
 {
 	// Allocate the buffer.
+#ifdef _MSC_VER
 	int nLength = _vsctprintf(pszFormat, args);
+#else
+	int nLength = 1024;
+#endif
 
 	tstring str(nLength, TXT('\0'));
 
@@ -35,6 +41,10 @@ tstring FmtEx(const tchar* pszFormat, va_list args)
 	// Check for buffer overrun.
 	if (nResult < 0)
 		throw BadLogicException(Fmt(TXT("Insufficient buffer size calculated in Fmt(). Result: %d"), nResult));
+
+#ifndef _MSC_VER
+	str.resize(nResult);
+#endif
 
 	return str;
 }
@@ -166,7 +176,7 @@ int parse(const tstring& buffer)
 	errno = 0;
 
 	// Parse value.
-	uint value = _tcstol(it, &endPtr, 10);
+	uint value = tstrtol(it, &endPtr, 10);
 
 	if ( (endPtr == nullptr) || (errno != 0) )
 		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
@@ -202,7 +212,7 @@ uint parse(const tstring& buffer)
 	errno = 0;
 
 	// Parse value.
-	uint value = _tcstoul(it, &endPtr, 10);
+	uint value = tstrtoul(it, &endPtr, 10);
 
 	if ( (endPtr == nullptr) || (errno != 0) )
 		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));

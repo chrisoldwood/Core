@@ -5,6 +5,11 @@
 
 #include "Common.hpp"
 
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
+// Caused by the DEBUG_USE_ONLY macro.
+#pragma GCC diagnostic ignored "-Wunused-value"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Avoid bringing in <windows.h>.
 
@@ -20,8 +25,10 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 // Ensure we dump memory leaks after STLport has performed its clean up.
 
+#ifdef CORE_CRTDBG_ENABLED
 #pragma warning(disable : 4073 4074)
 #pragma init_seg(compiler)
+#endif
 
 //! The flag used to signal whether to dump leaks or not.
 static bool g_bReportLeaks = false;
@@ -76,7 +83,9 @@ public:
 
 LeakReporter::LeakReporter()
 {
+#ifdef CORE_CRTDBG_ENABLED
 //	_CrtSetBreakAlloc(63);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +95,10 @@ LeakReporter::~LeakReporter()
 {
 	if (g_bReportLeaks)
 	{
+#ifdef CORE_CRTDBG_ENABLED
 		::OutputDebugString(TXT("Leak reporting enabled.\n"));
 		_CrtDumpMemoryLeaks();
+#endif
 	}
 }
 
