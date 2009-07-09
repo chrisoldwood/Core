@@ -86,33 +86,47 @@ void TestStrings()
 	TEST_TRUE(it == end);
 }
 {
-	TEST_TRUE(Core::format<uint>(0) == TXT("0"));
-	TEST_TRUE(Core::parse<uint>(TXT(" 0 ")) == 0);
-
-	TEST_TRUE(Core::format<uint>(UINT_MAX) == TXT("4294967295"));
-	TEST_TRUE(Core::parse<uint>(TXT(" 4294967295 ")) == UINT_MAX);
-
-	TEST_THROWS(Core::parse<uint>(TXT("")));
-//	TEST_THROWS(Core::parse<uint>(TXT("-1"))); // VC++ parses as signed.
-	TEST_THROWS(Core::parse<uint>(TXT(" 4294967296 ")));
-	TEST_THROWS(Core::parse<uint>(TXT("1nv4l1d")));
-
-	TEST_TRUE(Core::format<int>(INT_MIN) == TXT("-2147483648"));
-	TEST_TRUE(Core::parse<int>(TXT(" -2147483648 ")) == INT_MIN);
-
-	TEST_TRUE(Core::format<int>(INT_MAX) == TXT("2147483647"));
-	TEST_TRUE(Core::parse<int>(TXT(" 2147483647 ")) == INT_MAX);
-
-	TEST_THROWS(Core::parse<int>(TXT("")));
-	TEST_THROWS(Core::parse<int>(TXT("-2147483649")));
-	TEST_THROWS(Core::parse<int>(TXT("2147483648")));
-	TEST_THROWS(Core::parse<int>(TXT("1nv4l1d")));
-
 	TEST_TRUE(Core::format<bool>(true) == TXT("1"));
 	TEST_TRUE(Core::parse<bool>(TXT(" 1 ")) == true);
 	TEST_TRUE(Core::format<bool>(false) == TXT("0"));
 	TEST_TRUE(Core::parse<bool>(TXT(" 0 ")) == false);
 	TEST_THROWS(Core::parse<bool>(TXT("")));
 	TEST_THROWS(Core::parse<bool>(TXT("X")));
+
+	TEST_TRUE(Core::format<int>(INT_MIN) == TXT("-2147483648"));
+	TEST_TRUE(Core::parse<int>(TXT(" -2147483648 ")) == INT_MIN);
+	TEST_TRUE(Core::format<int>(INT_MAX) == TXT("2147483647"));
+	TEST_TRUE(Core::parse<int>(TXT(" 2147483647 ")) == INT_MAX);
+	TEST_THROWS(Core::parse<int>(TXT("")));
+	TEST_THROWS(Core::parse<int>(TXT("-2147483649")));
+	TEST_THROWS(Core::parse<int>(TXT("2147483648")));
+	TEST_THROWS(Core::parse<int>(TXT("1nv4l1d")));
+
+	TEST_TRUE(Core::format<uint>(0) == TXT("0"));
+	TEST_TRUE(Core::parse<uint>(TXT(" 0 ")) == 0);
+	TEST_TRUE(Core::format<uint>(UINT_MAX) == TXT("4294967295"));
+	TEST_TRUE(Core::parse<uint>(TXT(" 4294967295 ")) == UINT_MAX);
+	TEST_THROWS(Core::parse<uint>(TXT("")));
+//	TEST_THROWS(Core::parse<uint>(TXT("-1"))); // VC++ parses as signed.
+	TEST_THROWS(Core::parse<uint>(TXT(" 4294967296 ")));
+	TEST_THROWS(Core::parse<uint>(TXT("1nv4l1d")));
+
+	TEST_TRUE(Core::format<int64>(_I64_MIN) == TXT("-9223372036854775808"));
+	TEST_TRUE(Core::parse<int64>(TXT(" -9223372036854775808 ")) == _I64_MIN);
+	TEST_TRUE(Core::format<int64>(_I64_MAX) == TXT("9223372036854775807"));
+	TEST_TRUE(Core::parse<int64>(TXT(" 9223372036854775807 ")) == _I64_MAX);
+	TEST_THROWS(Core::parse<int64>(TXT("")));
+	TEST_THROWS(Core::parse<int64>(TXT("-9223372036854775809")));
+	TEST_THROWS(Core::parse<int64>(TXT("9223372036854775808")));
+	TEST_THROWS(Core::parse<int64>(TXT("1nv4l1d")));
+
+	TEST_TRUE(Core::format<uint64>(0) == TXT("0"));
+	TEST_TRUE(Core::parse<uint64>(TXT(" 0 ")) == 0);
+	TEST_TRUE(Core::format<uint64>(_UI64_MAX) == TXT("18446744073709551615"));
+	TEST_TRUE(Core::parse<uint64>(TXT(" 18446744073709551615 ")) == _UI64_MAX);
+	TEST_THROWS(Core::parse<uint64>(TXT("")));
+//	TEST_THROWS(Core::parse<uint64>(TXT("-1"))); // VC++ parses as signed.
+	TEST_THROWS(Core::parse<uint64>(TXT(" 18446744073709551616 ")));
+	TEST_THROWS(Core::parse<uint64>(TXT("1nv4l1d")));
 }
 }

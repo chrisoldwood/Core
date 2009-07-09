@@ -45,6 +45,8 @@ void TestException()
 	Core::ParseException pe(TXT("Test"));
 	Core::ConfigurationException ce(TXT("Test"));
 	Core::RuntimeException re(TXT("Test"));
+
+	TEST_TRUE(tstrcmp(e.What(), TXT("Test")) == 0);
 	
 	Core::DebugWrite(TXT("%s\n"), e.What());
 //	Core::DebugWrite("%s", e.what());		// Shouldn't compile.
