@@ -1,23 +1,11 @@
 - Handle type for sharing.
 
-- Toggle class for use instead of AutoBool.
-
 - IOStream for tracing out.
 
 - Nullable<T>
-
-- 64-bit parse/format.
 
 - Switch to c++ headers e.g. <cstdarg> instead of <stdarg.h>
 
 - camelCase all function names.
 
-- add try/catch to Exception::what() as its throw().
-
-- Add non-MS impl of Trace() to use OutputDebugString directly.
-
-- Fix Fmt() impl to use a growable buffer under GCC etc.
-
-- Sort our SmartPtr<> classes under GCC.
-
-- Fix calls to use delete[] in ArrayPtr.
+- Add non-MS impl of Trace() & AssertFail().
