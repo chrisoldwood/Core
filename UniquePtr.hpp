@@ -93,10 +93,10 @@ template <typename T>
 inline void UniquePtr<T>::Reset(T* pPointer)
 {
 	// Release current resource.
-	delete m_pPointer;
+	delete this->m_pPointer;
 
 	// Update state.
-	m_pPointer = pPointer;
+	this->m_pPointer = pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,8 +105,9 @@ inline void UniquePtr<T>::Reset(T* pPointer)
 template <typename T>
 inline T* UniquePtr<T>::Detach()
 {
-	T* pPointer = m_pPointer;
-	m_pPointer = nullptr;
+	T* pPointer = this->m_pPointer;
+
+	this->m_pPointer = nullptr;
 
 	return pPointer;
 }
@@ -118,7 +119,7 @@ inline T* UniquePtr<T>::Detach()
 template <typename T>
 inline T** UniquePtr<T>::GetPtrMember()
 {
-	return &m_pPointer;
+	return &this->m_pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

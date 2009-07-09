@@ -99,6 +99,13 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tstrtol			strtol
 #define tstrtoul		strtoul
 #define tstrtod			strtod
+#ifdef _MSC_VER
+#define tstrtoll		strtoi64
+#define tstrtoull		strtoui64
+#else
+#define tstrtoll		strtoll
+#define tstrtoull		strtoull
+#endif
 #define tatoi			atoi
 #define tatol			atol
 #define tisspace		isspace
@@ -135,6 +142,13 @@ typedef std::wistream	tistream;	//!< Build agnostic input stream type.
 #define tstrtol			wcstol
 #define tstrtoul		wcstoul
 #define tstrtod			wcstod
+#ifdef _MSC_VER
+#define tstrtoll		_wcstoi64
+#define tstrtoull		_wcstoui64
+#else
+#define tstrtoll		_wcstoll
+#define tstrtoull		_wcstoull
+#endif
 #define tatoi			_wtoi
 #define tatol			_wtol
 #define tisspace		iswspace

@@ -16,10 +16,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Standard types.
 
+typedef signed long long	longlong;	//!< A signed long long integer.
+
 typedef unsigned char		uchar;		//!< An unsigned character.
 typedef unsigned short		ushort;		//!< An unsigned short integer.
 typedef unsigned int		uint;		//!< An unsigned integer.
 typedef unsigned long		ulong;		//!< An unsigned long integer.
+typedef unsigned long long	ulonglong;	//!< An unsigned long long integer.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Size specific types.
