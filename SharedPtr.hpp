@@ -38,7 +38,7 @@ public:
 
 	//! Destructor.
 	~SharedPtr();
-	
+
 	//
 	// Operators.
 	//
@@ -75,12 +75,12 @@ private:
 	friend class SharedPtr;
 
 	//! Allow member access for the static_cast like function.
-	template<typename T, typename U>
-	friend SharedPtr<T> static_ptr_cast(const SharedPtr<U>& oPointer);
+	template<typename P, typename U>
+	friend SharedPtr<P> static_ptr_cast(const SharedPtr<U>& oPointer);
 
 	//! Allow member access for the dynamic_cast like function.
-	template<typename T, typename U>
-	friend SharedPtr<T> dynamic_ptr_cast(const SharedPtr<U>& oPointer);
+	template<typename P, typename U>
+	friend SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& oPointer);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
 	, m_pRefCnt(oPointer.m_pRefCnt)
 {
 	if (m_pRefCnt != nullptr)
-		_InterlockedIncrement(m_pRefCnt);
+		Core::atomicIncrement(*m_pRefCnt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<U>& oPointer)
 	, m_pRefCnt(oPointer.m_pRefCnt)
 {
 	if (m_pRefCnt != nullptr)
-		_InterlockedIncrement(m_pRefCnt);
+		Core::atomicIncrement(*m_pRefCnt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -145,21 +145,21 @@ template <typename T>
 inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr& oPointer)
 {
 	// Ignore self-assignment.
-	if (m_pPointer != oPointer.m_pPointer)
+	if (this->m_pPointer != oPointer.m_pPointer)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (_InterlockedDecrement(m_pRefCnt) == 0))
+		if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
 		{
-			delete m_pPointer;
-			delete m_pRefCnt;
+			delete this->m_pPointer;
+			delete this->m_pRefCnt;
 		}
 
-		m_pPointer = oPointer.m_pPointer;
-		m_pRefCnt  = oPointer.m_pRefCnt;
+		this->m_pPointer = oPointer.m_pPointer;
+		this->m_pRefCnt  = oPointer.m_pRefCnt;
 
 		// Share ownership.
 		if (m_pRefCnt != nullptr)
-			_InterlockedIncrement(m_pRefCnt);
+			Core::atomicIncrement(*m_pRefCnt);
 	}
 
 	return *this;
@@ -175,21 +175,21 @@ template <typename U>
 inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<U>& oPointer)
 {
 	// Ignore self-assignment.
-	if (m_pPointer != oPointer.m_pPointer)
+	if (this->m_pPointer != oPointer.m_pPointer)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (_InterlockedDecrement(m_pRefCnt) == 0))
+		if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
 		{
-			delete m_pPointer;
-			delete m_pRefCnt;
+			delete this->m_pPointer;
+			delete this->m_pRefCnt;
 		}
 
-		m_pPointer = oPointer.m_pPointer;
-		m_pRefCnt  = oPointer.m_pRefCnt;
+		this->m_pPointer = oPointer.m_pPointer;
+		this->m_pRefCnt  = oPointer.m_pRefCnt;
 
 		// Share ownership.
 		if (m_pRefCnt != nullptr)
-			_InterlockedIncrement(m_pRefCnt);
+			Core::atomicIncrement(*m_pRefCnt);
 	}
 
 	return *this;
@@ -213,15 +213,15 @@ inline void SharedPtr<T>::Reset(T* pPointer)
 	}
 
 	// Release current resources, if final reference.
-	if ((m_pRefCnt != nullptr) && (_InterlockedDecrement(m_pRefCnt) == 0))
+	if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
 	{
-		delete m_pPointer;
-		delete m_pRefCnt;
+		delete this->m_pPointer;
+		delete this->m_pRefCnt;
 	}
 
 	// Update state.
-	m_pPointer = pTmpPtr;
-	m_pRefCnt  = pTmpCnt;
+	this->m_pPointer = pTmpPtr;
+	this->m_pRefCnt  = pTmpCnt;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -233,33 +233,33 @@ inline SharedPtr<T>::SharedPtr(T* pPointer, long* pRefCnt)
 	, m_pRefCnt(pRefCnt)
 {
 	if (m_pRefCnt != nullptr)
-		_InterlockedIncrement(m_pRefCnt);
+		Core::atomicIncrement(*m_pRefCnt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! A variant of static_cast<> that can be used to create a SharedPtr of the
 //! derived ptr type from the base ptr type.
 
-template<typename T, typename U>
-inline SharedPtr<T> static_ptr_cast(const SharedPtr<U>& oPointer)
+template<typename P, typename U>
+inline SharedPtr<P> static_ptr_cast(const SharedPtr<U>& oPointer)
 {
-	return SharedPtr<T>(static_cast<T*>(oPointer.m_pPointer), oPointer.m_pRefCnt);
+	return SharedPtr<P>(static_cast<P*>(oPointer.m_pPointer), oPointer.m_pRefCnt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! A variant of dynamic_cast<> that can be used to create a SharedPtr of the
 //! derived ptr type from the base ptr type.
 
-template<typename T, typename U>
-inline SharedPtr<T> dynamic_ptr_cast(const SharedPtr<U>& oPointer)
+template<typename P, typename U>
+inline SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& oPointer)
 {
-	T*    pTmpPtr = dynamic_cast<T*>(oPointer.m_pPointer);
+	P*    pTmpPtr = dynamic_cast<P*>(oPointer.m_pPointer);
 	long* pTmpCnt = oPointer.m_pRefCnt;
 
 	if (pTmpPtr == nullptr)
 		pTmpCnt = nullptr;
 
-	return SharedPtr<T>(pTmpPtr, pTmpCnt);
+	return SharedPtr<P>(pTmpPtr, pTmpCnt);
 }
 
 //namespace Core

@@ -36,7 +36,7 @@ public:
 
 	//! Destructor.
 	~ArrayPtr();
-	
+
 	//
 	// Operators.
 	//
@@ -56,7 +56,7 @@ public:
 
 	//! Take ownership of the pointer.
 	T* Detach();
-	
+
 private:
 	//! Access the underlying pointer member.
 	T** GetPtrMember();
@@ -101,10 +101,10 @@ inline ArrayPtr<T>::~ArrayPtr()
 template <typename T>
 inline T& ArrayPtr<T>::operator[](size_t nIndex)
 {
-	if (m_pPointer == nullptr)
+	if (this->m_pPointer == nullptr)
 		throw NullPtrException();
 
-	return m_pPointer[nIndex];
+	return this->m_pPointer[nIndex];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,10 +113,10 @@ inline T& ArrayPtr<T>::operator[](size_t nIndex)
 template <typename T>
 inline const T& ArrayPtr<T>::operator[](size_t nIndex) const
 {
-	if (m_pPointer == nullptr)
+	if (this->m_pPointer == nullptr)
 		throw NullPtrException();
 
-	return m_pPointer[nIndex];
+	return this->m_pPointer[nIndex];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,10 +127,10 @@ template <typename T>
 inline void ArrayPtr<T>::Reset(T* pPointer)
 {
 	// Release current resource.
-	delete m_pPointer;
+	delete[] this->m_pPointer;
 
 	// Update state.
-	m_pPointer = pPointer;
+	this->m_pPointer = pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,8 +139,9 @@ inline void ArrayPtr<T>::Reset(T* pPointer)
 template <typename T>
 inline T* ArrayPtr<T>::Detach()
 {
-	T* pPointer = m_pPointer;
-	m_pPointer = nullptr;
+	T* pPointer = this->m_pPointer;
+
+	this->m_pPointer = nullptr;
 
 	return pPointer;
 }
@@ -152,7 +153,7 @@ inline T* ArrayPtr<T>::Detach()
 template <typename T>
 inline T** ArrayPtr<T>::GetPtrMember()
 {
-	return &m_pPointer;
+	return &this->m_pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

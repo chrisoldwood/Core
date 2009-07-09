@@ -64,10 +64,10 @@ public:
 
 	//! Change pointer ownership.
 	void Reset(T* pPointer = nullptr, bool bAddRef = false);
-	
+
 	//! Take ownership of the pointer.
 	T* Detach();
-	
+
 private:
 	//! Access the underlying pointer member.
 	T** GetPtrMember();
@@ -84,12 +84,12 @@ private:
 	friend T** AttachTo<>(RefCntPtr<T>& ptr);
 
 	//! Allow member access for the static_cast like function.
-	template<typename T, typename U>
-	friend RefCntPtr<T> static_ptr_cast(const RefCntPtr<U>& oPointer);
+	template<typename P, typename U>
+	friend RefCntPtr<P> static_ptr_cast(const RefCntPtr<U>& oPointer);
 
 	//! Allow member access for the dynamic_cast like function.
-	template<typename T, typename U>
-	friend RefCntPtr<T> dynamic_ptr_cast(const RefCntPtr<U>& oPointer);
+	template<typename P, typename U>
+	friend RefCntPtr<P> dynamic_ptr_cast(const RefCntPtr<U>& oPointer);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,8 +107,8 @@ template <typename T>
 inline RefCntPtr<T>::RefCntPtr(T* pPointer, bool bAddRef)
 	: SmartPtr<T>(pPointer)
 {
-	if ((m_pPointer != nullptr) && bAddRef)
-		m_pPointer->IncRefCount();
+	if ((this->m_pPointer != nullptr) && bAddRef)
+		this->m_pPointer->IncRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,8 +118,8 @@ template <typename T>
 inline RefCntPtr<T>::RefCntPtr(const RefCntPtr& oPtr)
 	: SmartPtr<T>(oPtr.m_pPointer)
 {
-	if (m_pPointer != nullptr)
-		m_pPointer->IncRefCount();
+	if (this->m_pPointer != nullptr)
+		this->m_pPointer->IncRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -131,8 +131,8 @@ template <typename U>
 inline RefCntPtr<T>::RefCntPtr(const RefCntPtr<U>& oPtr)
 	: SmartPtr<T>(oPtr.m_pPointer)
 {
-	if (m_pPointer != nullptr)
-		m_pPointer->IncRefCount();
+	if (this->m_pPointer != nullptr)
+		this->m_pPointer->IncRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ template <typename U>
 inline RefCntPtr<T>& RefCntPtr<T>::operator=(const RefCntPtr<U>& oPtr)
 {
 	// Ignore self-assignment.
-	if (m_pPointer != oPtr.m_pPointer)
+	if (this->m_pPointer != oPtr.m_pPointer)
 		Reset(oPtr.m_pPointer, true);
 
 	return *this;
@@ -179,17 +179,17 @@ template <typename T>
 inline void RefCntPtr<T>::Reset(T* pPointer, bool bAddRef)
 {
 	// Release the current resource.
-	if (m_pPointer != nullptr)
+	if (this->m_pPointer != nullptr)
 	{
-		m_pPointer->DecRefCount();
-		m_pPointer = nullptr;
+		this->m_pPointer->DecRefCount();
+		this->m_pPointer = nullptr;
 	}
 
 	// Attach the new resource, if specified.
-	m_pPointer = pPointer;
+	this->m_pPointer = pPointer;
 
-	if ((m_pPointer != nullptr) && bAddRef)
-		m_pPointer->IncRefCount();
+	if ((this->m_pPointer != nullptr) && bAddRef)
+		this->m_pPointer->IncRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +198,9 @@ inline void RefCntPtr<T>::Reset(T* pPointer, bool bAddRef)
 template <typename T>
 inline T* RefCntPtr<T>::Detach()
 {
-	T* pPointer = m_pPointer;
-	m_pPointer = nullptr;
+	T* pPointer = this->m_pPointer;
+
+	this->m_pPointer = nullptr;
 
 	return pPointer;
 }
@@ -211,7 +212,7 @@ inline T* RefCntPtr<T>::Detach()
 template <typename T>
 inline T** RefCntPtr<T>::GetPtrMember()
 {
-	return &m_pPointer;
+	return &this->m_pPointer;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,20 +232,20 @@ inline T** AttachTo(RefCntPtr<T>& ptr)
 //! A variant of static_cast<> that can be used to create a RefCntPtr of the
 //! derived ptr type from the base ptr type.
 
-template<typename T, typename U>
-inline RefCntPtr<T> static_ptr_cast(const RefCntPtr<U>& oPtr)
+template<typename P, typename U>
+inline RefCntPtr<P> static_ptr_cast(const RefCntPtr<U>& oPtr)
 {
-	return RefCntPtr<T>(static_cast<T*>(oPtr.m_pPointer), true);
+	return RefCntPtr<P>(static_cast<P*>(oPtr.m_pPointer), true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! A variant of dynamic_cast<> that can be used to create a RefCntPtr of the
 //! derived ptr type from the base ptr type.
 
-template<typename T, typename U>
-inline RefCntPtr<T> dynamic_ptr_cast(const RefCntPtr<U>& oPtr)
+template<typename P, typename U>
+inline RefCntPtr<P> dynamic_ptr_cast(const RefCntPtr<U>& oPtr)
 {
-	return RefCntPtr<T>(dynamic_cast<T*>(oPtr.m_pPointer), true);
+	return RefCntPtr<P>(dynamic_cast<P*>(oPtr.m_pPointer), true);
 }
 
 //namespace Core
