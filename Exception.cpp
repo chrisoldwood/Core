@@ -43,9 +43,18 @@ Exception::~Exception() throw()
 ////////////////////////////////////////////////////////////////////////////////
 //! Get the exception details.
 
-const tchar* Exception::What() const
+const tchar* Exception::What() const throw()
 {
-	return m_strDetails.c_str();
+	const tchar* details = TXT("(unknown)");
+
+	try
+	{
+		details = m_strDetails.c_str();
+	}
+	catch (...)
+	{ }
+
+	return details;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,17 +65,26 @@ const tchar* Exception::What() const
 
 const char* Exception::what() const throw()
 {
+	const char* details = "(unknown)";
+
+	try
+	{
+		ASSERT_FALSE();
+
 #ifdef ANSI_BUILD
-	return m_strDetails.c_str();
+		details = m_strDetails.c_str();
 #else
-	ASSERT_FALSE();
+		// Generate ANSI string on demand.
+		if (m_strAnsiDetails.empty())
+			m_strAnsiDetails = Core::WideToAnsi(m_strDetails);
 
-	// Generate ANSI string on demand.
-	if (m_strAnsiDetails.empty())
-		m_strAnsiDetails = Core::WideToAnsi(m_strDetails);
-
-	return m_strAnsiDetails.c_str();
+		details = m_strAnsiDetails.c_str();
 #endif
+	}
+	catch (...)
+	{ }
+
+	return details;
 }
 
 //namespace Core
