@@ -62,8 +62,14 @@ void TraceEx(const tchar* pszFormat, ...);
 //! Mark a variable or parameter as unused in any build.
 #define UNUSED_VARIABLE(x)		(x)
 
+//! The STATIC_ASSERT base template.
+template<bool C> struct STATIC_ASSERT_CHECK;
+
+//! The STATIC_ASSERT template matching valid assertions.
+template<> struct STATIC_ASSERT_CHECK<true> {};
+
 //! Compile time ASSERT.
-#define STATIC_ASSERT(x)		short static_assert##__LINE__[(x) ? 1 : -1];static_assert##__LINE__
+#define STATIC_ASSERT(x)		enum { static_assert##__LINE__ = sizeof(Core::STATIC_ASSERT_CHECK<(x)>) };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Release versions
