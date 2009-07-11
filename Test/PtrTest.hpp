@@ -9,9 +9,9 @@
 class IPtrTest
 {
 public:
-	virtual ulong AddRef() = 0;
-	virtual ulong Release() = 0;
-	virtual void  Run() = 0;
+	virtual ulong addRef() = 0;
+	virtual ulong release() = 0;
+	virtual void  run() = 0;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,19 +24,19 @@ public:
 		: m_nRefCount(1)
 	{ }
 
-	virtual ulong AddRef()
+	virtual ulong addRef()
 	{
 		return ++m_nRefCount;
 	}
 
-	virtual ulong Release()
+	virtual ulong release()
 	{
 		if (--m_nRefCount == 0)
 			delete this;
 		return m_nRefCount;
 	}
 
-	virtual void Run()
+	virtual void run()
 	{ }
 
 	ulong m_nRefCount;

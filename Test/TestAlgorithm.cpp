@@ -14,13 +14,13 @@ typedef Core::SharedPtr<int> IntPtr;
 
 bool isEqualValueNotPtr(const IntPtr& p1, IntPtr& p2)
 {
-	return ((*p1 == *p2) && (p1.Get() != p2.Get()));
+	return ((*p1 == *p2) && (p1.get() != p2.get()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the Algorithm functions.
 
-void TestAlgorithm()
+void testAlgorithm()
 {
 {
 	int              values[] = {1, 2, 3};

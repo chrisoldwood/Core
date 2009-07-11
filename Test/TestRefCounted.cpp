@@ -14,7 +14,7 @@
 class RefCntTest : public Core::RefCounted
 {
 public:
-	virtual void Run()
+	virtual void run()
 	{ }
 };
 
@@ -35,7 +35,7 @@ class RefCntUnrelated : public Core::RefCounted
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the RefCounted class.
 
-void TestRefCounted()
+void testRefCounted()
 {
 //	Core::RefCounted	oTest1;				// Shouldn't compile.
 	Core::RefCounted*	pTest1 = nullptr;
@@ -43,16 +43,16 @@ void TestRefCounted()
 
 	pTest1 = new RefCntTest;
 
-	TEST_TRUE(pTest1->RefCount() == 1);
-	TEST_TRUE(pTest1->IncRefCount() == 2);
-	TEST_TRUE(pTest1->DecRefCount() == 1);
-	TEST_TRUE(pTest1->DecRefCount() == 0);
+	TEST_TRUE(pTest1->refCount() == 1);
+	TEST_TRUE(pTest1->incRefCount() == 2);
+	TEST_TRUE(pTest1->decRefCount() == 1);
+	TEST_TRUE(pTest1->decRefCount() == 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the RefCntPtr class.
 
-void TestRefCntPtr()
+void testRefCntPtr()
 {
 	typedef Core::RefCntPtr<RefCntTest> TestPtr;
 	typedef Core::RefCntPtr<RefCntDerived> DerivedPtr;
@@ -64,28 +64,28 @@ void TestRefCntPtr()
 	TestPtr pTest4(new RefCntTest);
 	TestPtr pTest5(pTest3);
 
-	TEST_TRUE(pTest1.Get() == nullptr);
-	TEST_TRUE(pTest3.Get() != nullptr);
-	TEST_TRUE(pTest4.Get() != nullptr);
-	TEST_TRUE(pTest5.Get() != nullptr);
+	TEST_TRUE(pTest1.get() == nullptr);
+	TEST_TRUE(pTest3.get() != nullptr);
+	TEST_TRUE(pTest4.get() != nullptr);
+	TEST_TRUE(pTest5.get() != nullptr);
 
 	pTest1 = pTest3;
 	pTest1 = pTest1;
 //	RefCntTest* pRaw1 = pTest1;				// Shouldn't compile.
 
-	TEST_TRUE(pTest1.Get() == pTest3.Get());
+	TEST_TRUE(pTest1.get() == pTest3.get());
 
-	pTest1->Run();
-	(*pTest1).Run();
+	pTest1->run();
+	(*pTest1).run();
 
-	RefCntTest* pRaw2 = pTest1.Get();
-	RefCntTest& oRef  = pTest1.GetRef();
+	RefCntTest* pRaw2 = pTest1.get();
+	RefCntTest& oRef  = pTest1.getRef();
 
-	TEST_TRUE(pRaw2 == pTest1.Get());
-	TEST_TRUE(&oRef == pTest1.Get());
+	TEST_TRUE(pRaw2 == pTest1.get());
+	TEST_TRUE(&oRef == pTest1.get());
 
-	pRaw2->Run();
-	oRef.Run();
+	pRaw2->run();
+	oRef.run();
 
 //	TEST_FALSE((pTest1 == NULL) || (pTest1 != NULL));	// Shouldn't compile.
 	TEST_FALSE(!pTest1);
@@ -93,15 +93,15 @@ void TestRefCntPtr()
 	TEST_TRUE(pTest1 == pTest3);
 	TEST_TRUE(pTest1 != pTest4);
 
-	pTest1.Reset(new RefCntTest);
+	pTest1.reset(new RefCntTest);
 
-	TEST_TRUE(pTest1.Get() != nullptr);
+	TEST_TRUE(pTest1.get() != nullptr);
 
-	pTest1.Reset();
+	pTest1.reset();
 
-	TEST_TRUE(pTest1.Get() == nullptr);
+	TEST_TRUE(pTest1.get() == nullptr);
 	TEST_THROWS(*pTest1);
-	TEST_THROWS(pTest1->DecRefCount());
+	TEST_THROWS(pTest1->decRefCount());
 
 //	delete pTest1;	// Shouldn't compile.
 
@@ -118,19 +118,21 @@ void TestRefCntPtr()
 	pBase2 = pDerived1;
 	pBase2 = pDerived1;
 
-	TEST_TRUE(pBase2.Get() == pDerived1.Get());
+	TEST_TRUE(pBase2.get() == pDerived1.get());
 
 	pDerived2 = Core::static_ptr_cast<RefCntDerived>(pBase3);
 
-	TEST_TRUE(pDerived2.Get() == pBase3.Get());
+	TEST_TRUE(pDerived2.get() == pBase3.get());
 
 	pDerived2 = Core::dynamic_ptr_cast<RefCntDerived>(pBase3);
 
-	TEST_TRUE(pDerived2.Get() == pBase3.Get());
+	TEST_TRUE(pDerived2.get() == pBase3.get());
 
 //	pUnrelated = Core::static_ptr_cast<RefCntUnrelated>(pBase1);	// Shouldn't compile.
 
 	pUnrelated = Core::dynamic_ptr_cast<RefCntUnrelated>(pBase1);
 
-	TEST_TRUE(pUnrelated.Get() == nullptr);
+	TEST_TRUE(pUnrelated.get() == nullptr);
+
+	TEST_TRUE(*attachTo(pUnrelated) == nullptr);
 }

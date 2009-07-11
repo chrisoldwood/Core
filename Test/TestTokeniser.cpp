@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the Tokeniser class.
 
-void TestTokeniser()
+void testTokeniser()
 {
 {
 	const tstring           string;

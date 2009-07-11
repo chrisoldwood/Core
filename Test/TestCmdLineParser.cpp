@@ -15,7 +15,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the CmdLineParser class.
 
-void TestCmdLineParser()
+void testCmdLineParser()
 {
 	enum SwitchID
 	{
@@ -45,35 +45,35 @@ void TestCmdLineParser()
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	TEST_THROWS(oParser.Parse(0, nullptr));
+	TEST_THROWS(oParser.parse(0, nullptr));
 
 	static tchar* argv[] = { TXT("program.exe"), TXT("-invalid_switch") };
 	static int argc = ARRAY_SIZE(argv);
 
-	TEST_THROWS(oParser.Parse(argc, argv));
+	TEST_THROWS(oParser.parse(argc, argv));
 }
 
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	TEST_TRUE(oParser.GetNamedArgs().empty() && oParser.GetUnnamedArgs().empty());
+	TEST_TRUE(oParser.getNamedArgs().empty() && oParser.getUnnamedArgs().empty());
 
 	static tchar* argv[] = { TXT("program.exe"), TXT("-short"), TXT("/short"), TXT("--long"), TXT("/long"), TXT("-b"), TXT("--both"), TXT("/both"), TXT("unnamed") };
 	static int argc = ARRAY_SIZE(argv);
 
-	oParser.Parse(argc, argv);
+	oParser.parse(argc, argv);
 
-	TEST_TRUE(oParser.GetNamedArgs().size() == 3);
-	TEST_TRUE(oParser.GetUnnamedArgs().size() == 1);
-	TEST_TRUE(oParser.IsSwitchSet(SHORT_ONLY) && oParser.IsSwitchSet(LONG_ONLY) && oParser.IsSwitchSet(SHORT_LONG));
-	TEST_TRUE(!oParser.IsSwitchSet(FLAG));
+	TEST_TRUE(oParser.getNamedArgs().size() == 3);
+	TEST_TRUE(oParser.getUnnamedArgs().size() == 1);
+	TEST_TRUE(oParser.isSwitchSet(SHORT_ONLY) && oParser.isSwitchSet(LONG_ONLY) && oParser.isSwitchSet(SHORT_LONG));
+	TEST_TRUE(!oParser.isSwitchSet(FLAG));
 
 	static tchar* argv2[] = { TXT("program.exe") };
 	static int argc2 = ARRAY_SIZE(argv2);
 
-	oParser.Parse(argc2, argv2);
+	oParser.parse(argc2, argv2);
 
-	TEST_TRUE(oParser.GetNamedArgs().empty() && oParser.GetUnnamedArgs().empty());
+	TEST_TRUE(oParser.getNamedArgs().empty() && oParser.getUnnamedArgs().empty());
 }
 
 {
@@ -82,20 +82,20 @@ void TestCmdLineParser()
 
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	TEST_THROWS(oParser.Parse(argc, argv, Core::CmdLineParser::ALLOW_ANY_FORMAT));
+	TEST_THROWS(oParser.parse(argc, argv, Core::CmdLineParser::ALLOW_ANY_FORMAT));
 
-	TEST_THROWS(oParser.Parse(argc, argv));
+	TEST_THROWS(oParser.parse(argc, argv));
 
-	oParser.Parse(argc, argv, Core::CmdLineParser::ALLOW_WIN_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
+	oParser.parse(argc, argv, Core::CmdLineParser::ALLOW_WIN_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
 
-	TEST_TRUE(oParser.GetUnnamedArgs().size() == 3);
+	TEST_TRUE(oParser.getUnnamedArgs().size() == 3);
 
 	static tchar* argv2[] = { TXT("program.exe"), TXT("unamed"), TXT("/?"), };
 	static int argc2 = ARRAY_SIZE(argv2);
 
-	oParser.Parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
+	oParser.parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
 
-	TEST_TRUE(oParser.GetUnnamedArgs().size() == 2);
+	TEST_TRUE(oParser.getUnnamedArgs().size() == 2);
 }
 
 {
@@ -104,18 +104,18 @@ void TestCmdLineParser()
 
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	TEST_THROWS(oParser.Parse(argc, argv));
+	TEST_THROWS(oParser.parse(argc, argv));
 }
 
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.GetNamedArgs();
+	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.getNamedArgs();
 
 	static tchar* argv1[] = { TXT("program.exe"), TXT("/s:value1"), TXT("/s"), TXT("value2"), TXT("/single:value3"), TXT("/single"), TXT("value4") };
 	static int argc1 = ARRAY_SIZE(argv1);
 
-	oParser.Parse(argc1, argv1, Core::CmdLineParser::ALLOW_WIN_FORMAT);
+	oParser.parse(argc1, argv1, Core::CmdLineParser::ALLOW_WIN_FORMAT);
 
 	Core::CmdLineParser::NamedArgs::const_iterator it1  = mapArgs.find(SINGLE);
 	const Core::CmdLineParser::StringVector&       vec1 = it1->second;
@@ -125,7 +125,7 @@ void TestCmdLineParser()
 	static tchar* argv2[] = { TXT("program.exe"), TXT("-s=value4"), TXT("-s"), TXT("value3"), TXT("--single=value2"), TXT("--single"), TXT("value1") };
 	static int argc2 = ARRAY_SIZE(argv2);
 
-	oParser.Parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT);
+	oParser.parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT);
 
 	Core::CmdLineParser::NamedArgs::const_iterator it2  = mapArgs.find(SINGLE);
 	const Core::CmdLineParser::StringVector&       vec2 = it2->second;
@@ -136,36 +136,36 @@ void TestCmdLineParser()
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.GetNamedArgs();
+	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.getNamedArgs();
 
 	static tchar* argv[] = { TXT("program.exe"), TXT("-m"), TXT("value1"), TXT("value2"), TXT("--multi"), TXT("value3"), TXT("value4"), TXT("--flag") };
 	static int argc = ARRAY_SIZE(argv);
 
-	oParser.Parse(argc, argv);
+	oParser.parse(argc, argv);
 
 	Core::CmdLineParser::NamedArgs::const_iterator it  = mapArgs.find(MULTIPLE);
 	const Core::CmdLineParser::StringVector&       vec = it->second;
 
 	TEST_TRUE((vec.size() == 4) && (vec[0] == TXT("value1")) && (vec[1] == TXT("value2")) && (vec[2] == TXT("value3")) && (vec[3] == TXT("value4")) );
 	TEST_TRUE(mapArgs.find(FLAG) != mapArgs.end());
-	TEST_TRUE(oParser.GetUnnamedArgs().empty());
+	TEST_TRUE(oParser.getUnnamedArgs().empty());
 }
 
 {
 	Core::CmdLineParser oParser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.GetNamedArgs();
+	const Core::CmdLineParser::NamedArgs& mapArgs = oParser.getNamedArgs();
 
 	static tchar* argv[] = { TXT("program.exe"), TXT("--multi"), TXT("value") };
 	static int argc = ARRAY_SIZE(argv);
 
-	oParser.Parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT); // !ALLOW_UNNAMED.
+	oParser.parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT); // !ALLOW_UNNAMED.
 
 	Core::CmdLineParser::NamedArgs::const_iterator it  = mapArgs.find(MULTIPLE);
 	const Core::CmdLineParser::StringVector&       vec = it->second;
 
 	TEST_TRUE((vec.size() == 1) && (vec[0] == TXT("value")));
-	TEST_TRUE(oParser.GetUnnamedArgs().empty());
+	TEST_TRUE(oParser.getUnnamedArgs().empty());
 }
 
 {
@@ -180,7 +180,7 @@ void TestCmdLineParser()
 	TXT("-s | --single <param>      Single value\n")
 	TXT("-m | --multi <params> ...  Multiple values\n");
 
-	tstring strUsage1 = oParser.FormatSwitches(Core::CmdLineParser::UNIX);
+	tstring strUsage1 = oParser.formatSwitches(Core::CmdLineParser::UNIX);
 
 //	TRACE1(TXT("\n%s\n"), strUsage1.c_str());
 	TEST_TRUE(strUsage1 == psz1);
@@ -194,7 +194,7 @@ void TestCmdLineParser()
 	TXT("/s | /single <param>      Single value\n")
 	TXT("/m | /multi <params> ...  Multiple values\n");
 
-	tstring strUsage2 = oParser.FormatSwitches(Core::CmdLineParser::WINDOWS);
+	tstring strUsage2 = oParser.formatSwitches(Core::CmdLineParser::WINDOWS);
 
 //	TRACE1(TXT("\n%s\n"), strUsage2.c_str());
 	TEST_TRUE(strUsage2 == psz2);

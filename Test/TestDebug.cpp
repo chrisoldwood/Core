@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the debugging functions.
 
-void TestDebug()
+void testDebug()
 {
 	bool bTrue  = true;
 //	bool bFalse = false;
@@ -29,7 +29,7 @@ void TestDebug()
 
 	TRACE1(TXT("Test TraceEx(\"%s\")\n"), TXT("Hello World"));
 
-	Core::DebugWrite(TXT("Test DebugWrite(\"%s\")\n"), TXT("Hello World"));
+	Core::debugWrite(TXT("Test DebugWrite(\"%s\")\n"), TXT("Hello World"));
 
 //	strcpy(static_cast<char*>(malloc(10)), "Malloc");
 //	strcpy(new char[5], "new");

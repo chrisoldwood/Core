@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the UniquePtr class.
 
-void TestUniquePtr()
+void testUniquePtr()
 {
 	typedef Core::UniquePtr<PtrTest> TestPtr;
 
@@ -22,23 +22,23 @@ void TestUniquePtr()
 //	TestPtr pTest5(pTest4);					// Shouldn't compile.
 	TestPtr pTest6;
 
-	TEST_TRUE(pTest1.Get() == nullptr);
-	TEST_TRUE(pTest4.Get() != nullptr);
+	TEST_TRUE(pTest1.get() == nullptr);
+	TEST_TRUE(pTest4.get() != nullptr);
 
 //	pTest1 = pTest4;			// Shouldn't compile.
 //	PtrTest* pRaw1 = pTest1;	// Shouldn't compile.
 
-	pTest4->Run();
-	(*pTest4).Run();
+	pTest4->run();
+	(*pTest4).run();
 
-	PtrTest* pRaw2 = pTest4.Get();
-	PtrTest& oRef  = pTest4.GetRef();
+	PtrTest* pRaw2 = pTest4.get();
+	PtrTest& oRef  = pTest4.getRef();
 
-	TEST_TRUE(pRaw2 == pTest4.Get());
-	TEST_TRUE(&oRef == pTest4.Get());
+	TEST_TRUE(pRaw2 == pTest4.get());
+	TEST_TRUE(&oRef == pTest4.get());
 
-	pRaw2->Run();
-	oRef.Run();
+	pRaw2->run();
+	oRef.run();
 
 //	TEST_FALSE((pTest1 == NULL) || (pTest1 != NULL));	// Shouldn't compile.
 	TEST_FALSE(!pTest4);
@@ -46,20 +46,22 @@ void TestUniquePtr()
 	TEST_TRUE(pTest1 == pTest6);
 	TEST_TRUE(pTest1 != pTest4);
 
-	pTest1.Reset(new PtrTest);
+	pTest1.reset(new PtrTest);
 
-	TEST_TRUE(pTest1.Get() != nullptr);
+	TEST_TRUE(pTest1.get() != nullptr);
 
-	pTest1.Reset();
+	pTest1.reset();
 
-	TEST_TRUE(pTest1.Get() == nullptr);
+	TEST_TRUE(pTest1.get() == nullptr);
 
 	TEST_THROWS(*pTest1);
-	TEST_THROWS(pTest1->Release());
+	TEST_THROWS(pTest1->release());
 
-	delete pTest4.Detach();
+	delete pTest4.detach();
 
-	TEST_TRUE(pTest4.Get() == nullptr);
+	TEST_TRUE(pTest4.get() == nullptr);
 
 //	delete pTest1;	// Shouldn't compile.
+
+	TEST_TRUE(*attachTo(pTest4) == nullptr);
 }

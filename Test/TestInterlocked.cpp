@@ -10,7 +10,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the Interlocked functions.
 
-void TestInterlocked()
+void testInterlocked()
 {
 	long value = 1;
 

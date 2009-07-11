@@ -23,7 +23,7 @@ class CopyTest : public Core::NotCopyable
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the NotCopyable class.
 
-void TestNotCopyable()
+void testNotCopyable()
 {
 	CopyTest oTest1;
 //	CopyTest oTest2(oTest1);	// Shouldn't compile.
@@ -34,7 +34,7 @@ void TestNotCopyable()
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for the Exception classes.
 
-void TestException()
+void testException()
 {
 //	Core::Exception dc;											// Shouldn't compile.
 //	Core::Exception cc(Core::NullPtrException(TXT("Test")));	// Shouldn't compile.
@@ -46,17 +46,17 @@ void TestException()
 	Core::ConfigurationException ce(TXT("Test"));
 	Core::RuntimeException re(TXT("Test"));
 
-	TEST_TRUE(tstrcmp(e.What(), TXT("Test")) == 0);
+	TEST_TRUE(tstrcmp(e.twhat(), TXT("Test")) == 0);
 	
-	Core::DebugWrite(TXT("%s\n"), e.What());
-//	Core::DebugWrite("%s", e.what());		// Shouldn't compile.
+	Core::debugWrite(TXT("%s\n"), e.twhat());
+//	Core::debugWrite("%s", e.what());		// Shouldn't compile.
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The unit tests for other misc types and functions.
 
-void TestMisc()
+void testMisc()
 {
-	TestNotCopyable();
-	TestException();
+	testNotCopyable();
+	testException();
 }
