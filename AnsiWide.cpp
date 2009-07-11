@@ -13,7 +13,7 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from ANSI to Wide.
 
-void AnsiToWide(const char* pszBegin, const char* pszEnd, wchar_t* pszDst)
+void ansiToWide(const char* pszBegin, const char* pszEnd, wchar_t* pszDst)
 {
 	std::use_facet< std::ctype<wchar_t> >(std::locale()).widen(pszBegin, pszEnd, pszDst);
 }
@@ -21,7 +21,7 @@ void AnsiToWide(const char* pszBegin, const char* pszEnd, wchar_t* pszDst)
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from ANSI to Wide.
 
-std::wstring AnsiToWide(const char* pszBegin, const char* pszEnd)
+std::wstring ansiToWide(const char* pszBegin, const char* pszEnd)
 {
 	std::wstring str;
 
@@ -33,7 +33,7 @@ std::wstring AnsiToWide(const char* pszBegin, const char* pszEnd)
 	wchar_t* pszDst = &(*str.begin());
 
 	// Do the conversion.
-	AnsiToWide(pszBegin, pszEnd, pszDst);
+	ansiToWide(pszBegin, pszEnd, pszDst);
 
 	return str;
 }
@@ -41,7 +41,7 @@ std::wstring AnsiToWide(const char* pszBegin, const char* pszEnd)
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from Wide to ANSI.
 
-void WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd, char* pszDst)
+void wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd, char* pszDst)
 {
 	std::use_facet< std::ctype<wchar_t> >(std::locale()).narrow(pszBegin, pszEnd, '?', pszDst);
 }
@@ -49,7 +49,7 @@ void WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd, char* pszDst)
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from Wide to ANSI.
 
-std::string WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
+std::string wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
 {
 	std::string str;
 
@@ -61,7 +61,7 @@ std::string WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
 	char* pszDst = &(*str.begin());
 
 	// Do the conversion.
-	WideToAnsi(pszBegin, pszEnd, pszDst);
+	wideToAnsi(pszBegin, pszEnd, pszDst);
 
 	return str;
 }
@@ -69,13 +69,13 @@ std::string WideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
 ////////////////////////////////////////////////////////////////////////////////
 //! Construct from an ANSI string.
 
-Core::ANSI2WIDE::ANSI2WIDE(const char* psz)
+Core::AnsiToWide::AnsiToWide(const char* psz)
 {
 	size_t nLength = strlen(psz);
 
 	m_psz = new wchar_t[nLength+1];
 
-	AnsiToWide(psz, psz+nLength, m_psz);
+	ansiToWide(psz, psz+nLength, m_psz);
 
 	m_psz[nLength] = L'\0';
 }
@@ -83,14 +83,14 @@ Core::ANSI2WIDE::ANSI2WIDE(const char* psz)
 ////////////////////////////////////////////////////////////////////////////////
 //! Construct from an ANSI string.
 
-Core::ANSI2WIDE::ANSI2WIDE(const std::string& str)
+Core::AnsiToWide::AnsiToWide(const std::string& str)
 {
 	size_t      nLength = str.length();
 	const char* psz     = (str.empty()) ? nullptr : &str[0];
 
 	m_psz = new wchar_t[nLength+1];
 
-	AnsiToWide(psz, psz+nLength, m_psz);
+	ansiToWide(psz, psz+nLength, m_psz);
 
 	m_psz[nLength] = L'\0';
 }
@@ -98,13 +98,13 @@ Core::ANSI2WIDE::ANSI2WIDE(const std::string& str)
 ////////////////////////////////////////////////////////////////////////////////
 //! Construct from a wide string.
 
-Core::WIDE2ANSI::WIDE2ANSI(const wchar_t* psz)
+Core::WideToAnsi::WideToAnsi(const wchar_t* psz)
 {
 	size_t nLength = wcslen(psz);
 
 	m_psz = new char[nLength+1];
 
-	WideToAnsi(psz, psz+nLength, m_psz);
+	wideToAnsi(psz, psz+nLength, m_psz);
 
 	m_psz[nLength] = '\0';
 }
@@ -112,14 +112,14 @@ Core::WIDE2ANSI::WIDE2ANSI(const wchar_t* psz)
 ////////////////////////////////////////////////////////////////////////////////
 //! Construct from a wide string.
 
-Core::WIDE2ANSI::WIDE2ANSI(const std::wstring& str)
+Core::WideToAnsi::WideToAnsi(const std::wstring& str)
 {
 	size_t         nLength = str.length();
 	const wchar_t* psz     = (str.empty()) ? nullptr : &str[0];
 
 	m_psz = new char[nLength+1];
 
-	WideToAnsi(psz, psz+nLength, m_psz);
+	wideToAnsi(psz, psz+nLength, m_psz);
 
 	m_psz[nLength] = '\0';
 }

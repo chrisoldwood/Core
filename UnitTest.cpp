@@ -45,7 +45,7 @@ void parseCmdLine(int argc, tchar* argv[], TestCases& cases)
 ////////////////////////////////////////////////////////////////////////////////
 //! Write the test results to stdout.
 
-void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed)
+void writeTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed)
 {
 	// The result strings.
 	const tchar* pszResult = (bPassed) ? TXT("Passed") : TXT("FAILED");
@@ -59,7 +59,7 @@ void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpressi
 		pszFileName = pszFile;
 
 	// Write the result to the debugger output.
-	tcout << Core::Fmt(TXT("%s [%hs, %4u] %s"), pszResult, pszFileName, nLine, pszExpression) << std::endl;
+	tcout << Core::fmt(TXT("%s [%hs, %4u] %s"), pszResult, pszFileName, nLine, pszExpression) << std::endl;
 
 	// Break into debugger, if present.
 	if (!bPassed && ::IsDebuggerPresent())
@@ -75,7 +75,7 @@ void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpressi
 ////////////////////////////////////////////////////////////////////////////////
 //! Set how the test run completed.
 
-void SetTestRunFinalStatus(bool bSuccess)
+void setTestRunFinalStatus(bool bSuccess)
 {
 	s_bSuccess = bSuccess;
 }
@@ -83,21 +83,21 @@ void SetTestRunFinalStatus(bool bSuccess)
 ////////////////////////////////////////////////////////////////////////////////
 //! Write the summary of the test results to the debugger stream and stdout.
 
-void WriteTestsSummary()
+void writeTestsSummary()
 {
-	tstring str = Core::Fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
+	tstring str = Core::fmt(TXT("Test Results: %u Passed %u Failed"), s_nPassed, s_nFailed);
 
 	if (!s_bSuccess)
 		str += TXT(" [RUN TERMINATED ABORMALLY]");
 
-	DebugWrite(TXT("%s\n"), str.c_str());
+	debugWrite(TXT("%s\n"), str.c_str());
 	std::tcout << std::endl << str << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Get the test process result code.
 
-int GetTestProcessResult()
+int getTestProcessResult()
 {
 	return (s_bSuccess && (s_nFailed == 0)) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

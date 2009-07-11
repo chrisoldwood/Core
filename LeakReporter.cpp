@@ -38,7 +38,7 @@ static bool g_bReportLeaks = false;
 //! Enable or disable memory leak reporting.
 //! NB: This function is available in all builds, but does nothing in Release.
 
-void EnableLeakReporting(bool bEnable)
+void enableLeakReporting(bool bEnable)
 {
 	DEBUG_USE_ONLY(bEnable);
 

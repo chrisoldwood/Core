@@ -27,17 +27,17 @@ public:
 	//
 
 	//! Get the reference count.
-	long RefCount() const;
+	long refCount() const;
 
 	//
 	// Methods.
 	//
 
 	//! Increase the reference count by one.
-	long IncRefCount();
+	long incRefCount();
 
 	//! Decrese the reference count by one
-	long DecRefCount();
+	long decRefCount();
 
 protected:
 	//! Default constructor.
@@ -69,14 +69,18 @@ inline RefCounted::~RefCounted()
 	ASSERT(m_lRefCount == 0);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 //! Get the reference count.
-inline long RefCounted::RefCount() const
+
+inline long RefCounted::refCount() const
 {
 	return m_lRefCount;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 //! Increase the reference count by one.
-inline long RefCounted::IncRefCount()
+
+inline long RefCounted::incRefCount()
 {
 	ASSERT(m_lRefCount > 0);
 
@@ -85,8 +89,10 @@ inline long RefCounted::IncRefCount()
 	return lRefCount;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 //! Decrese the reference count by one
-inline long RefCounted::DecRefCount()
+
+inline long RefCounted::decRefCount()
 {
 	ASSERT(m_lRefCount > 0);
 

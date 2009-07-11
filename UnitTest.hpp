@@ -32,62 +32,62 @@ typedef std::set<tstring> TestCases;
 void parseCmdLine(int argc, tchar* argv[], TestCases& cases);
 
 // Write the test result to stdout.
-void WriteTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed);
+void writeTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed);
 
 // Set how the test run completed.
-void SetTestRunFinalStatus(bool bSuccess);
+void setTestRunFinalStatus(bool bSuccess);
 
 // Write the summary of the test results to stdout.
-void WriteTestsSummary();
+void writeTestsSummary();
 
 // Get the test process result code.
-int GetTestProcessResult();
+int getTestProcessResult();
 
 ////////////////////////////////////////////////////////////////////////////////
 // The unit test macros.
 
 //! Test that the expression result is true.
 #define TEST_TRUE(x)	try {																	\
-							if (x)	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);	\
-							else	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);	\
+							if (x)	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);	\
+							else	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);	\
 						} catch(const Core::Exception& e) {										\
-							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());		\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());		\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						} catch(...) {															\
-							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 
 //! Test that the expression result is false.
 #define TEST_FALSE(x)	try {																	\
-							if (x)	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);	\
-							else	Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);	\
+							if (x)	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);	\
+							else	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);	\
 						} catch(const Core::Exception& e) {										\
-							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());		\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());		\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						} catch(...) {															\
-							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 //! Test that the expression casuses an exception.
 #define TEST_THROWS(x)	try {																	\
 							(x);																\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						} catch(const Core::Exception& e) {										\
-							Core::DebugWrite(TXT("Thrown: %s\n"), e.What());					\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);			\
+							Core::debugWrite(TXT("Thrown: %s\n"), e.twhat());					\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);			\
 						} catch(const std::exception& e) {										\
-							Core::DebugWrite(TXT("Thrown: %hs\n"), e.what());					\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), true);			\
+							Core::debugWrite(TXT("Thrown: %hs\n"), e.what());					\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);			\
 						} catch(...) {															\
-							Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::WriteTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
+							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 
 //! Test suite preparation.
 #define TEST_SUITE_BEGIN(c, v)	Core::TestCases cases;				\
 								Core::parseCmdLine(c, v, cases);	\
-								Core::EnableLeakReporting(true);	\
+								Core::enableLeakReporting(true);	\
 								try
 
 //! Define a test case.
@@ -96,16 +96,16 @@ int GetTestProcessResult();
 
 //! Test suite reporting and cleanup.
 #define TEST_SUITE_END		catch(const Core::Exception& e) {											\
-								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), e.What());			\
+								Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());			\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								tcout << TXT("Unhandled Exception: ") << e.What() << std::endl; 	\
+								tcout << TXT("Unhandled Exception: ") << e.twhat() << std::endl; 	\
 							} catch(...) {																\
-								Core::DebugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
+								Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
 								if (::IsDebuggerPresent()) ::DebugBreak();								\
 								tcout << TXT("Unhandled Exception: UNKNOWN") << std::endl;			\
 							}																			\
-							Core::WriteTestsSummary();													\
-							return Core::GetTestProcessResult();
+							Core::writeTestsSummary();													\
+							return Core::getTestProcessResult();
 
 //namespace Core
 }

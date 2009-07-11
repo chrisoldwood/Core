@@ -62,9 +62,9 @@ struct CmdLineParser::IsSeparator : public std::unary_function<tchar, bool>
 ////////////////////////////////////////////////////////////////////////////////
 //! Parse the command line.
 
-void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
+void CmdLineParser::parse(int argc, tchar* argv[], int nFlags)
 {
-	Reset();
+	reset();
 
 	// Create iterators for the range.
 	tchar** itArg     = argv;
@@ -117,16 +117,16 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 			};
 
 			// Find the switch definition.
-			SwitchCIter itSwitch = FindSwitch(itNameFirst, itNameLast);
+			SwitchCIter itSwitch = findSwitch(itNameFirst, itNameLast);
 
 			if (itSwitch == m_itLastSwitch)
-				throw CmdLineException(Fmt(TXT("Invalid command line switch '%s'"), pszArg));
+				throw CmdLineException(fmt(TXT("Invalid command line switch '%s'"), pszArg));
 
 			// Check if already specified.
 			NamedArgs::iterator itNamedArg = m_mapNamedArgs.find(itSwitch->m_nID);
 
 			if ( (itSwitch->m_eOccurences == CmdLineSwitch::ONCE) && (itNamedArg != m_mapNamedArgs.end()) )
-				throw CmdLineException(Fmt(TXT("The command line switch '%s' can only be specified once"), tstring(itNameFirst, itNameLast).c_str()));
+				throw CmdLineException(fmt(TXT("The command line switch '%s' can only be specified once"), tstring(itNameFirst, itNameLast).c_str()));
 
 			// Add to named collection.
 			if (itNamedArg == m_mapNamedArgs.end())
@@ -146,7 +146,7 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 					++itArg;
 
 					if (itArg == itLastArg)
-						throw CmdLineException(Fmt(TXT("The command line switch '%s' requires a value"), tstring(itNameFirst, itNameLast).c_str()));
+						throw CmdLineException(fmt(TXT("The command line switch '%s' requires a value"), tstring(itNameFirst, itNameLast).c_str()));
 
 					itNamedArg->second.push_back(*itArg);
 				}
@@ -171,7 +171,7 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 			// Not expecting one, but found one?
 			else if (itNameLast != itValueFirst)
 			{
-				throw CmdLineException(Fmt(TXT("The command line switch '%s' should not contain a value"), tstring(itNameFirst, itNameLast).c_str()));
+				throw CmdLineException(fmt(TXT("The command line switch '%s' should not contain a value"), tstring(itNameFirst, itNameLast).c_str()));
 			}
 
 			++itArg;
@@ -180,7 +180,7 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 		else
 		{
 			if ((nFlags & ALLOW_UNNAMED) == 0)
-				throw CmdLineException(Fmt(TXT("Invalid command line switch '%s'"), pszArg));
+				throw CmdLineException(fmt(TXT("Invalid command line switch '%s'"), pszArg));
 
 			// Add to unnamed collection.
 			m_vecUnnamedArgs.push_back(pszArg);
@@ -193,7 +193,7 @@ void CmdLineParser::Parse(int argc, tchar* argv[], int nFlags)
 ////////////////////////////////////////////////////////////////////////////////
 //! Check if a switch was provided.
 
-bool CmdLineParser::IsSwitchSet(int nID) const
+bool CmdLineParser::isSwitchSet(int nID) const
 {
 	return (m_mapNamedArgs.find(nID) != m_mapNamedArgs.end());
 }
@@ -202,7 +202,7 @@ bool CmdLineParser::IsSwitchSet(int nID) const
 //! Get the value for a switch. This only returns the first value that was
 //! parsed. To obtain the full list iterate the NamedArgs collection directly.
 
-tstring CmdLineParser::GetSwitchValue(int nID) const
+tstring CmdLineParser::getSwitchValue(int nID) const
 {
 	tstring strValue;
 
@@ -217,7 +217,7 @@ tstring CmdLineParser::GetSwitchValue(int nID) const
 ////////////////////////////////////////////////////////////////////////////////
 //! Generate the list of switches for a usage message.
 
-tstring CmdLineParser::FormatSwitches(Format eFormat) const
+tstring CmdLineParser::formatSwitches(Format eFormat) const
 {
 	size_t nMaxSwitchLen   = 0;
 	tstring strShortPrefix = (eFormat == WINDOWS) ? TXT("/") : TXT("-");
@@ -263,16 +263,16 @@ tstring CmdLineParser::FormatSwitches(Format eFormat) const
 
 		// Format the switch and value name.
 		if (it->m_pszShortName != nullptr)
-			strLine += Fmt(TXT("%s%s "), strShortPrefix.c_str(), it->m_pszShortName);
+			strLine += fmt(TXT("%s%s "), strShortPrefix.c_str(), it->m_pszShortName);
 
 		if ( (it->m_pszShortName != nullptr) && (it->m_pszLongName != nullptr) )
 			strLine += TXT("| ");
 
 		if (it->m_pszLongName != nullptr)
-			strLine += Fmt(TXT("%s%s "), strLongPrefix.c_str(), it->m_pszLongName);
+			strLine += fmt(TXT("%s%s "), strLongPrefix.c_str(), it->m_pszLongName);
 
 		if ( (it->m_eParameters == CmdLineSwitch::SINGLE) || (it->m_eParameters == CmdLineSwitch::MULTIPLE) )
-			strLine += Fmt(TXT("<%s> "), it->m_pszParamDesc);
+			strLine += fmt(TXT("<%s> "), it->m_pszParamDesc);
 
 		if (it->m_eParameters == CmdLineSwitch::MULTIPLE)
 			strLine += TXT("... ");
@@ -283,7 +283,7 @@ tstring CmdLineParser::FormatSwitches(Format eFormat) const
 
 		// Append the description.
 		if (it->m_pszDescription != nullptr)
-			strLine += Fmt(TXT(" %s\n"), it->m_pszDescription);
+			strLine += fmt(TXT(" %s\n"), it->m_pszDescription);
 
 		strUsage += strLine;
 	}
@@ -294,7 +294,7 @@ tstring CmdLineParser::FormatSwitches(Format eFormat) const
 ////////////////////////////////////////////////////////////////////////////////
 //! Reset the internal state.
 
-void CmdLineParser::Reset()
+void CmdLineParser::reset()
 {
 	m_mapNamedArgs.clear();
 	m_vecUnnamedArgs.clear();
@@ -359,7 +359,7 @@ struct CmdLineParser::IsLongName : std::unary_function<const CmdLineSwitch&, boo
 ////////////////////////////////////////////////////////////////////////////////
 //! Try and match the argument to a switch definition.
 
-CmdLineParser::SwitchCIter CmdLineParser::FindSwitch(CharCIter itNameFirst, CharCIter itNameLast)
+CmdLineParser::SwitchCIter CmdLineParser::findSwitch(CharCIter itNameFirst, CharCIter itNameLast)
 {
 	size_t nChars = std::distance(itNameFirst, itNameLast);
 

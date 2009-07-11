@@ -30,7 +30,7 @@ public:
 	//
 
 	//! Get the exception details.
-	virtual const tchar* What() const throw();
+	virtual const tchar* twhat() const throw();
 
 protected:
 	//! Default constructor.

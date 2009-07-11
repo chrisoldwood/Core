@@ -43,7 +43,7 @@ Exception::~Exception() throw()
 ////////////////////////////////////////////////////////////////////////////////
 //! Get the exception details.
 
-const tchar* Exception::What() const throw()
+const tchar* Exception::twhat() const throw()
 {
 	const tchar* details = TXT("(unknown)");
 

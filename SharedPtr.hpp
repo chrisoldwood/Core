@@ -55,7 +55,7 @@ public:
 	//
 
 	//! Change pointer ownership.
-	void Reset(T* pPointer = nullptr);
+	void reset(T* pPointer = nullptr);
 
 private:
 	//
@@ -99,7 +99,7 @@ template <typename T>
 inline SharedPtr<T>::SharedPtr(T* pPointer)
 	: m_pRefCnt(nullptr)
 {
-	Reset(pPointer);
+	reset(pPointer);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<U>& oPointer)
 template <typename T>
 inline SharedPtr<T>::~SharedPtr()
 {
-	Reset(nullptr);
+	reset(nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<U>& oPointer)
 //! and takes shared ownership of another pointer, if provided.
 
 template <typename T>
-inline void SharedPtr<T>::Reset(T* pPointer)
+inline void SharedPtr<T>::reset(T* pPointer)
 {
 	T*    pTmpPtr = nullptr;
 	long* pTmpCnt = nullptr;

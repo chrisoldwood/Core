@@ -19,7 +19,7 @@ template <typename T>
 class UniquePtr;
 
 template <typename T>
-T** AttachTo(UniquePtr<T>& ptr);
+T** attachTo(UniquePtr<T>& ptr);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! A smart-pointer for use within a limited scope.
@@ -42,21 +42,21 @@ public:
 	//
 
 	//! Change pointer ownership.
-	void Reset(T* pPointer = nullptr);
+	void reset(T* pPointer = nullptr);
 
 	//! Take ownership of the pointer.
-	T* Detach();
+	T* detach();
 	
 private:
 	//! Access the underlying pointer member.
-	T** GetPtrMember();
+	T** getPtrMember();
 
 	//
 	// Friends.
 	//
 
 	//! Allow attachment via an output parameter.
-	friend T** AttachTo<>(UniquePtr<T>& ptr);
+	friend T** attachTo<>(UniquePtr<T>& ptr);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ inline UniquePtr<T>::UniquePtr(T* pPointer)
 template <typename T>
 inline UniquePtr<T>::~UniquePtr()
 {
-	Reset(nullptr);
+	reset(nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ inline UniquePtr<T>::~UniquePtr()
 //! another pointer, if provided.
 
 template <typename T>
-inline void UniquePtr<T>::Reset(T* pPointer)
+inline void UniquePtr<T>::reset(T* pPointer)
 {
 	// Release current resource.
 	delete this->m_pPointer;
@@ -103,7 +103,7 @@ inline void UniquePtr<T>::Reset(T* pPointer)
 //! Take ownership of the pointer.
 
 template <typename T>
-inline T* UniquePtr<T>::Detach()
+inline T* UniquePtr<T>::detach()
 {
 	T* pPointer = this->m_pPointer;
 
@@ -117,7 +117,7 @@ inline T* UniquePtr<T>::Detach()
 //! function to access the underlying SmartPtr<T> member variable.
 
 template <typename T>
-inline T** UniquePtr<T>::GetPtrMember()
+inline T** UniquePtr<T>::getPtrMember()
 {
 	return &this->m_pPointer;
 }
@@ -128,11 +128,11 @@ inline T** UniquePtr<T>::GetPtrMember()
 //! e.g. LoadTypeLib(..., AttachTo(p)).
 
 template <typename T>
-inline T** AttachTo(UniquePtr<T>& ptr)
+inline T** attachTo(UniquePtr<T>& ptr)
 {
-	ASSERT(*ptr.GetPtrMember() == nullptr);
+	ASSERT(*ptr.getPtrMember() == nullptr);
 
-	return ptr.GetPtrMember();
+	return ptr.getPtrMember();
 }
 
 //namespace Core

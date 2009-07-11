@@ -18,10 +18,10 @@ namespace Core
 // Functions available in all builds.
 
 // Enable or disable memory leak reporting.
-void EnableLeakReporting(bool bEnable);
+void enableLeakReporting(bool bEnable);
 
 // Write a message to the debugger stream in both Debug and Release builds.
-void DebugWrite(const tchar* pszFormat, ...);
+void debugWrite(const tchar* pszFormat, ...);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Debug versions
@@ -29,24 +29,24 @@ void DebugWrite(const tchar* pszFormat, ...);
 #ifdef _DEBUG
 
 // The function invoked when an ASSERT fails in a Debug build.
-void AssertFail(const char* pszExpression, const char* pszFile, uint nLine);
+void assertFail(const char* pszExpression, const char* pszFile, uint nLine);
 
 // Function to write a message to the debugger output in a Debug build.
-void TraceEx(const tchar* pszFormat, ...);
+void traceEx(const tchar* pszFormat, ...);
 
 //! Evaluate the expression, and complain if 'false'.
-#define ASSERT(x)		if (x) {} else Core::AssertFail((#x), __FILE__, __LINE__)
+#define ASSERT(x)		if (x) {} else Core::assertFail((#x), __FILE__, __LINE__)
 
 //! Always fail.
-#define ASSERT_FALSE()	Core::AssertFail("FALSE", __FILE__, __LINE__)
+#define ASSERT_FALSE()	Core::assertFail("FALSE", __FILE__, __LINE__)
 
 // Printf style trace messaging.
-#define	TRACE(x)				Core::TraceEx(x)
-#define TRACE1(x,a)				Core::TraceEx(x, a)
-#define TRACE2(x,a,b)			Core::TraceEx(x, a, b)
-#define TRACE3(x,a,b,c)			Core::TraceEx(x, a, b, c)
-#define TRACE4(x,a,b,c,d)		Core::TraceEx(x, a, b, c, d)
-#define TRACE5(x,a,b,c,d,e)		Core::TraceEx(x, a, b, c, d, e)
+#define	TRACE(x)				Core::traceEx(x)
+#define TRACE1(x,a)				Core::traceEx(x, a)
+#define TRACE2(x,a,b)			Core::traceEx(x, a, b)
+#define TRACE3(x,a,b,c)			Core::traceEx(x, a, b, c)
+#define TRACE4(x,a,b,c,d)		Core::traceEx(x, a, b, c, d)
+#define TRACE5(x,a,b,c,d,e)		Core::traceEx(x, a, b, c, d, e)
 
 //! Map calls to 'new' to the debug version and track the file and line number.
 #define DBGCRT_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)

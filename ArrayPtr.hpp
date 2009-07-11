@@ -19,7 +19,7 @@ template <typename T>
 class ArrayPtr;
 
 template <typename T>
-T** AttachTo(ArrayPtr<T>& ptr);
+T** attachTo(ArrayPtr<T>& ptr);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! An array smart-pointer for use within a limited scope.
@@ -52,21 +52,21 @@ public:
 	//
 
 	//! Change pointer ownership.
-	void Reset(T* pPointer = nullptr);
+	void reset(T* pPointer = nullptr);
 
 	//! Take ownership of the pointer.
-	T* Detach();
+	T* detach();
 
 private:
 	//! Access the underlying pointer member.
-	T** GetPtrMember();
+	T** getPtrMember();
 
 	//
 	// Friends.
 	//
 
 	//! Allow attachment via an output parameter.
-	friend T** AttachTo<>(ArrayPtr<T>& ptr);
+	friend T** attachTo<>(ArrayPtr<T>& ptr);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ inline ArrayPtr<T>::ArrayPtr(T* pPointer)
 template <typename T>
 inline ArrayPtr<T>::~ArrayPtr()
 {
-	Reset(nullptr);
+	reset(nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +124,7 @@ inline const T& ArrayPtr<T>::operator[](size_t nIndex) const
 //! another pointer, if provided.
 
 template <typename T>
-inline void ArrayPtr<T>::Reset(T* pPointer)
+inline void ArrayPtr<T>::reset(T* pPointer)
 {
 	// Release current resource.
 	delete[] this->m_pPointer;
@@ -137,7 +137,7 @@ inline void ArrayPtr<T>::Reset(T* pPointer)
 //! Take ownership of the pointer.
 
 template <typename T>
-inline T* ArrayPtr<T>::Detach()
+inline T* ArrayPtr<T>::detach()
 {
 	T* pPointer = this->m_pPointer;
 
@@ -151,7 +151,7 @@ inline T* ArrayPtr<T>::Detach()
 //! function to access the underlying SmartPtr<T> member variable.
 
 template <typename T>
-inline T** ArrayPtr<T>::GetPtrMember()
+inline T** ArrayPtr<T>::getPtrMember()
 {
 	return &this->m_pPointer;
 }
@@ -162,11 +162,11 @@ inline T** ArrayPtr<T>::GetPtrMember()
 //! e.g. LoadTypeLib(..., AttachTo(p)).
 
 template <typename T>
-inline T** AttachTo(ArrayPtr<T>& ptr)
+inline T** attachTo(ArrayPtr<T>& ptr)
 {
-	ASSERT(*ptr.GetPtrMember() == nullptr);
+	ASSERT(*ptr.getPtrMember() == nullptr);
 
-	return ptr.GetPtrMember();
+	return ptr.getPtrMember();
 }
 
 //namespace Core

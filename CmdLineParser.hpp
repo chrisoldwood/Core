@@ -72,26 +72,26 @@ public:
 	//
 
 	//! Get the collection of named arguments.
-	const NamedArgs& GetNamedArgs() const;
+	const NamedArgs& getNamedArgs() const;
 
 	//! Get the collection of unnamed arguments.
-	const UnnamedArgs& GetUnnamedArgs() const;
+	const UnnamedArgs& getUnnamedArgs() const;
 
 	//
 	// Methods.
 	//
 
 	//! Parse the command line.
-	void Parse(int argc, tchar* argv[], int nFlags = DEFAULTS); // throw(CmdLineException)
+	void parse(int argc, tchar* argv[], int nFlags = DEFAULTS); // throw(CmdLineException)
 
 	//! Check if a switch was provided.
-	bool IsSwitchSet(int nID) const;
+	bool isSwitchSet(int nID) const;
 
 	//! Get the value for a switch.
-	tstring GetSwitchValue(int nID) const;
+	tstring getSwitchValue(int nID) const;
 
 	//! Generate the list of switches for a usage message.
-	tstring FormatSwitches(Format eFormat) const;
+	tstring formatSwitches(Format eFormat) const;
 
 private:
 	//! An iterator for c-style strings.
@@ -110,10 +110,10 @@ private:
 	//
 
 	//! Reset the internal state.
-	void Reset();
+	void reset();
 
 	//! Try and match the argument to a switch definition.
-	SwitchCIter FindSwitch(CharCIter itNameFirst, CharCIter itNameLast);
+	SwitchCIter findSwitch(CharCIter itNameFirst, CharCIter itNameLast);
 
 	//
 	// Forward declarations.
@@ -130,7 +130,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 //! Get the collection of named arguments.
 
-inline const CmdLineParser::NamedArgs& CmdLineParser::GetNamedArgs() const
+inline const CmdLineParser::NamedArgs& CmdLineParser::getNamedArgs() const
 {
 	return m_mapNamedArgs;
 }
@@ -138,7 +138,7 @@ inline const CmdLineParser::NamedArgs& CmdLineParser::GetNamedArgs() const
 ////////////////////////////////////////////////////////////////////////////////
 //! Get the collection of unnamed arguments.
 
-inline const CmdLineParser::UnnamedArgs& CmdLineParser::GetUnnamedArgs() const
+inline const CmdLineParser::UnnamedArgs& CmdLineParser::getUnnamedArgs() const
 {
 	return m_vecUnnamedArgs;
 }

@@ -22,7 +22,7 @@ namespace Core
 //! Format the string ala printf. This function is used internally as the
 //! underlying function used for all var args string formatting.
 
-tstring FmtEx(const tchar* pszFormat, va_list args)
+tstring fmtEx(const tchar* pszFormat, va_list args)
 {
 #ifdef _MSC_VER
 
@@ -38,7 +38,7 @@ tstring FmtEx(const tchar* pszFormat, va_list args)
 
 	// Handle any errors.
 	if (nResult < 0)
-		throw BadLogicException(Fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
+		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
 
 	return str;
 
@@ -62,7 +62,7 @@ tstring FmtEx(const tchar* pszFormat, va_list args)
 
 	// Handle any errors.
 	if (nResult < 0)
-		throw BadLogicException(Fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
+		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
 
 	str.resize(nResult);
 
@@ -74,13 +74,13 @@ tstring FmtEx(const tchar* pszFormat, va_list args)
 ////////////////////////////////////////////////////////////////////////////////
 //! Format the string ala printf.
 
-tstring Fmt(const tchar* pszFormat, ...)
+tstring fmt(const tchar* pszFormat, ...)
 {
 	va_list	args;
 
 	va_start(args, pszFormat);
 
-	return FmtEx(pszFormat, args);
+	return fmtEx(pszFormat, args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +157,7 @@ tstring formatInteger(const T& value)
 	int result = Traits::format(buffer, ARRAY_SIZE(buffer), value);
 
 	if (result < 0)
-		throw BadLogicException(Core::Fmt(TXT("Insufficient sized buffer passed in format<>(). Result: %d"), result));
+		throw BadLogicException(Core::fmt(TXT("Insufficient sized buffer passed in format<>(). Result: %d"), result));
 
 	return buffer;
 }
@@ -222,7 +222,7 @@ T parseInteger(const tstring& buffer)
 	it = skipWhitespace(it, end);
 
 	if (it == end)
-		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
 
 	errno = 0;
 
@@ -230,7 +230,7 @@ T parseInteger(const tstring& buffer)
 	T value = Traits::parse(it, &endPtr, 10);
 
 	if ( (endPtr == nullptr) || (errno != 0) )
-		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
 
 	it = endPtr;
 
@@ -238,7 +238,7 @@ T parseInteger(const tstring& buffer)
 	it = skipWhitespace(it, end);
 
 	if ( (it != end) && (*it != TXT('\0')) )
-		throw ParseException(Core::Fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
 
 	return value;
 }
@@ -252,7 +252,7 @@ bool parse(const tstring& buffer)
 	uint value = parseInteger< uint, FormatTraits<uint> >(buffer);
 
 	if ( (value != 0) && (value != 1) )
-		throw ParseException(Core::Fmt(TXT("Invalid boolean: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Invalid boolean: '%s'"), buffer.c_str()));
 
 	return (value == 1);
 }

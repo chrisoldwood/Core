@@ -21,7 +21,7 @@ template <typename T>
 class RefCntPtr;
 
 template <typename T>
-T** AttachTo(RefCntPtr<T>& ptr);
+T** attachTo(RefCntPtr<T>& ptr);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The smart-pointer type for use with types that contain their own reference
@@ -63,14 +63,14 @@ public:
 	//
 
 	//! Change pointer ownership.
-	void Reset(T* pPointer = nullptr, bool bAddRef = false);
+	void reset(T* pPointer = nullptr, bool bAddRef = false);
 
 	//! Take ownership of the pointer.
-	T* Detach();
+	T* detach();
 
 private:
 	//! Access the underlying pointer member.
-	T** GetPtrMember();
+	T** getPtrMember();
 
 	//
 	// Friends.
@@ -81,7 +81,7 @@ private:
 	friend class RefCntPtr;
 
 	//! Allow attachment via an output parameter.
-	friend T** AttachTo<>(RefCntPtr<T>& ptr);
+	friend T** attachTo<>(RefCntPtr<T>& ptr);
 
 	//! Allow member access for the static_cast like function.
 	template<typename P, typename U>
@@ -108,7 +108,7 @@ inline RefCntPtr<T>::RefCntPtr(T* pPointer, bool bAddRef)
 	: SmartPtr<T>(pPointer)
 {
 	if ((this->m_pPointer != nullptr) && bAddRef)
-		this->m_pPointer->IncRefCount();
+		this->m_pPointer->incRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ inline RefCntPtr<T>::RefCntPtr(const RefCntPtr& oPtr)
 	: SmartPtr<T>(oPtr.m_pPointer)
 {
 	if (this->m_pPointer != nullptr)
-		this->m_pPointer->IncRefCount();
+		this->m_pPointer->incRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +132,7 @@ inline RefCntPtr<T>::RefCntPtr(const RefCntPtr<U>& oPtr)
 	: SmartPtr<T>(oPtr.m_pPointer)
 {
 	if (this->m_pPointer != nullptr)
-		this->m_pPointer->IncRefCount();
+		this->m_pPointer->incRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ inline RefCntPtr<T>::RefCntPtr(const RefCntPtr<U>& oPtr)
 template <typename T>
 inline RefCntPtr<T>::~RefCntPtr()
 {
-	Reset();
+	reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ inline RefCntPtr<T>& RefCntPtr<T>::operator=(const RefCntPtr& oPtr)
 {
 	// Ignore self-assignment.
 	if (this->m_pPointer != oPtr.m_pPointer)
-		Reset(oPtr.m_pPointer, true);
+		reset(oPtr.m_pPointer, true);
 
 	return *this;
 }
@@ -167,7 +167,7 @@ inline RefCntPtr<T>& RefCntPtr<T>::operator=(const RefCntPtr<U>& oPtr)
 {
 	// Ignore self-assignment.
 	if (this->m_pPointer != oPtr.m_pPointer)
-		Reset(oPtr.m_pPointer, true);
+		reset(oPtr.m_pPointer, true);
 
 	return *this;
 }
@@ -176,12 +176,12 @@ inline RefCntPtr<T>& RefCntPtr<T>::operator=(const RefCntPtr<U>& oPtr)
 //! Change pointer ownership.
 
 template <typename T>
-inline void RefCntPtr<T>::Reset(T* pPointer, bool bAddRef)
+inline void RefCntPtr<T>::reset(T* pPointer, bool bAddRef)
 {
 	// Release the current resource.
 	if (this->m_pPointer != nullptr)
 	{
-		this->m_pPointer->DecRefCount();
+		this->m_pPointer->decRefCount();
 		this->m_pPointer = nullptr;
 	}
 
@@ -189,14 +189,14 @@ inline void RefCntPtr<T>::Reset(T* pPointer, bool bAddRef)
 	this->m_pPointer = pPointer;
 
 	if ((this->m_pPointer != nullptr) && bAddRef)
-		this->m_pPointer->IncRefCount();
+		this->m_pPointer->incRefCount();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Take ownership of the pointer.
 
 template <typename T>
-inline T* RefCntPtr<T>::Detach()
+inline T* RefCntPtr<T>::detach()
 {
 	T* pPointer = this->m_pPointer;
 
@@ -210,7 +210,7 @@ inline T* RefCntPtr<T>::Detach()
 //! function to access the underlying SmartPtr<T> member variable.
 
 template <typename T>
-inline T** RefCntPtr<T>::GetPtrMember()
+inline T** RefCntPtr<T>::getPtrMember()
 {
 	return &this->m_pPointer;
 }
@@ -221,11 +221,11 @@ inline T** RefCntPtr<T>::GetPtrMember()
 //! e.g. LoadTypeLib(..., AttachTo(p)).
 
 template <typename T>
-inline T** AttachTo(RefCntPtr<T>& ptr)
+inline T** attachTo(RefCntPtr<T>& ptr)
 {
-	ASSERT(*ptr.GetPtrMember() == nullptr);
+	ASSERT(*ptr.getPtrMember() == nullptr);
 
-	return ptr.GetPtrMember();
+	return ptr.getPtrMember();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

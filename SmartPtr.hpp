@@ -46,10 +46,10 @@ public:
 	//
 
 	//! Access owned pointer.
-	T* Get() const;
+	T* get() const;
 
 	//! Access owned pointer as a reference.
-	T& GetRef() const;
+	T& getRef() const;
 
 protected:
 	//! Default constructor.
@@ -142,7 +142,7 @@ bool SmartPtr<T>::operator!() const
 //! Access owned pointer. Returns the currently owned pointer.
 
 template <typename T>
-inline T* SmartPtr<T>::Get() const
+inline T* SmartPtr<T>::get() const
 {
 	return m_pPointer;
 }
@@ -151,7 +151,7 @@ inline T* SmartPtr<T>::Get() const
 //! Access owned pointer as a reference.
 
 template <typename T>
-inline T& SmartPtr<T>::GetRef() const
+inline T& SmartPtr<T>::getRef() const
 {
 	return *m_pPointer;
 }
@@ -162,7 +162,7 @@ inline T& SmartPtr<T>::GetRef() const
 template <typename T, typename U>
 inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
 {
-	return (oLHS.Get() == oRHS.Get());
+	return (oLHS.get() == oRHS.get());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,7 @@ inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
 template <typename T, typename U>
 inline bool operator!=(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
 {
-	return (oLHS.Get() != oRHS.Get());
+	return (oLHS.get() != oRHS.get());
 }
 
 //namespace Core
