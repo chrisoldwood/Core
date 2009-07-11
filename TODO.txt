@@ -6,6 +6,4 @@
 
 - Switch to c++ headers e.g. <cstdarg> instead of <stdarg.h>
 
-- camelCase all function names.
-
 - Add non-MS impl of Trace() & AssertFail().
