@@ -20,7 +20,7 @@ namespace Core
 
 class NotCopyable
 {
-public:
+protected:
 	// Enable construction.
 	NotCopyable() {};
 
