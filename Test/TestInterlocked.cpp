@@ -7,13 +7,24 @@
 #include <Core/UnitTest.hpp>
 #include <Core/Interlocked.hpp>
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the Interlocked functions.
+TEST_SET(Interlocked)
+{
 
-void testInterlocked()
+TEST_CASE(Interlocked, atomicIncrement)
 {
 	long value = 1;
 
 	TEST_TRUE(Core::atomicIncrement(value) == 2);
+}
+TEST_CASE_END
+
+TEST_CASE(Interlocked, atomicDecrement)
+{
+	long value = 2;
+
 	TEST_TRUE(Core::atomicDecrement(value) == 1);
 }
+TEST_CASE_END
+
+}
+TEST_SET_END

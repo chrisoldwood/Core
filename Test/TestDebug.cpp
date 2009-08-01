@@ -10,27 +10,42 @@
 #pragma GCC diagnostic ignored "-Wunused-value"
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the debugging functions.
-
-void testDebug()
+TEST_SET(Debug)
 {
-	bool bTrue  = true;
-//	bool bFalse = false;
 
-	ASSERT(bTrue);
-	DEBUG_USE_ONLY(bTrue);
+TEST_CASE(Debug, compilation)
+{
+	bool isTrue  = true;
+	bool isFalse = false;
 
-//	ASSERT(bFalse);
+	ASSERT(isTrue);
+	DEBUG_USE_ONLY(isTrue);
+
+#ifdef CORE_CRTDBG_ENABLED
+	int oldMode = _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
+	ASSERT(isFalse);
+	_CrtSetReportMode(_CRT_ASSERT, oldMode);
+#endif
 
 	STATIC_ASSERT(true);
+//	STATIC_ASSERT(false);	// Not compilable.
+}
+TEST_CASE_END
 
-//	STATIC_ASSERT(false);
-
+TEST_CASE(Debug, traceOutput)
+{
 	TRACE1(TXT("Test TraceEx(\"%s\")\n"), TXT("Hello World"));
 
 	Core::debugWrite(TXT("Test DebugWrite(\"%s\")\n"), TXT("Hello World"));
+}
+TEST_CASE_END
 
+TEST_CASE(Debug, leakReporting)
+{
 //	strcpy(static_cast<char*>(malloc(10)), "Malloc");
 //	strcpy(new char[5], "new");
 }
+TEST_CASE_END
+
+}
+TEST_SET_END

@@ -8,88 +8,115 @@
 #include <Core/SharedPtr.hpp>
 #include "PtrTest.hpp"
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the SharedPtr class.
-
-void testSharedPtr()
+TEST_SET(SharedPtr)
 {
 	typedef Core::SharedPtr<PtrTest> TestPtr;
 	typedef Core::SharedPtr<Derived> DerivedPtr;
 	typedef Core::SharedPtr<Unrelated> UnrelatedPtr;
 
-	TestPtr pTest1;
-//	TestPtr pTest2 = new PtrTest;			// Shouldn't compile.
-	TestPtr pTest3 = TestPtr(new PtrTest);
-	TestPtr pTest4(new PtrTest);
-	TestPtr pTest5(pTest3);
+TEST_CASE(SharedPtr, compilationFails)
+{
+	TestPtr test1;
+//	TestPtr test2 = new PtrTest;			// No implicit construction.
+	TestPtr test3 = TestPtr(new PtrTest);
+	TestPtr test4(new PtrTest);
+	TestPtr test5(test3);
 
-	TEST_TRUE(pTest1.get() == nullptr);
-	TEST_TRUE(pTest3.get() != nullptr);
-	TEST_TRUE(pTest4.get() != nullptr);
-	TEST_TRUE(pTest5.get() != nullptr);
+//	PtrTest* ptr = test1;					// No implicit conversion.
 
-	pTest1 = pTest3;
-	pTest1 = pTest1;
-//	PtrTest* pRaw1 = pTest1;				// Shouldn't compile.
+//	TEST_FALSE((test1 == NULL) || (test1 != NULL));	// No implicit construction.
 
-	TEST_TRUE(pTest1.get() == pTest3.get());
+//	delete test1;							// No implicit conversion.
 
-	pTest1->run();
-	(*pTest1).run();
+	TestPtr      base(new PtrTest);
+	UnrelatedPtr unrelated;
 
-	PtrTest* pRaw2 = pTest1.get();
-	PtrTest& oRef  = pTest1.getRef();
-
-	TEST_TRUE(pRaw2 == pTest1.get());
-	TEST_TRUE(&oRef == pTest1.get());
-
-	pRaw2->run();
-	oRef.run();
-
-//	TEST_FALSE((pTest1 == NULL) || (pTest1 != NULL));	// Shouldn't compile.
-	TEST_FALSE(!pTest1);
-
-	TEST_TRUE(pTest1 == pTest3);
-	TEST_TRUE(pTest1 != pTest4);
-
-	pTest1.reset(new PtrTest);
-
-	TEST_TRUE(pTest1.get() != nullptr);
-
-	pTest1.reset();
-
-	TEST_TRUE(pTest1.get() == nullptr);
-	TEST_THROWS(*pTest1);
-	TEST_THROWS(pTest1->release());
-
-//	delete pTest1;	// Shouldn't compile.
-
-	TestPtr pBase1(new PtrTest);
-	TestPtr pBase2(new PtrTest);
-	TestPtr pBase3(new Derived);
-
-	DerivedPtr pDerived1(new Derived);
-	DerivedPtr pDerived2(new Derived);
-	TestPtr    pBase4(pDerived1);
-
-	UnrelatedPtr pUnrelated;
-
-	pBase2 = pDerived1;
-	pBase2 = pDerived1;
-
-	TEST_TRUE(pBase2.get() == pDerived1.get());
-
-	pDerived2 = Core::static_ptr_cast<Derived>(pBase3);
-
-	TEST_TRUE(pDerived2.get() == pBase3.get());
-
-	pDerived2 = Core::dynamic_ptr_cast<Derived>(pBase3);
-
-	TEST_TRUE(pDerived2.get() == pBase3.get());
-
-//	pUnrelated = Core::static_ptr_cast<Unrelated>(pBase1);	// Shouldn't compile.
-
-	pUnrelated = Core::dynamic_ptr_cast<Unrelated>(pBase1);	// Shouldn't compile.
-
-	TEST_TRUE(pUnrelated.get() == nullptr);
+//	unrelated = Core::static_ptr_cast<Unrelated>(base);	// No explicit conversion.
 }
+TEST_CASE_END
+
+TEST_CASE(SharedPtr, accessors)
+{
+	TestPtr test1;
+	TestPtr test2 = TestPtr(new PtrTest);
+
+	TEST_TRUE(test1.get() == nullptr);
+	TEST_TRUE(test2.get() != nullptr);
+
+	test1 = test2;
+	test1 = test1;
+
+	TEST_TRUE(test1.get() == test2.get());
+
+	test2->run();
+	(*test2).run();
+
+	PtrTest* ptr = test2.get();
+	PtrTest& ref = test2.getRef();
+
+	TEST_TRUE(ptr  == test2.get());
+	TEST_TRUE(&ref == test2.get());
+
+	ptr->run();
+	ref.run();
+}
+TEST_CASE_END
+
+TEST_CASE(SharedPtr, comparison)
+{
+	TestPtr test1;
+	TestPtr test2;
+	TestPtr test3 = TestPtr(new PtrTest);
+
+	TEST_TRUE(!test1);
+	TEST_FALSE(!test3);
+
+	TEST_TRUE(test1 == test2);
+	TEST_TRUE(test1 != test3);
+
+	test1.reset(new PtrTest);
+
+	TEST_TRUE(test1.get() != nullptr);
+
+	test1.reset();
+
+	TEST_TRUE(test1.get() == nullptr);
+
+	TEST_THROWS(*test1);
+	TEST_THROWS(test1->release());
+}
+TEST_CASE_END
+
+TEST_CASE(SharedPtr, freeFunctions)
+{
+	TestPtr base1(new PtrTest);
+	TestPtr base2(new PtrTest);
+	TestPtr base3(new Derived);
+
+	DerivedPtr derived1(new Derived);
+	DerivedPtr derived2(new Derived);
+	TestPtr    base4(derived1);
+
+	UnrelatedPtr unrelated;
+
+	base2 = derived1;
+	base2 = derived1;
+
+	TEST_TRUE(base2.get() == derived1.get());
+
+	derived2 = Core::static_ptr_cast<Derived>(base3);
+
+	TEST_TRUE(derived2.get() == base3.get());
+
+	derived2 = Core::dynamic_ptr_cast<Derived>(base3);
+
+	TEST_TRUE(derived2.get() == base3.get());
+
+	unrelated = Core::dynamic_ptr_cast<Unrelated>(base1);
+
+	TEST_TRUE(unrelated.get() == nullptr);
+}
+TEST_CASE_END
+
+}
+TEST_SET_END

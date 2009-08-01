@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestSharedPtr.cpp
+//! \file   TestAlgorithm.cpp
 //! \brief  The unit tests for the Algorithm functions.
 //! \author Chris Oldwood
 
@@ -7,21 +7,10 @@
 #include <Core/UnitTest.hpp>
 #include <Core/Algorithm.hpp>
 
-typedef Core::SharedPtr<int> IntPtr;
-
-////////////////////////////////////////////////////////////////////////////////
-//! Function to compare ptr address and values.
-
-bool isEqualValueNotPtr(const IntPtr& p1, IntPtr& p2)
+TEST_SET(Algorithm)
 {
-	return ((*p1 == *p2) && (p1.get() != p2.get()));
-}
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the Algorithm functions.
-
-void testAlgorithm()
-{
+TEST_CASE(Algorithm, exists)
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
@@ -29,7 +18,20 @@ void testAlgorithm()
 	TEST_TRUE(Core::exists(array, 2));
 	TEST_FALSE(Core::exists(array, 5));
 }
+TEST_CASE_END
+
+TEST_CASE(Algorithm, deepCopy)
 {
+	typedef Core::SharedPtr<int> IntPtr;
+
+	struct comparator
+	{
+		static bool equals(const IntPtr& p1, const IntPtr& p2)
+		{
+			return ((*p1 == *p2) && (p1.get() != p2.get()));
+		}
+	};
+
 	std::vector<IntPtr> array1, array2;
 
 	array1.push_back(IntPtr(new int(1)));
@@ -38,6 +40,9 @@ void testAlgorithm()
 
 	Core::deepCopy(array1, array2);
 
-	TEST_TRUE(std::equal(array1.begin(), array1.end(), array2.begin(), isEqualValueNotPtr));
+	TEST_TRUE(std::equal(array1.begin(), array1.end(), array2.begin(), comparator::equals));
 }
+TEST_CASE_END
+
 }
+TEST_SET_END

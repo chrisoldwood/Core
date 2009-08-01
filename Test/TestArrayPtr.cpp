@@ -7,58 +7,89 @@
 #include <Core/UnitTest.hpp>
 #include <Core/ArrayPtr.hpp>
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the ArrayPtr class.
-
-void testArrayPtr()
+TEST_SET(ArrayPtr)
 {
 	typedef Core::ArrayPtr<int> TestPtr;
 
-	TestPtr pTest1;
-//	TestPtr pTest2 = new int[1];			// Shouldn't compile.
-//	TestPtr pTest3 = TestPtr(new int[1]);	// Shouldn't compile.
-	TestPtr pTest4(new int[1]);
-//	TestPtr pTest5(pTest4);					// Shouldn't compile.
-	TestPtr pTest6;
+TEST_CASE(ArrayPtr, compilationFails)
+{
+	TestPtr test1;
+//	TestPtr test2 = new int[1];				// No implicit construction.
+//	TestPtr test3 = TestPtr(new int[1]);	// Not copy constructable.
+	TestPtr test4(new int[1]);
+//	TestPtr test5(test4);					// Not copy constructable.
+	TestPtr test6;
 
-	TEST_TRUE(pTest1.get() == nullptr);
-	TEST_TRUE(pTest4.get() != nullptr);
+//	test1 = test4;							// Not assignable.
+//	int pRaw1[1] = test1;					// No implicit conversion.
 
-//	pTest1 = pTest4;			// Shouldn't compile.
-//	int pRaw1[1] = pTest1;		// Shouldn't compile.
+//	TEST_FALSE((test1 == NULL) || (test1 != NULL));		// No implicit construction.
 
-	int* pRaw2 = pTest4.get();
-	int& oRef  = pTest4.getRef();
-
-	TEST_TRUE(pRaw2 == pTest4.get());
-	TEST_TRUE(&oRef == pTest4.get());
-
-//	TEST_FALSE((pTest1 == NULL) || (pTest1 != NULL));	// Shouldn't compile.
-	TEST_FALSE(!pTest4);
-
-	TEST_TRUE(pTest1 == pTest6);
-	TEST_TRUE(pTest1 != pTest4);
-
-	int aiTest[1] = { 12345678 };
-
-	pTest1.reset(aiTest);
-
-	TEST_TRUE(pTest1.get() != nullptr);
-
-	TEST_TRUE(pTest1[0] == 12345678);
-
-	pTest1.detach();
-
-	TEST_TRUE(pTest1.get() == nullptr);
-
-	TEST_THROWS(*pTest1);
-	TEST_THROWS(pTest1[0]);
-
-	delete[] pTest4.detach();
-
-	TEST_TRUE(pTest4.get() == nullptr);
-
-//	delete[] pTest1;	// Shouldn't compile.
-
-	TEST_TRUE(*attachTo(pTest4) == nullptr);
+//	delete[] test1;							// No implicit conversion.
 }
+TEST_CASE_END
+
+TEST_CASE(ArrayPtr, accessors)
+{
+	TestPtr test1;
+	TestPtr test2(new int[1]);
+
+	TEST_TRUE(test1.get() == nullptr);
+	TEST_TRUE(test2.get() != nullptr);
+
+	int* ptr = test2.get();
+	int& ref = test2.getRef();
+
+	TEST_TRUE(ptr  == test2.get());
+	TEST_TRUE(&ref == test2.get());
+}
+TEST_CASE_END
+
+TEST_CASE(ArrayPtr, comparison)
+{
+	TestPtr test1;
+	TestPtr test2;
+	TestPtr test3(new int[1]);
+
+	TEST_TRUE(!test1);
+	TEST_FALSE(!test3);
+
+	TEST_TRUE(test1 == test2);
+	TEST_TRUE(test1 != test3);
+}
+TEST_CASE_END
+
+TEST_CASE(ArrayPtr, mutation)
+{
+	int array[1] = { 12345678 };
+
+	TestPtr test;
+
+	test.reset(array);
+
+	TEST_TRUE(test.get() != nullptr);
+	TEST_TRUE(test[0] == 12345678);
+
+	test.detach();
+
+	TEST_TRUE(test.get() == nullptr);
+
+	TEST_THROWS(*test);
+	TEST_THROWS(test[0]);
+}
+TEST_CASE_END
+
+TEST_CASE(ArrayPtr, freeFunctions)
+{
+	int* array = new int[1];
+
+	TestPtr test;
+
+	*attachTo(test) = array;
+
+	TEST_TRUE(test.get() == array);
+}
+TEST_CASE_END
+
+}
+TEST_SET_END

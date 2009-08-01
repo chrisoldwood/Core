@@ -1,11 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestStrings.cpp
-//! \brief  The unit tests for the string conversion functions.
+//! \file   TestStringUtils.cpp
+//! \brief  The unit tests for the string utility functions.
 //! \author Chris Oldwood
 
 #include "stdafx.h"
 #include <Core/UnitTest.hpp>
-#include <Core/AnsiWide.hpp>
 #include <Core/StringUtils.hpp>
 #include <limits>
 #include <limits.h>
@@ -14,32 +13,10 @@
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-//! The unit tests for the string conversion functions.
-
-void testStrings()
+TEST_SET(StringUtils)
 {
-{
-	const char*    psz  =  "ABCabc123";
-	const wchar_t* wpsz = L"ABCabc123";
-	const tchar*   tpsz = TXT("ABCabc123");
 
-	TEST_TRUE(std::string(W2A(wpsz)) == psz);
-	TEST_TRUE(std::wstring(A2W(psz)) == wpsz);
-
-	TEST_TRUE(tstring(W2T(wpsz)) == tpsz);
-	TEST_TRUE(tstring(A2T(psz))  == tpsz);
-}
-{
-	const tchar* tpsz = TXT("[A]NSI [U]NICODE");
-
-#ifdef ANSI_BUILD
-	TEST_TRUE(Core::fmt(TXT("[%c]%s [%C]%S"),      'A',  "NSI", L'U', L"NICODE") == tpsz);
-#else
-	TEST_TRUE(Core::fmt(TXT("[%c]%s [%C]%S"),     L'A', L"NSI",  'U',  "NICODE") == tpsz);
-#endif
-	TEST_TRUE(Core::fmt(TXT("[%hC]%hS [%wc]%ws"),  'A',  "NSI", L'U', L"NICODE") == tpsz);
-}
+TEST_CASE(StringUtils, fmt)
 {
 	TEST_TRUE(Core::fmt(TXT("%hd"),   std::numeric_limits<short>::min()) == TXT("-32768"));
 	TEST_TRUE(Core::fmt(TXT("%hd"),   std::numeric_limits<short>::max()) == TXT("32767"));
@@ -66,6 +43,9 @@ void testStrings()
 	TEST_TRUE(Core::fmt(TXT("%g"),    dSmall) == TXT("-0.123457"));
 	TEST_TRUE(Core::fmt(TXT("%G"),    dLarge) == TXT("-1.23457E+020"));
 }
+TEST_CASE_END
+
+TEST_CASE(StringUtils, caseConversion)
 {
 	const tchar* string = TXT("TeSt StRiNg");
 	tstring str(string);
@@ -77,7 +57,27 @@ void testStrings()
 	Core::makeLower(str);
 	TEST_TRUE(str == TXT("test string"));
 	TEST_TRUE(Core::createLower(string) == TXT("test string"));
+
+	tstring empty;
+	const tchar* buffer = empty.data();
+
+	Core::makeUpper(empty);
+	TEST_TRUE(empty.data() == buffer);
+
+	Core::makeLower(empty);
+	TEST_TRUE(empty.data() == buffer);
 }
+TEST_CASE_END
+
+TEST_CASE(StringUtils, trim)
+{
+	TEST_TRUE(Core::trimCopy(TXT(" \t\r\nTEST")) == TXT("TEST"));
+	TEST_TRUE(Core::trimCopy(TXT("TEST \t\r\n")) == TXT("TEST"));
+	TEST_TRUE(Core::trimCopy(TXT(" \t \r \n ")).empty());
+}
+TEST_CASE_END
+
+TEST_CASE(StringUtils, skipWhitespace)
 {
 	tchar*       test = TXT(" \t\r\n");
 	const tchar* end  = test+tstrlen(test);
@@ -85,6 +85,9 @@ void testStrings()
 	tchar* it = Core::skipWhitespace(test, end);
 	TEST_TRUE(it == end);
 }
+TEST_CASE_END
+
+TEST_CASE(StringUtils, boolFormatAndParse)
 {
 	TEST_TRUE(Core::format<bool>(true) == TXT("1"));
 	TEST_TRUE(Core::parse<bool>(TXT(" 1 ")) == true);
@@ -92,7 +95,12 @@ void testStrings()
 	TEST_TRUE(Core::parse<bool>(TXT(" 0 ")) == false);
 	TEST_THROWS(Core::parse<bool>(TXT("")));
 	TEST_THROWS(Core::parse<bool>(TXT("X")));
+	TEST_THROWS(Core::parse<bool>(TXT("99")));
+}
+TEST_CASE_END
 
+TEST_CASE(StringUtils, intFormatAndParse)
+{
 	TEST_TRUE(Core::format<int>(INT_MIN) == TXT("-2147483648"));
 	TEST_TRUE(Core::parse<int>(TXT(" -2147483648 ")) == INT_MIN);
 	TEST_TRUE(Core::format<int>(INT_MAX) == TXT("2147483647"));
@@ -101,7 +109,11 @@ void testStrings()
 	TEST_THROWS(Core::parse<int>(TXT("-2147483649")));
 	TEST_THROWS(Core::parse<int>(TXT("2147483648")));
 	TEST_THROWS(Core::parse<int>(TXT("1nv4l1d")));
+}
+TEST_CASE_END
 
+TEST_CASE(StringUtils, uintFormatAndParse)
+{
 	TEST_TRUE(Core::format<uint>(0) == TXT("0"));
 	TEST_TRUE(Core::parse<uint>(TXT(" 0 ")) == 0);
 	TEST_TRUE(Core::format<uint>(UINT_MAX) == TXT("4294967295"));
@@ -110,7 +122,11 @@ void testStrings()
 //	TEST_THROWS(Core::parse<uint>(TXT("-1"))); // VC++ parses as signed.
 	TEST_THROWS(Core::parse<uint>(TXT(" 4294967296 ")));
 	TEST_THROWS(Core::parse<uint>(TXT("1nv4l1d")));
+}
+TEST_CASE_END
 
+TEST_CASE(StringUtils, int64FormatAndParse)
+{
 	TEST_TRUE(Core::format<int64>(_I64_MIN) == TXT("-9223372036854775808"));
 	TEST_TRUE(Core::parse<int64>(TXT(" -9223372036854775808 ")) == _I64_MIN);
 	TEST_TRUE(Core::format<int64>(_I64_MAX) == TXT("9223372036854775807"));
@@ -119,7 +135,11 @@ void testStrings()
 	TEST_THROWS(Core::parse<int64>(TXT("-9223372036854775809")));
 	TEST_THROWS(Core::parse<int64>(TXT("9223372036854775808")));
 	TEST_THROWS(Core::parse<int64>(TXT("1nv4l1d")));
+}
+TEST_CASE_END
 
+TEST_CASE(StringUtils, uint64FormatAndParse)
+{
 	TEST_TRUE(Core::format<uint64>(0) == TXT("0"));
 	TEST_TRUE(Core::parse<uint64>(TXT(" 0 ")) == 0);
 	TEST_TRUE(Core::format<uint64>(_UI64_MAX) == TXT("18446744073709551615"));
@@ -129,4 +149,7 @@ void testStrings()
 	TEST_THROWS(Core::parse<uint64>(TXT(" 18446744073709551616 ")));
 	TEST_THROWS(Core::parse<uint64>(TXT("1nv4l1d")));
 }
+TEST_CASE_END
+
 }
+TEST_SET_END
