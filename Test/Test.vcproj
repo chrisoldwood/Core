@@ -150,6 +150,9 @@
 				RelativePath=".\TestAlgorithm.cpp">
 			</File>
 			<File
+				RelativePath=".\TestAnsiWide.cpp">
+			</File>
+			<File
 				RelativePath=".\TestArrayPtr.cpp">
 			</File>
 			<File
@@ -159,10 +162,16 @@
 				RelativePath=".\TestDebug.cpp">
 			</File>
 			<File
+				RelativePath=".\TestException.cpp">
+			</File>
+			<File
 				RelativePath=".\TestInterlocked.cpp">
 			</File>
 			<File
-				RelativePath=".\TestMisc.cpp">
+				RelativePath=".\TestNotCopyable.cpp">
+			</File>
+			<File
+				RelativePath=".\TestRefCntPtr.cpp">
 			</File>
 			<File
 				RelativePath=".\TestRefCounted.cpp">
@@ -171,7 +180,7 @@
 				RelativePath=".\TestSharedPtr.cpp">
 			</File>
 			<File
-				RelativePath=".\TestStrings.cpp">
+				RelativePath=".\TestStringUtils.cpp">
 			</File>
 			<File
 				RelativePath=".\TestTokeniser.cpp">
