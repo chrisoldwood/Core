@@ -9,9 +9,13 @@
 #include "tiostream.hpp"
 #include "CmdLineException.hpp"
 #include <stdlib.h>
+#include <map>
 
 namespace Core
 {
+
+//! A collection of test sets.
+typedef std::map<tstring, TestSetFn> TestSets;
 
 //! The overall state of the test run.
 static bool s_bSuccess = false;
@@ -39,6 +43,43 @@ void parseCmdLine(int argc, tchar* argv[], TestCases& cases)
 	{
 		cases.insert(Core::createLower(*arg));
 		++arg;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Get the collection of test sets. This is accessed via a special function
+//! to workaround the indeterminate initialisation order of the self-registering
+//! test sets and this collection.
+
+static TestSets& getTestSetCollection()
+{
+	static TestSets s_testTests;
+	return s_testTests;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Register a test set runner function.
+
+bool registerTestSet(const tchar* name, TestSetFn runner)
+{
+	getTestSetCollection().insert(std::make_pair(name, runner));
+
+	return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Run the self-registering test sets.
+
+void runTestSets(const TestCases& cases)
+{
+	TestSets& testSets = getTestSetCollection();
+
+	for (TestSets::const_iterator it = testSets.begin(); it != testSets.end(); ++it)
+	{
+		tstring name = createLower(it->first);
+
+		if ( (cases.empty()) || (cases.find(name) != cases.end()) )
+			it->second();
 	}
 }
 
