@@ -311,13 +311,10 @@ void makeUpper(tstring& string)
 ////////////////////////////////////////////////////////////////////////////////
 //! Create an upper case version of a string.
 
-tstring createUpper(const tstring& string)
+tstring createUpper(tstring string)
 {
-	tstring upper(string);
-
-	makeUpper(upper);
-
-	return upper;
+	makeUpper(string);
+	return string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -338,13 +335,50 @@ void makeLower(tstring& string)
 ////////////////////////////////////////////////////////////////////////////////
 //! Create a lower case version of a string.
 
-tstring createLower(const tstring& string)
+tstring createLower(tstring string)
 {
-	tstring lower(string);
+	makeLower(string);
+	return string;
+}
 
-	makeLower(lower);
+////////////////////////////////////////////////////////////////////////////////
+//! Trim any leading whitespace from the string.
 
-	return lower;
+void trimLeft(tstring& string)
+{
+	tstring::iterator it = skipWhitespace(string.begin(), string.end());
+
+	if (it != string.begin())
+		string.erase(string.begin(), it);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Trim any trailing whitespace from the string.
+
+void trimRight(tstring& string)
+{
+	tstring::reverse_iterator it = skipWhitespace(string.rbegin(), string.rend());
+
+	if (it != string.rbegin())
+		string.erase(it.base(), string.end());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Trim any leading or trailing whitespace from the string.
+
+void trim(tstring& string)
+{
+	trimLeft(string);
+	trimRight(string);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Trim any leading or trailing whitespace from a copy of the string.
+
+tstring trimCopy(tstring string)
+{
+	trim(string);
+	return string;
 }
 
 //namespace Core
