@@ -25,6 +25,8 @@ TEST_CASE(Debug, compilation)
 	int oldMode = _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
 	ASSERT(isFalse);
 	_CrtSetReportMode(_CRT_ASSERT, oldMode);
+#else
+	DEBUG_USE_ONLY(isFalse);
 #endif
 
 	STATIC_ASSERT(true);

@@ -177,6 +177,9 @@
 				RelativePath=".\TestRefCounted.cpp">
 			</File>
 			<File
+				RelativePath=".\TestScoped.cpp">
+			</File>
+			<File
 				RelativePath=".\TestSharedPtr.cpp">
 			</File>
 			<File
