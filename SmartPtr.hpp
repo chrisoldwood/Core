@@ -30,7 +30,10 @@ public:
 	//
 
 	//! Pointer dereference operator.
-	T& operator*() const;
+	const T& operator*() const;
+
+	//! Pointer dereference operator.
+	T& operator*();
 
 	//! Pointer-to-member operator.
 	const T* operator->() const;
@@ -97,7 +100,19 @@ inline SmartPtr<T>::~SmartPtr()
 //! Pointer dereference operator. Returns the currently owned pointer.
 
 template <typename T>
-inline T& SmartPtr<T>::operator*() const
+inline const T& SmartPtr<T>::operator*() const
+{
+	if (m_pPointer == nullptr)
+		throw NullPtrException();
+
+	return *m_pPointer;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Pointer dereference operator. Returns the currently owned pointer.
+
+template <typename T>
+inline T& SmartPtr<T>::operator*()
 {
 	if (m_pPointer == nullptr)
 		throw NullPtrException();
