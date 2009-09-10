@@ -52,7 +52,7 @@ TEST_CASE(UniquePtr, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(UniquePtr, accessors)
+TEST_CASE(UniquePtr, comparison)
 {
 	TestPtr test1;
 	TestPtr test2;
