@@ -229,6 +229,9 @@
 				RelativePath=".\RuntimeException.hpp">
 			</File>
 			<File
+				RelativePath=".\Scoped.hpp">
+			</File>
+			<File
 				RelativePath=".\SharedPtr.hpp">
 			</File>
 			<File

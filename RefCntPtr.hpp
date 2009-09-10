@@ -206,7 +206,7 @@ inline T* RefCntPtr<T>::detach()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Access the underlying pointer member. This is used by the AttachTo() friend
+//! Access the underlying pointer member. This is used by the attachTo() friend
 //! function to access the underlying SmartPtr<T> member variable.
 
 template <typename T>
@@ -218,7 +218,7 @@ inline T** RefCntPtr<T>::getPtrMember()
 ////////////////////////////////////////////////////////////////////////////////
 //! Helper function to gain access to the internal member so that it can be
 //! passed as an output parameter, without overloading the & operator.
-//! e.g. LoadTypeLib(..., AttachTo(p)).
+//! e.g. LoadTypeLib(..., attachTo(p)).
 
 template <typename T>
 inline T** attachTo(RefCntPtr<T>& ptr)
