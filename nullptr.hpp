@@ -11,8 +11,8 @@
 #pragma once
 #endif
 
-// VC++ 7.x
-#if _MSC_VER > 1200
+// VC++ 7.x to VC++ 9.x
+#if ( (_MSC_VER >= 1300) && (_MSC_VER <= 1500) )
 
 ////////////////////////////////////////////////////////////////////////////////
 //! A class to simulate the proposed nullptr keyword. This was adapted from the
@@ -37,10 +37,10 @@ private:
 
 } nullptr = {};
 
-// VC++ 6.x
-#else
+// VC++ 6.x and earlier
+#elif (_MSC_VER < 1300)
 
-// Pre VC++ 6.x can't cope with the template.
+// < VC++ 7.x can't cope with the template.
 #define nullptr 0					
 
 #endif
