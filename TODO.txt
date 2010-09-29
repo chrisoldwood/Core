@@ -7,3 +7,5 @@
 - Switch to c++ headers e.g. <cstdarg> instead of <stdarg.h>
 
 - Add non-MS impl of Trace() & AssertFail().
+
+- Add overloads of parse that takes a const tchar* instead of tstring.
