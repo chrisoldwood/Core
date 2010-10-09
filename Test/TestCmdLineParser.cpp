@@ -225,5 +225,34 @@ TEST_CASE(CmdLineParser, formatSwitches)
 }
 TEST_CASE_END
 
+TEST_CASE(CmdLineParser, switchesMustMatchNameExactly)
+{
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("-fl") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	TEST_THROWS(parser.parse(argc, argv));
+}
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("--fl") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	TEST_THROWS(parser.parse(argc, argv));
+}
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("--flaggg") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	TEST_THROWS(parser.parse(argc, argv));
+}
+}
+TEST_CASE_END
+
 }
 TEST_SET_END

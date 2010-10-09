@@ -310,10 +310,12 @@ struct CmdLineParser::IsShortName : std::unary_function<const CmdLineSwitch&, bo
 	//
 	CharCIter	m_itNameFirst;
 	CharCIter	m_itNameLast;
+	size_t		m_length;
 
 	//! Constructor.
 	IsShortName(CharCIter itNameFirst, CharCIter itNameLast)
 		: m_itNameFirst(itNameFirst), m_itNameLast(itNameLast)
+		, m_length(std::distance(itNameFirst, itNameLast))
 	{
 	}
 
@@ -323,8 +325,13 @@ struct CmdLineParser::IsShortName : std::unary_function<const CmdLineSwitch&, bo
 		if (oSwitch.m_pszShortName == nullptr)
 			return false;
 
+		size_t switchLength = tstrlen(oSwitch.m_pszShortName);
+
+		if (m_length != switchLength)
+			return false;
+
 //		return std::lexicographical_compare_3way();
-		return (tstrnicmp(m_itNameFirst, oSwitch.m_pszShortName, tstrlen(oSwitch.m_pszShortName)) == 0);
+		return (tstrnicmp(m_itNameFirst, oSwitch.m_pszShortName, m_length) == 0);
 	}
 };
 
@@ -338,10 +345,12 @@ struct CmdLineParser::IsLongName : std::unary_function<const CmdLineSwitch&, boo
 	//
 	CharCIter	m_itNameFirst;
 	CharCIter	m_itNameLast;
+	size_t		m_length;
 
 	//! Constructor.
 	IsLongName(CharCIter itNameFirst, CharCIter itNameLast)
 		: m_itNameFirst(itNameFirst), m_itNameLast(itNameLast)
+		, m_length(std::distance(itNameFirst, itNameLast))
 	{
 	}
 
@@ -351,8 +360,13 @@ struct CmdLineParser::IsLongName : std::unary_function<const CmdLineSwitch&, boo
 		if (oSwitch.m_pszLongName == nullptr)
 			return false;
 
+		size_t switchLength = tstrlen(oSwitch.m_pszLongName);
+
+		if (m_length != switchLength)
+			return false;
+
 //		return std::lexicographical_compare_3way();
-		return (tstrnicmp(m_itNameFirst, oSwitch.m_pszLongName, m_itNameLast - m_itNameFirst) == 0);
+		return (tstrnicmp(m_itNameFirst, oSwitch.m_pszLongName, m_length) == 0);
 	}
 };
 
