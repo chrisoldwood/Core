@@ -32,7 +32,7 @@ typedef void (*TestSetFn)();
 // The unit test functions.
 
 // Parse the command line.
-void parseCmdLine(int argc, tchar* argv[], TestCases& cases);
+bool parseCmdLine(int argc, tchar* argv[], TestCases& cases);
 
 // Register a test set runner function.
 bool registerTestSet(const tchar* name, TestSetFn runner);
@@ -40,11 +40,26 @@ bool registerTestSet(const tchar* name, TestSetFn runner);
 // Run the self-registering test sets.
 void runTestSets(const TestCases& cases);
 
-// Write the test result to stdout.
-void writeTestResult(const char* pszFile, size_t nLine, const tchar* pszExpression, bool bPassed);
+// Start the test set.
+void onStartTestSet(const tchar* name);
+
+// End the test set.
+void onEndTestSet();
+
+// Start a new test case.
+void onStartTestCase(const tchar* name);
+
+// End a test case.
+void onEndTestCase();
+
+// Process the result of the test assert.
+void processAssertResult(const char* file, size_t line, const tchar* expression, bool passed);
+
+// Process an unexpected exception running a test case.
+void processTestException(const char* file, size_t line, const tchar* error);
 
 // Set how the test run completed.
-void setTestRunFinalStatus(bool bSuccess);
+void setTestRunFinalStatus(bool successful);
 
 // Write the summary of the test results to stdout.
 void writeTestsSummary();
@@ -56,47 +71,54 @@ int getTestProcessResult();
 // The unit test macros.
 
 //! Test that the expression result is true.
-#define TEST_TRUE(x)	try {																	\
-							if (x)	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);	\
-							else	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);	\
-						} catch(const Core::Exception& e) {										\
-							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());		\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
-						} catch(...) {															\
-							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+#define TEST_TRUE(x)	try {																		\
+							if (x)	Core::processAssertResult(__FILE__, __LINE__, TXT(#x), true);	\
+							else	Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);	\
+						} catch(const Core::Exception& e) {											\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);			\
+						} catch(...) {																\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 
 //! Test that the expression result is false.
-#define TEST_FALSE(x)	try {																	\
-							if (x)	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);	\
-							else	Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);	\
-						} catch(const Core::Exception& e) {										\
-							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());		\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
-						} catch(...) {															\
-							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+#define TEST_FALSE(x)	try {																		\
+							if (x)	Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);	\
+							else	Core::processAssertResult(__FILE__, __LINE__, TXT(#x), true);	\
+						} catch(const Core::Exception& e) {											\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);			\
+						} catch(...) {																\
+							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
 //! Test that the expression casuses an exception.
 #define TEST_THROWS(x)	try {																	\
 							(x);																\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);		\
 						} catch(const Core::Exception& e) {										\
 							Core::debugWrite(TXT("Thrown: %s\n"), e.twhat());					\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), true);		\
 						} catch(const std::exception& e) {										\
 							Core::debugWrite(TXT("Thrown: %hs\n"), e.what());					\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), true);			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), true);		\
 						} catch(...) {															\
 							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
-							Core::writeTestResult(__FILE__, __LINE__, TXT(#x), false);			\
+							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);		\
 						}
 
+//! Mark that the test has passed for the specified reason.
+#define TEST_PASSED(r)	Core::processAssertResult(__FILE__, __LINE__, TXT(r), true);
+
+//! Mark that the test has failed for the specified reason.
+#define TEST_FAILED(r)	Core::processAssertResult(__FILE__, __LINE__, TXT(r), false);
+
 //! Test suite preparation.
-#define TEST_SUITE(c, v)	Core::TestCases cases;				\
-							Core::parseCmdLine(c, v, cases);	\
-							Core::enableLeakReporting(true);	\
+#define TEST_SUITE(c, v)	Core::TestCases cases;					\
+							if (!Core::parseCmdLine(c, v, cases))	\
+								return EXIT_FAILURE;				\
+							Core::enableLeakReporting(true);		\
 							try {
 
 //! Test suite reporting and cleanup.
@@ -127,10 +149,13 @@ int getTestProcessResult();
 //! Define a set of test cases.
 #define TEST_SET(t)			static void t();												\
 							static bool registered = Core::registerTestSet(TXT(#t), t);		\
-							static void t() {
+							static void t()													\
+							{																\
+							Core::onStartTestSet(TXT(#t));
 
 //! End the test set definition.
-#define TEST_SET_END		}
+#define TEST_SET_END		Core::onEndTestSet();											\
+							}
 
 //! Execute a set of test cases.
 #define TEST_SET_RUN(t)		if ( (cases.empty()) || (cases.find(Core::createLower(TXT(#t))) != cases.end()) ) {	\
@@ -140,20 +165,22 @@ int getTestProcessResult();
 
 //! Define a test case.
 #define TEST_CASE(s, t)		{																			\
-							tcout << TXT(#s) << TXT(" -> ") << TXT(#t) << std::endl;					\
+							Core::onStartTestCase(TXT(#t));												\
+							try {
+
+//! Define a test case.
+#define TEST_CASE_2(t)		{																			\
+							Core::onStartTestCase(TXT(t));												\
 							try {
 
 //! End the test case definition.
 #define TEST_CASE_END		}																			\
 							catch(const Core::Exception& e) {											\
-								Core::debugWrite(TXT("Unhandled Exception: %s\n"), e.twhat());			\
-								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								tcout << TXT("Unhandled Exception: ") << e.twhat() << std::endl; 		\
+								Core::processTestException(__FILE__, __LINE__, e.twhat());				\
 							} catch(...) {																\
-								Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
-								if (::IsDebuggerPresent()) ::DebugBreak();								\
-								tcout << TXT("Unhandled Exception: UNKNOWN") << std::endl;				\
+								Core::processTestException(__FILE__, __LINE__, TXT("UNKNOWN"));			\
 							}																			\
+							Core::onEndTestCase();														\
 							}
 
 //namespace Core
