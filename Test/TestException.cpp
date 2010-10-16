@@ -25,6 +25,8 @@ TEST_CASE(Exception, compilationFails)
 	Core::NotImplException e1(TXT("Test"));
 
 //	Core::debugWrite("%s", e1.what());							// std::exception::what() inaccessible.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 
@@ -39,6 +41,8 @@ TEST_CASE(Exception, constructible)
 	Core::RuntimeException re(TXT("Test"));
 
 	Core::NotImplException copy(e);
+
+	TEST_PASSED("construction succeeded");
 }
 TEST_CASE_END
 

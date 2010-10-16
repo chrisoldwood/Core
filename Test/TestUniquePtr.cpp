@@ -27,6 +27,8 @@ TEST_CASE(UniquePtr, compilationFails)
 //	TEST_FALSE((test1 == NULL) || (test1 != NULL));		// No implicit construction.
 
 //	delete test1;							// No implicit conversion.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 

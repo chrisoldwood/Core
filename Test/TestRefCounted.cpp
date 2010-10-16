@@ -23,6 +23,9 @@ TEST_CASE(RefCounted, compilationFails)
 
 	test1 = nullptr;
 	test2 = nullptr;
+
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 

@@ -10,12 +10,20 @@
 TEST_SET(Algorithm)
 {
 
-TEST_CASE(Algorithm, exists)
+TEST_CASE_2("exists should return true when it finds the item in a sequence")
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
 
 	TEST_TRUE(Core::exists(array, 2));
+}
+TEST_CASE_END
+
+TEST_CASE_2("exists should return false when it cannot find the item in a sequence")
+{
+	int              values[] = {1, 2, 3};
+	std::vector<int> array(values, values+ARRAY_SIZE(values));
+
 	TEST_FALSE(Core::exists(array, 5));
 }
 TEST_CASE_END

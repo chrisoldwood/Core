@@ -46,6 +46,8 @@ TEST_CASE(RefCntPtr, compilationFails)
 	UnrelatedPtr unrelated;
 
 //	unrelated = Core::static_ptr_cast<RefCntUnrelated>(base);	// No explicit conversion.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 

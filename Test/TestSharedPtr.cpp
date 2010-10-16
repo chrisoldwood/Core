@@ -32,6 +32,8 @@ TEST_CASE(SharedPtr, compilationFails)
 	UnrelatedPtr unrelated;
 
 //	unrelated = Core::static_ptr_cast<Unrelated>(base);	// No explicit conversion.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 

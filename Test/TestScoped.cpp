@@ -14,6 +14,8 @@ TEST_SET(Scoped)
 TEST_CASE(Scoped, compilationFails)
 {
 	ScopedPtr test(free);
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 

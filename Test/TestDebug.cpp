@@ -31,6 +31,8 @@ TEST_CASE(Debug, compilation)
 
 	STATIC_ASSERT(true);
 //	STATIC_ASSERT(false);	// Not compilable.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 
@@ -39,15 +41,17 @@ TEST_CASE(Debug, traceOutput)
 	TRACE1(TXT("Test TraceEx(\"%s\")\n"), TXT("Hello World"));
 
 	Core::debugWrite(TXT("Test DebugWrite(\"%s\")\n"), TXT("Hello World"));
+
+	TEST_PASSED("function invoked");
 }
 TEST_CASE_END
-
+/*
 TEST_CASE(Debug, leakReporting)
 {
 //	strcpy(static_cast<char*>(malloc(10)), "Malloc");
 //	strcpy(new char[5], "new");
 }
 TEST_CASE_END
-
+*/
 }
 TEST_SET_END

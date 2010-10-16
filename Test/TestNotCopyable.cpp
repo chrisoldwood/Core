@@ -23,6 +23,8 @@ TEST_CASE(NotCopyable, compilationFails)
 
 	CopyTest test4;
 //	test4 = test2;				// Not assignable.
+
+	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 
