@@ -75,7 +75,7 @@ template<>
 tstring format(const ulonglong& value);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Parse a value from a string.
+// Parse a value from a string.
 
 template<typename T>
 T parse(const tstring& buffer); // throw(ParseException)

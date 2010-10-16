@@ -84,11 +84,15 @@ tstring fmt(const tchar* pszFormat, ...)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Traits to invoke the underlying formatting and parsing functions.
+//! Traits to invoke the underlying formatting and parsing functions for the
+//! specified template type.
 
 template<typename T>
 struct FormatTraits
 {};
+
+////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling int's.
 
 template<>
 struct FormatTraits<int>
@@ -104,6 +108,9 @@ struct FormatTraits<int>
 	}
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling unsigned int's.
+
 template<>
 struct FormatTraits<uint>
 {
@@ -118,6 +125,9 @@ struct FormatTraits<uint>
 	}
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling long long int's.
+
 template<>
 struct FormatTraits<longlong>
 {
@@ -131,6 +141,9 @@ struct FormatTraits<longlong>
 		return tstrtoll(nptr, endptr, base);
 	}
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling unsigned long long int's.
 
 template<>
 struct FormatTraits<ulonglong>
@@ -258,7 +271,7 @@ bool parse(const tstring& buffer)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Parse a signed integer value from a string.
+// Parse a signed integer value from a string.
 
 template<>
 int parse(const tstring& buffer)
@@ -267,7 +280,7 @@ int parse(const tstring& buffer)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Parse an unsigned integer value from a string.
+// Parse an unsigned integer value from a string.
 
 template<>
 uint parse(const tstring& buffer)
@@ -285,7 +298,7 @@ longlong parse(const tstring& buffer)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Parse a unsigned long long integer value from a string.
+// Parse a unsigned long long integer value from a string.
 
 template<>
 ulonglong parse(const tstring& buffer)
