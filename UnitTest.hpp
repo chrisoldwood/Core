@@ -23,22 +23,28 @@ namespace Core
 {
 
 //! A collection of test suite names.
-typedef std::set<tstring> TestCases;
+typedef std::set<tstring> TestSetFilters;
 
-//! The Test Set run function.
+//! The Test Set run function type.
 typedef void (*TestSetFn)();
+
+//! The test case SetUp function type.
+typedef void (*TestCaseSetUpFn)();
+
+//! The test case TearDown function type.
+typedef void (*TestCaseTearDownFn)();
 
 ////////////////////////////////////////////////////////////////////////////////
 // The unit test functions.
 
 // Parse the command line.
-bool parseCmdLine(int argc, tchar* argv[], TestCases& cases);
+bool parseCmdLine(int argc, tchar* argv[], TestSetFilters& filters);
 
 // Register a test set runner function.
 bool registerTestSet(const tchar* name, TestSetFn runner);
 
 // Run the self-registering test sets.
-void runTestSets(const TestCases& cases);
+bool runTestSets(const TestSetFilters& filters);
 
 // Start the test set.
 void onStartTestSet(const tchar* name);
@@ -46,8 +52,14 @@ void onStartTestSet(const tchar* name);
 // End the test set.
 void onEndTestSet();
 
+// Define the test case setup function.
+void defineTestCaseSetup(TestCaseSetUpFn setup);
+
+// Define the test case teardown function.
+void defineTestCaseTearDown(TestCaseTearDownFn teardown);
+
 // Start a new test case.
-void onStartTestCase(const tchar* name);
+bool onStartTestCase(const tchar* name);
 
 // End a test case.
 void onEndTestCase();
@@ -57,6 +69,9 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 
 // Process an unexpected exception running a test case.
 void processTestException(const char* file, size_t line, const tchar* error);
+
+// Process an unexpected exception during setup or teardown.
+void processSetupTeardownException(const tchar* function, const tchar* error);
 
 // Set how the test run completed.
 void setTestRunFinalStatus(bool successful);
@@ -115,8 +130,8 @@ int getTestProcessResult();
 #define TEST_FAILED(r)	Core::processAssertResult(__FILE__, __LINE__, TXT(r), false);
 
 //! Test suite preparation.
-#define TEST_SUITE(c, v)	Core::TestCases cases;					\
-							if (!Core::parseCmdLine(c, v, cases))	\
+#define TEST_SUITE(c, v)	Core::TestSetFilters filters;			\
+							if (!Core::parseCmdLine(c, v, filters))	\
 								return EXIT_FAILURE;				\
 							Core::enableLeakReporting(true);		\
 							try {
@@ -137,7 +152,8 @@ int getTestProcessResult();
 							return Core::getTestProcessResult();
 
 //! Run the self-registering test sets
-#define TEST_SUITE_RUN()	Core::runTestSets(cases);
+#define TEST_SUITE_RUN()	if (!Core::runTestSets(filters))	\
+								return EXIT_FAILURE;
 
 //! Handle the entire setup, execution and reporting of the test suite.
 #define TEST_SUITE_MAIN(c, v)	TEST_SUITE(argc, argv)		\
@@ -157,28 +173,34 @@ int getTestProcessResult();
 #define TEST_SET_END		Core::onEndTestSet();											\
 							}
 
-//! Execute a set of test cases.
-#define TEST_SET_RUN(t)		if ( (cases.empty()) || (cases.find(Core::createLower(TXT(#t))) != cases.end()) ) {	\
-								extern void t();																\
-								t();																			\
-							}
+//! Define the test case setup function.
+#define TEST_CASE_SETUP()		struct TestCaseSetup {			\
+									static void fn()
+
+//! End the test case setup function definition.
+#define TEST_CASE_SETUP_END		};								\
+								Core::defineTestCaseSetup(TestCaseSetup::fn);
+
+//! Define the test case teardown function.
+#define TEST_CASE_TEARDOWN()	struct TestCaseTearDown {			\
+									static void fn()
+
+//! End the test case teardown function definition.
+#define TEST_CASE_TEARDOWN_END	};								\
+								Core::defineTestCaseTearDown(TestCaseTearDown::fn);
 
 //! Define a test case.
-#define TEST_CASE(s, t)		{																			\
-							Core::onStartTestCase(TXT(#t));												\
-							try {
-
-//! Define a test case.
-#define TEST_CASE_2(t)		{																			\
-							Core::onStartTestCase(TXT(t));												\
-							try {
+#define TEST_CASE(t)		{																			\
+							if (Core::onStartTestCase(TXT(#t)))	{										\
+								try {
 
 //! End the test case definition.
-#define TEST_CASE_END		}																			\
-							catch(const Core::Exception& e) {											\
-								Core::processTestException(__FILE__, __LINE__, e.twhat());				\
-							} catch(...) {																\
-								Core::processTestException(__FILE__, __LINE__, TXT("UNKNOWN"));			\
+#define TEST_CASE_END			}																		\
+								catch(const Core::Exception& e) {										\
+									Core::processTestException(__FILE__, __LINE__, e.twhat());			\
+								} catch(...) {															\
+									Core::processTestException(__FILE__, __LINE__, TXT("UNKNOWN"));		\
+								}																		\
 							}																			\
 							Core::onEndTestCase();														\
 							}

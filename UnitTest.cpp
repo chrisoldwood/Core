@@ -9,8 +9,9 @@
 #include "tiostream.hpp"
 #include "CmdLineException.hpp"
 #include "CmdLineParser.hpp"
-#include <stdlib.h>
+#include <algorithm>
 #include <map>
+#include <stdlib.h>
 
 namespace Core
 {
@@ -54,6 +55,10 @@ static tstring s_currentTestSet;
 static tstring s_currentTestCase;
 //! The list of failed test cases for the set.
 static TestCaseNames s_failures;
+//! The test case SetUp function.
+static TestCaseSetUpFn s_setup;
+//! The test case TearDown function.
+static TestCaseTearDownFn s_teardown;
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Parse the command line. This extracts the list of test cases to run.
@@ -83,7 +88,7 @@ void showUsage(const tchar* process, const Core::CmdLineParser& parser)
 ////////////////////////////////////////////////////////////////////////////////
 //! Parse the command line. This extracts the list of test cases to run.
 
-bool parseCmdLine(int argc, tchar* argv[], TestCases& cases)
+bool parseCmdLine(int argc, tchar* argv[], TestSetFilters& filters)
 {
 	// Parse the command line.
 	Core::CmdLineParser parser(s_switches, s_switches+s_switchCount);
@@ -114,7 +119,7 @@ bool parseCmdLine(int argc, tchar* argv[], TestCases& cases)
 	Core::CmdLineParser::UnnamedArgs::const_iterator end = parser.getUnnamedArgs().end();
 
 	for (;it != end; ++it)
-		cases.insert(Core::createLower(*it));
+		filters.insert(Core::createLower(*it));
 
 	return true;
 }
@@ -141,21 +146,54 @@ bool registerTestSet(const tchar* name, TestSetFn runner)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Comparison functor for matching test sets against by test set name.
+
+struct TestSetComparator
+{
+	tstring m_value;
+
+	TestSetComparator(const tstring& value)
+		: m_value(value)
+	{ }
+
+	bool operator()(const std::pair<tstring, TestSetFn>& rhs)
+	{
+		return (tstricmp(m_value.c_str(), rhs.first.c_str()) == 0);
+	}
+};
+
+////////////////////////////////////////////////////////////////////////////////
 //! Run the self-registering test sets.
 
-void runTestSets(const TestCases& cases)
+bool runTestSets(const TestSetFilters& filters)
 {
-	tcout << std::endl;
-
 	TestSets& testSets = getTestSetCollection();
+
+	if (!filters.empty())
+	{
+		for (TestSetFilters::const_iterator it = filters.begin(); it != filters.end(); ++it)
+		{
+			const tstring& name = *it;
+
+			if ((std::find_if(testSets.begin(), testSets.end(), TestSetComparator(name)) == testSets.end()))
+			{
+				tcerr << TXT("ERROR: Unknown test set '") << name << TXT("'") << std::endl;
+				return false;
+			}
+		}
+	}
+
+	tcout << std::endl;
 
 	for (TestSets::const_iterator it = testSets.begin(); it != testSets.end(); ++it)
 	{
 		tstring name = createLower(it->first);
 
-		if ( (cases.empty()) || (cases.find(name) != cases.end()) )
+		if ( (filters.empty()) || (filters.find(name) != filters.end()) )
 			it->second();
 	}
+
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +208,8 @@ void onStartTestSet(const tchar* name)
 
 	s_currentTestSet = name;
 	s_failures.clear();
+	s_setup = nullptr;
+	s_teardown = nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,16 +239,57 @@ void onEndTestSet()
 #ifdef _DEBUG
 	s_currentTestSet.clear();
 	s_failures.clear();
+	s_setup = nullptr;
+	s_teardown = nullptr;
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Define the test case setup function.
+
+void defineTestCaseSetup(TestCaseSetUpFn setup)
+{
+	s_setup = setup;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Define the test case teardown function.
+
+void defineTestCaseTearDown(TestCaseTearDownFn teardown)
+{
+	s_teardown = teardown;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Start a new test case.
 
-void onStartTestCase(const tchar* name)
+bool onStartTestCase(const tchar* name)
 {
+	if (s_verbose)
+		tcout << TXT(" > ") << name << std::endl;
+
 	s_currentResult = UNKNOWN;
 	s_currentTestCase = name;
+
+	if (s_setup != nullptr)
+	{
+		try
+		{
+			s_setup();
+		}
+		catch(const Core::Exception& e)
+		{
+			processSetupTeardownException(TXT("SetUp"), e.twhat());
+			return false;
+		}
+		catch (...)
+		{
+			processSetupTeardownException(TXT("SetUp"), TXT("UNKNOWN"));
+			return false;
+		}
+	}
+
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +297,22 @@ void onStartTestCase(const tchar* name)
 
 void onEndTestCase()
 {
+	if (s_teardown != nullptr)
+	{
+		try
+		{
+			s_teardown();
+		}
+		catch(const Core::Exception& e)
+		{
+			processSetupTeardownException(TXT("TearDown"), e.twhat());
+		}
+		catch (...)
+		{
+			processSetupTeardownException(TXT("TearDown"), TXT("UNKNOWN"));
+		}
+	}
+
 	// Update stats.
 	if (s_currentResult == SUCCEEDED)
 	{
@@ -283,7 +380,7 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 		const tchar* result = (passed) ? TXT("Passed") : TXT("FAILED");
 		const char*  filename = getFileName(file);
 
-		tcout << Core::fmt(TXT(" %s [%hs, %4u] %s"), result, filename, line, expression) << std::endl;
+		tcout << Core::fmt(TXT(" %s [%hs, %3u] %s"), result, filename, line, expression) << std::endl;
 	}
 
 	// Break into debugger, if present.
@@ -304,7 +401,25 @@ void processTestException(const char* file, size_t line, const tchar* error)
 
 		const char* filename = getFileName(file);
 
-		tcout << Core::fmt(TXT(" %s [%hs, %4u] Unhandled Exception: %s"), TXT("FAILED"), filename, line, error) << std::endl;
+		tcout << Core::fmt(TXT(" %s [%hs, %3u] Unhandled Exception: %s"), TXT("FAILED"), filename, line, error) << std::endl;
+	}
+
+	if (::IsDebuggerPresent())
+		::DebugBreak();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Process an unexpected exception during setup or teardown.
+
+void processSetupTeardownException(const tchar* function, const tchar* error)
+{
+	s_currentResult = FAILED;
+
+	if (s_verbose)
+	{
+		Core::debugWrite(TXT("Unhandled Exception: %s\n"), error);
+
+		tcout << Core::fmt(TXT(" %s [%s] Unhandled Exception: %s"), TXT("FAILED"), function, error) << std::endl;
 	}
 
 	if (::IsDebuggerPresent())
