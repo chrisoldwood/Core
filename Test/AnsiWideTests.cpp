@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestAnsiWide.cpp
+//! \file   AnsiWideTests.cpp
 //! \brief  The unit tests for the ansi/wide string conversion functions.
 //! \author Chris Oldwood
 
@@ -13,21 +13,21 @@ TEST_SET(AnsiWide)
 	const wchar_t* wpsz = L"ABCabc123";
 	const tchar*   tpsz = TXT("ABCabc123");
 
-TEST_CASE(AnsiWide, functions)
+TEST_CASE("functions")
 {
 	TEST_TRUE(Core::ansiToWide(psz,  psz+strlen(psz)  ) == wpsz);
 	TEST_TRUE(Core::wideToAnsi(wpsz, wpsz+wcslen(wpsz)) == psz);
 }
 TEST_CASE_END
 
-TEST_CASE(AnsiWide, classes)
+TEST_CASE("classes")
 {
 	TEST_TRUE(static_cast<const char*>(Core::WideToAnsi(std::wstring(wpsz))) == std::string(psz));
 	TEST_TRUE(static_cast<const wchar_t*>(Core::AnsiToWide(std::string(psz)))  == std::wstring(wpsz));
 }
 TEST_CASE_END
 
-TEST_CASE(AnsiWide, macros)
+TEST_CASE("macros")
 {
 	TEST_TRUE(std::string(W2A(wpsz)) == psz);
 	TEST_TRUE(std::wstring(A2W(psz)) == wpsz);
@@ -37,7 +37,7 @@ TEST_CASE(AnsiWide, macros)
 }
 TEST_CASE_END
 
-TEST_CASE(AnsiWide, fmt)
+TEST_CASE("fmt")
 {
 	const tchar* result = TXT("[A]NSI [U]NICODE");
 

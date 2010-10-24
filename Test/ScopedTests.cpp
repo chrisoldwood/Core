@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestScoped.cpp
+//! \file   ScopedTests.cpp
 //! \brief  The unit tests for the Scoped class.
 //! \author Chris Oldwood
 
@@ -11,7 +11,7 @@ TEST_SET(Scoped)
 {
 	typedef Core::Scoped<void*> ScopedPtr;
 
-TEST_CASE(Scoped, compilationFails)
+TEST_CASE("compilationFails")
 {
 	ScopedPtr test(free);
 
@@ -19,7 +19,7 @@ TEST_CASE(Scoped, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(Scoped, accessors)
+TEST_CASE("accessors")
 {
 	ScopedPtr test1(free);
 	ScopedPtr test2(malloc(1), free);
@@ -29,7 +29,7 @@ TEST_CASE(Scoped, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(Scoped, mutators)
+TEST_CASE("mutators")
 {
 	ScopedPtr test(malloc(1), free);
 
@@ -49,7 +49,7 @@ TEST_CASE(Scoped, mutators)
 }
 TEST_CASE_END
 
-TEST_CASE(Scoped, freeFunctions)
+TEST_CASE("freeFunctions")
 {
 	void* rsc = malloc(1);
 

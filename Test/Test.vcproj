@@ -147,49 +147,49 @@
 				RelativePath=".\Test.cpp">
 			</File>
 			<File
-				RelativePath=".\TestAlgorithm.cpp">
+				RelativePath=".\AlgorithmTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestAnsiWide.cpp">
+				RelativePath=".\AnsiWideTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestArrayPtr.cpp">
+				RelativePath=".\ArrayPtrTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestCmdLineParser.cpp">
+				RelativePath=".\CmdLineParserTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestDebug.cpp">
+				RelativePath=".\DebugTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestException.cpp">
+				RelativePath=".\ExceptionTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestInterlocked.cpp">
+				RelativePath=".\InterlockedTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestNotCopyable.cpp">
+				RelativePath=".\NotCopyableTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestRefCntPtr.cpp">
+				RelativePath=".\RefCntPtrTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestRefCounted.cpp">
+				RelativePath=".\RefCountedTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestScoped.cpp">
+				RelativePath=".\ScopedTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestSharedPtr.cpp">
+				RelativePath=".\SharedPtrTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestStringUtils.cpp">
+				RelativePath=".\StringUtilsTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestTokeniser.cpp">
+				RelativePath=".\TokeniserTests.cpp">
 			</File>
 			<File
-				RelativePath=".\TestUniquePtr.cpp">
+				RelativePath=".\UniquePtrTests.cpp">
 			</File>
 		</Filter>
 		<Filter

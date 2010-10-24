@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestTokeniser.cpp
+//! \file   TokeniserTests.cpp
 //! \brief  The unit tests for the Tokeniser class.
 //! \author Chris Oldwood
 
@@ -10,7 +10,7 @@
 TEST_SET(Tokeniser)
 {
 
-TEST_CASE(Tokeniser, emptyString)
+TEST_CASE("emptyString")
 {
 	const tstring           string;
 	Core::Tokeniser::Tokens tokens;
@@ -21,7 +21,7 @@ TEST_CASE(Tokeniser, emptyString)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, singleToken)
+TEST_CASE("singleToken")
 {
 	const tstring           string(TXT("1"));
 	Core::Tokeniser::Tokens tokens;
@@ -32,7 +32,7 @@ TEST_CASE(Tokeniser, singleToken)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, multipleTokens)
+TEST_CASE("multipleTokens")
 {
 	const tstring           string(TXT("1,2"));
 	Core::Tokeniser::Tokens tokens;
@@ -43,7 +43,7 @@ TEST_CASE(Tokeniser, multipleTokens)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, separatorOnly)
+TEST_CASE("separatorOnly")
 {
 	const tstring           string(TXT(","));
 	Core::Tokeniser::Tokens tokens;
@@ -54,7 +54,7 @@ TEST_CASE(Tokeniser, separatorOnly)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, mergingSeparators)
+TEST_CASE("mergingSeparators")
 {
 	const tstring           string(TXT("\r\nabc\r\ndef\r\n"));
 	Core::Tokeniser::Tokens tokens;
@@ -65,7 +65,7 @@ TEST_CASE(Tokeniser, mergingSeparators)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, returnSeparators)
+TEST_CASE("returnSeparators")
 {
 	const tstring           string(TXT("\r\n"));
 	Core::Tokeniser::Tokens tokens;
@@ -76,7 +76,7 @@ TEST_CASE(Tokeniser, returnSeparators)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, mergeAndReturnSeparators)
+TEST_CASE("mergeAndReturnSeparators")
 {
 	const tstring           string(TXT("\r\n"));
 	Core::Tokeniser::Tokens tokens;
@@ -87,7 +87,7 @@ TEST_CASE(Tokeniser, mergeAndReturnSeparators)
 }
 TEST_CASE_END
 
-TEST_CASE(Tokeniser, overstepIteration)
+TEST_CASE("overstepIteration")
 {
 	Core::Tokeniser tokeniser(TXT(""), TXT(","), Core::Tokeniser::NONE);
 

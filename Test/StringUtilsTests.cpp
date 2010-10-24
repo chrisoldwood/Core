@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestStringUtils.cpp
+//! \file   StringUtilsTests.cpp
 //! \brief  The unit tests for the string utility functions.
 //! \author Chris Oldwood
 
@@ -16,7 +16,7 @@
 TEST_SET(StringUtils)
 {
 
-TEST_CASE(StringUtils, fmt)
+TEST_CASE("fmt")
 {
 	TEST_TRUE(Core::fmt(TXT("%hd"),   std::numeric_limits<short>::min()) == TXT("-32768"));
 	TEST_TRUE(Core::fmt(TXT("%hd"),   std::numeric_limits<short>::max()) == TXT("32767"));
@@ -45,7 +45,7 @@ TEST_CASE(StringUtils, fmt)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, caseConversion)
+TEST_CASE("caseConversion")
 {
 	const tchar* string = TXT("TeSt StRiNg");
 	tstring str(string);
@@ -69,7 +69,7 @@ TEST_CASE(StringUtils, caseConversion)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, trim)
+TEST_CASE("trim")
 {
 	TEST_TRUE(Core::trimCopy(TXT(" \t\r\nTEST")) == TXT("TEST"));
 	TEST_TRUE(Core::trimCopy(TXT("TEST \t\r\n")) == TXT("TEST"));
@@ -77,7 +77,7 @@ TEST_CASE(StringUtils, trim)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, skipWhitespace)
+TEST_CASE("skipWhitespace")
 {
 	tchar*       test = TXT(" \t\r\n");
 	const tchar* end  = test+tstrlen(test);
@@ -87,7 +87,7 @@ TEST_CASE(StringUtils, skipWhitespace)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, boolFormatAndParse)
+TEST_CASE("boolFormatAndParse")
 {
 	TEST_TRUE(Core::format<bool>(true) == TXT("1"));
 	TEST_TRUE(Core::parse<bool>(TXT(" 1 ")) == true);
@@ -99,7 +99,7 @@ TEST_CASE(StringUtils, boolFormatAndParse)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, intFormatAndParse)
+TEST_CASE("intFormatAndParse")
 {
 	TEST_TRUE(Core::format<int>(INT_MIN) == TXT("-2147483648"));
 	TEST_TRUE(Core::parse<int>(TXT(" -2147483648 ")) == INT_MIN);
@@ -112,7 +112,7 @@ TEST_CASE(StringUtils, intFormatAndParse)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, uintFormatAndParse)
+TEST_CASE("uintFormatAndParse")
 {
 	TEST_TRUE(Core::format<uint>(0) == TXT("0"));
 	TEST_TRUE(Core::parse<uint>(TXT(" 0 ")) == 0);
@@ -125,7 +125,7 @@ TEST_CASE(StringUtils, uintFormatAndParse)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, int64FormatAndParse)
+TEST_CASE("int64FormatAndParse")
 {
 	TEST_TRUE(Core::format<int64>(_I64_MIN) == TXT("-9223372036854775808"));
 	TEST_TRUE(Core::parse<int64>(TXT(" -9223372036854775808 ")) == _I64_MIN);
@@ -138,7 +138,7 @@ TEST_CASE(StringUtils, int64FormatAndParse)
 }
 TEST_CASE_END
 
-TEST_CASE(StringUtils, uint64FormatAndParse)
+TEST_CASE("uint64FormatAndParse")
 {
 	TEST_TRUE(Core::format<uint64>(0) == TXT("0"));
 	TEST_TRUE(Core::parse<uint64>(TXT(" 0 ")) == 0);

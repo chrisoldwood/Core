@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestAlgorithm.cpp
+//! \file   AlgorithmTests.cpp
 //! \brief  The unit tests for the Algorithm functions.
 //! \author Chris Oldwood
 
@@ -10,7 +10,7 @@
 TEST_SET(Algorithm)
 {
 
-TEST_CASE_2("exists should return true when it finds the item in a sequence")
+TEST_CASE("exists returns true when it finds the item in the sequence")
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
@@ -19,7 +19,7 @@ TEST_CASE_2("exists should return true when it finds the item in a sequence")
 }
 TEST_CASE_END
 
-TEST_CASE_2("exists should return false when it cannot find the item in a sequence")
+TEST_CASE("exists returns false when it cannot find the item in the sequence")
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
@@ -28,13 +28,13 @@ TEST_CASE_2("exists should return false when it cannot find the item in a sequen
 }
 TEST_CASE_END
 
-TEST_CASE(Algorithm, deepCopy)
+TEST_CASE("deep copying a vector creates an equivalent sequence with different object references")
 {
 	typedef Core::SharedPtr<int> IntPtr;
 
 	struct comparator
 	{
-		static bool equals(const IntPtr& p1, const IntPtr& p2)
+		static bool equalStateNotReference(const IntPtr& p1, const IntPtr& p2)
 		{
 			return ((*p1 == *p2) && (p1.get() != p2.get()));
 		}
@@ -48,7 +48,7 @@ TEST_CASE(Algorithm, deepCopy)
 
 	Core::deepCopy(array1, array2);
 
-	TEST_TRUE(std::equal(array1.begin(), array1.end(), array2.begin(), comparator::equals));
+	TEST_TRUE(std::equal(array1.begin(), array1.end(), array2.begin(), comparator::equalStateNotReference));
 }
 TEST_CASE_END
 

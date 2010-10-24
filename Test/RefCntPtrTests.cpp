@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestRefCntPtr.cpp
+//! \file   RefCntPtrTests.cpp
 //! \brief  The unit tests for the RefCntPtr class.
 //! \author Chris Oldwood
 
@@ -28,7 +28,7 @@ TEST_SET(RefCntPtr)
 	typedef Core::RefCntPtr<RefCntDerived> DerivedPtr;
 	typedef Core::RefCntPtr<RefCntUnrelated> UnrelatedPtr;
 
-TEST_CASE(RefCntPtr, compilationFails)
+TEST_CASE("compilationFails")
 {
 	TestPtr test1;
 //	TestPtr test2 = new RefCntTest;				// No implicit construction.
@@ -51,7 +51,7 @@ TEST_CASE(RefCntPtr, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(RefCntPtr, accessors)
+TEST_CASE("accessors")
 {
 	TestPtr test1;
 	TestPtr test2 = TestPtr(new RefCntTest);
@@ -73,7 +73,7 @@ TEST_CASE(RefCntPtr, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(RefCntPtr, mutators)
+TEST_CASE("mutators")
 {
 	TestPtr test1;
 	TestPtr test2 = TestPtr(new RefCntTest);
@@ -95,7 +95,7 @@ TEST_CASE(RefCntPtr, mutators)
 }
 TEST_CASE_END
 
-TEST_CASE(ArrayPtr, comparison)
+TEST_CASE("comparison")
 {
 	TestPtr test1;
 	TestPtr test2;
@@ -109,7 +109,7 @@ TEST_CASE(ArrayPtr, comparison)
 }
 TEST_CASE_END
 
-TEST_CASE(RefCntPtr, freeFunctions)
+TEST_CASE("freeFunctions")
 {
 	TestPtr base1(new RefCntTest);
 	TestPtr base2(new RefCntTest);

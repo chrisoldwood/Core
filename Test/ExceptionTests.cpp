@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestException.cpp
+//! \file   ExceptionTests.cpp
 //! \brief  The unit tests for the Exception class and its derivatives.
 //! \author Chris Oldwood
 
@@ -16,7 +16,7 @@
 TEST_SET(Exception)
 {
 
-TEST_CASE(Exception, compilationFails)
+TEST_CASE("compilationFails")
 {
 //	Core::Exception dc;											// Not default constructible.
 //	Core::Exception cc(Core::NullPtrException(TXT("Test")));	// Not copy constructible.
@@ -30,7 +30,7 @@ TEST_CASE(Exception, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(Exception, constructible)
+TEST_CASE("constructible")
 {
 	Core::NotImplException e(TXT("Test"));
 	Core::NullPtrException npe(TXT("Test"));
@@ -46,7 +46,7 @@ TEST_CASE(Exception, constructible)
 }
 TEST_CASE_END
 
-TEST_CASE(Exception, twhatSucceeds)
+TEST_CASE("twhatSucceeds")
 {
 	Core::NotImplException e(TXT("Test"));
 	Core::NotImplException copy(e);
@@ -56,7 +56,7 @@ TEST_CASE(Exception, twhatSucceeds)
 }
 TEST_CASE_END
 
-TEST_CASE(Exception, whatAsserts)
+TEST_CASE("whatAsserts")
 {
 	Core::NotImplException e(TXT("Test"));
 

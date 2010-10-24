@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestSharedPtr.cpp
+//! \file   SharedPtrTests.cpp
 //! \brief  The unit tests for the SharedPtr class.
 //! \author Chris Oldwood
 
@@ -14,7 +14,7 @@ TEST_SET(SharedPtr)
 	typedef Core::SharedPtr<Derived> DerivedPtr;
 	typedef Core::SharedPtr<Unrelated> UnrelatedPtr;
 
-TEST_CASE(SharedPtr, compilationFails)
+TEST_CASE("compilationFails")
 {
 	TestPtr test1;
 //	TestPtr test2 = new PtrTest;			// No implicit construction.
@@ -37,7 +37,7 @@ TEST_CASE(SharedPtr, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(SharedPtr, accessors)
+TEST_CASE("accessors")
 {
 	TestPtr test1;
 	TestPtr test2 = TestPtr(new PtrTest);
@@ -64,7 +64,7 @@ TEST_CASE(SharedPtr, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(SharedPtr, comparison)
+TEST_CASE("comparison")
 {
 	TestPtr test1;
 	TestPtr test2;
@@ -89,7 +89,7 @@ TEST_CASE(SharedPtr, comparison)
 }
 TEST_CASE_END
 
-TEST_CASE(SharedPtr, freeFunctions)
+TEST_CASE("freeFunctions")
 {
 	TestPtr base1(new PtrTest);
 	TestPtr base2(new PtrTest);

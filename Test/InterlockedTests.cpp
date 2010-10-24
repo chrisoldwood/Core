@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestInterlocked.cpp
+//! \file   InterlockedTests.cpp
 //! \brief  The unit tests for the Interlocked functions.
 //! \author Chris Oldwood
 
@@ -10,7 +10,7 @@
 TEST_SET(Interlocked)
 {
 
-TEST_CASE(Interlocked, atomicIncrement)
+TEST_CASE("atomicIncrement")
 {
 	long value = 1;
 
@@ -18,7 +18,7 @@ TEST_CASE(Interlocked, atomicIncrement)
 }
 TEST_CASE_END
 
-TEST_CASE(Interlocked, atomicDecrement)
+TEST_CASE("atomicDecrement")
 {
 	long value = 2;
 

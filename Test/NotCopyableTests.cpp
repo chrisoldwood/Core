@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestNotCopyable.cpp
+//! \file   NotCopyableTests.cpp
 //! \brief  The unit tests for the NotCopyable class.
 //! \author Chris Oldwood
 
@@ -10,7 +10,7 @@
 TEST_SET(NotCopyable)
 {
 
-TEST_CASE(NotCopyable, compilationFails)
+TEST_CASE("compilationFails")
 {
 	class CopyTest : public Core::NotCopyable
 	{

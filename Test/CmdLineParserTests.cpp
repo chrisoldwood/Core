@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestCmdLineParser.cpp
+//! \file   CmdLineParserTests.cpp
 //! \brief  The unit tests for the CmdLineParser class.
 //! \author Chris Oldwood
 
@@ -39,7 +39,7 @@ TEST_SET(CmdLineParser)
 	};
 	static size_t s_nCount = ARRAY_SIZE(s_aoSwitches);
 
-TEST_CASE(CmdLineParser, invalidSwitch)
+TEST_CASE("invalidSwitch")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -52,7 +52,7 @@ TEST_CASE(CmdLineParser, invalidSwitch)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, switchFormatsAndMultipleUse)
+TEST_CASE("switchFormatsAndMultipleUse")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -77,7 +77,7 @@ TEST_CASE(CmdLineParser, switchFormatsAndMultipleUse)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, flagCombinations)
+TEST_CASE("flagCombinations")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("-?"), TXT("-?") };
 	static int argc = ARRAY_SIZE(argv);
@@ -101,7 +101,7 @@ TEST_CASE(CmdLineParser, flagCombinations)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, invalidFlagStyleSwitch)
+TEST_CASE("invalidFlagStyleSwitch")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("/flag:value") };
 	static int argc = ARRAY_SIZE(argv);
@@ -112,7 +112,7 @@ TEST_CASE(CmdLineParser, invalidFlagStyleSwitch)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, switchWithoutValue)
+TEST_CASE("switchWithoutValue")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("/single") };
 	static int argc = ARRAY_SIZE(argv);
@@ -123,7 +123,7 @@ TEST_CASE(CmdLineParser, switchWithoutValue)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, switchValuePlacement)
+TEST_CASE("switchValuePlacement")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -151,7 +151,7 @@ TEST_CASE(CmdLineParser, switchValuePlacement)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, multiValuedSwitch)
+TEST_CASE("multiValuedSwitch")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -171,7 +171,7 @@ TEST_CASE(CmdLineParser, multiValuedSwitch)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, multiValuedSwitchWithOneValue)
+TEST_CASE("multiValuedSwitchWithOneValue")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -191,7 +191,7 @@ TEST_CASE(CmdLineParser, multiValuedSwitchWithOneValue)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, formatSwitches)
+TEST_CASE("formatSwitches")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -225,7 +225,7 @@ TEST_CASE(CmdLineParser, formatSwitches)
 }
 TEST_CASE_END
 
-TEST_CASE(CmdLineParser, switchesMustMatchNameExactly)
+TEST_CASE("switchesMustMatchNameExactly")
 {
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("-fl") };

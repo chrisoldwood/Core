@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestArrayPtr.cpp
+//! \file   ArrayPtrTests.cpp
 //! \brief  The unit tests for the ArrayPtr class.
 //! \author Chris Oldwood
 
@@ -11,7 +11,7 @@ TEST_SET(ArrayPtr)
 {
 	typedef Core::ArrayPtr<int> TestPtr;
 
-TEST_CASE(ArrayPtr, compilationFails)
+TEST_CASE("compilationFails")
 {
 	TestPtr test1;
 //	TestPtr test2 = new int[1];				// No implicit construction.
@@ -31,7 +31,7 @@ TEST_CASE(ArrayPtr, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(ArrayPtr, accessors)
+TEST_CASE("accessors")
 {
 	TestPtr test1;
 	TestPtr test2(new int[1]);
@@ -47,7 +47,7 @@ TEST_CASE(ArrayPtr, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(ArrayPtr, comparison)
+TEST_CASE("comparison")
 {
 	TestPtr test1;
 	TestPtr test2;
@@ -61,7 +61,7 @@ TEST_CASE(ArrayPtr, comparison)
 }
 TEST_CASE_END
 
-TEST_CASE(ArrayPtr, mutation)
+TEST_CASE("mutation")
 {
 	int array[1] = { 12345678 };
 
@@ -81,7 +81,7 @@ TEST_CASE(ArrayPtr, mutation)
 }
 TEST_CASE_END
 
-TEST_CASE(ArrayPtr, freeFunctions)
+TEST_CASE("freeFunctions")
 {
 	int* array = new int[1];
 

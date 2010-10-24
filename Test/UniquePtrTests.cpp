@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestUniquePtr.cpp
+//! \file   UniquePtrTests.cpp
 //! \brief  The unit tests for the UniquePtr class.
 //! \author Chris Oldwood
 
@@ -12,7 +12,7 @@ TEST_SET(UniquePtr)
 {
 	typedef Core::UniquePtr<PtrTest> TestPtr;
 
-TEST_CASE(UniquePtr, compilationFails)
+TEST_CASE("compilationFails")
 {
 	TestPtr test1;
 //	TestPtr test2 = new PtrTest;			// No implicit construction.
@@ -32,7 +32,7 @@ TEST_CASE(UniquePtr, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(UniquePtr, accessors)
+TEST_CASE("accessors")
 {
 	TestPtr test1;
 	TestPtr test2(new PtrTest);
@@ -54,7 +54,7 @@ TEST_CASE(UniquePtr, accessors)
 }
 TEST_CASE_END
 
-TEST_CASE(UniquePtr, comparison)
+TEST_CASE("comparison")
 {
 	TestPtr test1;
 	TestPtr test2;
@@ -68,7 +68,7 @@ TEST_CASE(UniquePtr, comparison)
 }
 TEST_CASE_END
 
-TEST_CASE(UniquePtr, mutators)
+TEST_CASE("mutators")
 {
 	TestPtr test;
 
@@ -89,7 +89,7 @@ TEST_CASE(UniquePtr, mutators)
 }
 TEST_CASE_END
 
-TEST_CASE(UniquePtr, freeFunctions)
+TEST_CASE("freeFunctions")
 {
 	PtrTest* ptr = new PtrTest;
 

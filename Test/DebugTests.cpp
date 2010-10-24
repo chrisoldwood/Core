@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestDebug.cpp
+//! \file   DebugTests.cpp
 //! \brief  The unit tests for the debugging functions.
 //! \author Chris Oldwood
 
@@ -13,7 +13,7 @@
 TEST_SET(Debug)
 {
 
-TEST_CASE(Debug, compilation)
+TEST_CASE("compilation")
 {
 	bool isTrue  = true;
 	bool isFalse = false;
@@ -36,7 +36,7 @@ TEST_CASE(Debug, compilation)
 }
 TEST_CASE_END
 
-TEST_CASE(Debug, traceOutput)
+TEST_CASE("traceOutput")
 {
 	TRACE1(TXT("Test TraceEx(\"%s\")\n"), TXT("Hello World"));
 
@@ -46,7 +46,7 @@ TEST_CASE(Debug, traceOutput)
 }
 TEST_CASE_END
 /*
-TEST_CASE(Debug, leakReporting)
+TEST_CASE("leakReporting")
 {
 //	strcpy(static_cast<char*>(malloc(10)), "Malloc");
 //	strcpy(new char[5], "new");

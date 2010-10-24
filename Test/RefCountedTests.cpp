@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//! \file   TestRefCounted.cpp
+//! \file   RefCountedTests.cpp
 //! \brief  The unit tests for the RefCounted class.
 //! \author Chris Oldwood
 
@@ -10,7 +10,7 @@
 TEST_SET(RefCounted)
 {
 
-TEST_CASE(RefCounted, compilationFails)
+TEST_CASE("compilationFails")
 {
 //	Core::RefCounted test1;					// Not default constructable.
 
@@ -29,7 +29,7 @@ TEST_CASE(RefCounted, compilationFails)
 }
 TEST_CASE_END
 
-TEST_CASE(RefCounted, lifetimeManaged)
+TEST_CASE("lifetimeManaged")
 {
 	static bool dtorInvoked = false;
 
