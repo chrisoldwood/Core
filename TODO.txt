@@ -11,3 +11,11 @@
 - Add overloads of parse that takes a const tchar* instead of tstring.
 
 - Command line parser does not line-up 2 character short names.
+
+- if a test case includes a 'return' it's not detected and test set is cut short.
+
+- ASSERT if two test cases have the same name in a set.
+
+- AttachTo should thrown if not null.
+
+- empty test cases should ASSERT.

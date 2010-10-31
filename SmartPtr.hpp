@@ -168,6 +168,9 @@ inline T* SmartPtr<T>::get() const
 template <typename T>
 inline T& SmartPtr<T>::getRef() const
 {
+	if (m_pPointer == nullptr)
+		throw NullPtrException();
+
 	return *m_pPointer;
 }
 
