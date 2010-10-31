@@ -13,7 +13,7 @@
 TEST_SET(Debug)
 {
 
-TEST_CASE("compilation")
+TEST_CASE("compilation should succeed")
 {
 	bool isTrue  = true;
 	bool isFalse = false;
@@ -36,7 +36,7 @@ TEST_CASE("compilation")
 }
 TEST_CASE_END
 
-TEST_CASE("traceOutput")
+TEST_CASE("text can be written to the debugger output stream")
 {
 	TRACE1(TXT("Test TraceEx(\"%s\")\n"), TXT("Hello World"));
 
@@ -46,10 +46,13 @@ TEST_CASE("traceOutput")
 }
 TEST_CASE_END
 /*
-TEST_CASE("leakReporting")
+TEST_CASE("memory leaks are reported at shutdown")
 {
-//	strcpy(static_cast<char*>(malloc(10)), "Malloc");
-//	strcpy(new char[5], "new");
+	strcpy(static_cast<char*>(malloc(10)), "malloc");
+	strcpy(static_cast<char*>(calloc(1, 10)), "calloc");
+	strcpy(static_cast<char*>(realloc(nullptr, 10)), "realloc");
+
+	strcpy(new char[5], "new");
 }
 TEST_CASE_END
 */

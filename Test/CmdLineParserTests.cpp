@@ -39,7 +39,17 @@ TEST_SET(CmdLineParser)
 	};
 	static size_t s_nCount = ARRAY_SIZE(s_aoSwitches);
 
-TEST_CASE("invalidSwitch")
+TEST_CASE("initial state contains no arguments")
+{
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	TEST_TRUE(parser.getNamedArgs().empty());
+	TEST_TRUE(parser.getUnnamedArgs().empty());
+	TEST_FALSE(parser.isSwitchSet(FLAG));
+}
+TEST_CASE_END
+
+TEST_CASE("invalid switch names cause an exception to be thrown")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -52,11 +62,9 @@ TEST_CASE("invalidSwitch")
 }
 TEST_CASE_END
 
-TEST_CASE("switchFormatsAndMultipleUse")
+TEST_CASE("default flags allows both windows and unix format switches and unamed arguments")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
-
-	TEST_TRUE(parser.getNamedArgs().empty() && parser.getUnnamedArgs().empty());
 
 	static tchar* argv[] = { TXT("program.exe"), TXT("-short"), TXT("/short"), TXT("--long"), TXT("/long"), TXT("-b"), TXT("--both"), TXT("/both"), TXT("unnamed") };
 	static int argc = ARRAY_SIZE(argv);
@@ -67,41 +75,47 @@ TEST_CASE("switchFormatsAndMultipleUse")
 	TEST_TRUE(parser.getUnnamedArgs().size() == 1);
 	TEST_TRUE(parser.isSwitchSet(SHORT_ONLY) && parser.isSwitchSet(LONG_ONLY) && parser.isSwitchSet(SHORT_LONG));
 	TEST_TRUE(!parser.isSwitchSet(FLAG));
-
-	static tchar* argv2[] = { TXT("program.exe") };
-	static int argc2 = ARRAY_SIZE(argv2);
-
-	parser.parse(argc2, argv2);
-
-	TEST_TRUE(parser.getNamedArgs().empty() && parser.getUnnamedArgs().empty());
 }
 TEST_CASE_END
 
-TEST_CASE("flagCombinations")
+TEST_CASE("single use flag switches throw an exception when used multiple times")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("-?"), TXT("-?") };
 	static int argc = ARRAY_SIZE(argv);
 
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	TEST_THROWS(parser.parse(argc, argv, Core::CmdLineParser::ALLOW_ANY_FORMAT));
-
 	TEST_THROWS(parser.parse(argc, argv));
+}
+TEST_CASE_END
+
+TEST_CASE("strings beginning with a dash are treated as values when windows only format specified")
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("-?"), TXT("-?") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
 	parser.parse(argc, argv, Core::CmdLineParser::ALLOW_WIN_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
 
 	TEST_TRUE(parser.getUnnamedArgs().size() == 3);
+}
+TEST_CASE_END
 
-	static tchar* argv2[] = { TXT("program.exe"), TXT("unamed"), TXT("/?"), };
-	static int argc2 = ARRAY_SIZE(argv2);
+TEST_CASE("strings beginning with a slash are treated as values when unix only format specified")
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("/?"), };
+	static int argc = ARRAY_SIZE(argv);
 
-	parser.parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	parser.parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT | Core::CmdLineParser::ALLOW_UNNAMED);
 
 	TEST_TRUE(parser.getUnnamedArgs().size() == 2);
 }
 TEST_CASE_END
 
-TEST_CASE("invalidFlagStyleSwitch")
+TEST_CASE("flag based switches that include a value throw an exception")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("/flag:value") };
 	static int argc = ARRAY_SIZE(argv);
@@ -112,7 +126,7 @@ TEST_CASE("invalidFlagStyleSwitch")
 }
 TEST_CASE_END
 
-TEST_CASE("switchWithoutValue")
+TEST_CASE("value based switches without a value throw an exception")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("/single") };
 	static int argc = ARRAY_SIZE(argv);
@@ -123,35 +137,41 @@ TEST_CASE("switchWithoutValue")
 }
 TEST_CASE_END
 
-TEST_CASE("switchValuePlacement")
+TEST_CASE("windows style switches can include the value when separated by a colon")
 {
+	static tchar* argv[] = { TXT("program.exe"), TXT("/s:value1"), TXT("/s"), TXT("value2"), TXT("/single:value3"), TXT("/single"), TXT("value4") };
+	static int argc = ARRAY_SIZE(argv);
+
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const Core::CmdLineParser::NamedArgs& mapArgs = parser.getNamedArgs();
+	parser.parse(argc, argv, Core::CmdLineParser::ALLOW_WIN_FORMAT);
 
-	static tchar* argv1[] = { TXT("program.exe"), TXT("/s:value1"), TXT("/s"), TXT("value2"), TXT("/single:value3"), TXT("/single"), TXT("value4") };
-	static int argc1 = ARRAY_SIZE(argv1);
+	const Core::CmdLineParser::NamedArgs&          mapArgs = parser.getNamedArgs();
+	Core::CmdLineParser::NamedArgs::const_iterator it  = mapArgs.find(SINGLE);
+	const Core::CmdLineParser::StringVector&       vec = it->second;
 
-	parser.parse(argc1, argv1, Core::CmdLineParser::ALLOW_WIN_FORMAT);
-
-	Core::CmdLineParser::NamedArgs::const_iterator it1  = mapArgs.find(SINGLE);
-	const Core::CmdLineParser::StringVector&       vec1 = it1->second;
-
-	TEST_TRUE((vec1.size() == 4) && (vec1[0] == TXT("value1")) && (vec1[1] == TXT("value2")) && (vec1[2] == TXT("value3")) && (vec1[3] == TXT("value4")) );
-
-	static tchar* argv2[] = { TXT("program.exe"), TXT("-s=value4"), TXT("-s"), TXT("value3"), TXT("--single=value2"), TXT("--single"), TXT("value1") };
-	static int argc2 = ARRAY_SIZE(argv2);
-
-	parser.parse(argc2, argv2, Core::CmdLineParser::ALLOW_UNIX_FORMAT);
-
-	Core::CmdLineParser::NamedArgs::const_iterator it2  = mapArgs.find(SINGLE);
-	const Core::CmdLineParser::StringVector&       vec2 = it2->second;
-
-	TEST_TRUE((vec2.size() == 4) && (vec2[0] == TXT("value4")) && (vec2[1] == TXT("value3")) && (vec2[2] == TXT("value2")) && (vec2[3] == TXT("value1")) );
+	TEST_TRUE((vec.size() == 4) && (vec[0] == TXT("value1")) && (vec[1] == TXT("value2")) && (vec[2] == TXT("value3")) && (vec[3] == TXT("value4")) );
 }
 TEST_CASE_END
 
-TEST_CASE("multiValuedSwitch")
+TEST_CASE("unix style switches can include the value when separated by an equals sign")
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("-s=value4"), TXT("-s"), TXT("value3"), TXT("--single=value2"), TXT("--single"), TXT("value1") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	parser.parse(argc, argv, Core::CmdLineParser::ALLOW_UNIX_FORMAT);
+
+	const Core::CmdLineParser::NamedArgs&          mapArgs = parser.getNamedArgs();
+	Core::CmdLineParser::NamedArgs::const_iterator it  = mapArgs.find(SINGLE);
+	const Core::CmdLineParser::StringVector&       vec = it->second;
+
+	TEST_TRUE((vec.size() == 4) && (vec[0] == TXT("value4")) && (vec[1] == TXT("value3")) && (vec[2] == TXT("value2")) && (vec[3] == TXT("value1")) );
+}
+TEST_CASE_END
+
+TEST_CASE("multiple value lists are terminated by another switch")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -171,7 +191,7 @@ TEST_CASE("multiValuedSwitch")
 }
 TEST_CASE_END
 
-TEST_CASE("multiValuedSwitchWithOneValue")
+TEST_CASE("multiple value lists are terminated by the end of the command line")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -191,11 +211,33 @@ TEST_CASE("multiValuedSwitchWithOneValue")
 }
 TEST_CASE_END
 
-TEST_CASE("formatSwitches")
+TEST_CASE("reusing the parser resets the state")
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("-short"), TXT("unnamed") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	parser.parse(argc, argv);
+
+	TEST_FALSE(parser.getNamedArgs().empty());
+	TEST_FALSE(parser.getUnnamedArgs().empty());
+
+	static tchar* argv2[] = { TXT("program.exe") };
+	static int argc2 = ARRAY_SIZE(argv2);
+
+	parser.parse(argc2, argv2);
+
+	TEST_TRUE(parser.getNamedArgs().empty());
+	TEST_TRUE(parser.getUnnamedArgs().empty());
+}
+TEST_CASE_END
+
+TEST_CASE("formatting switch list in unix style uses dashes")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
-	const tchar* psz1 =
+	const tchar* expected =
 	TXT("-short                     Short switch\n")
 	TXT("--long                     Long switch\n")
 	TXT("-b | --both                Both types\n")
@@ -204,12 +246,18 @@ TEST_CASE("formatSwitches")
 	TXT("-s | --single <param>      Single value\n")
 	TXT("-m | --multi <params> ...  Multiple values\n");
 
-	tstring strUsage1 = parser.formatSwitches(Core::CmdLineParser::UNIX);
+	tstring actual = parser.formatSwitches(Core::CmdLineParser::UNIX);
 
 //	TRACE1(TXT("\n%s\n"), strUsage1.c_str());
-	TEST_TRUE(strUsage1 == psz1);
+	TEST_TRUE(actual == expected);
+}
+TEST_CASE_END
 
-	const tchar* psz2 =
+TEST_CASE("formatting switch list in windows style uses slashes")
+{
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	const tchar* expected =
 	TXT("/short                    Short switch\n")
 	TXT("/long                     Long switch\n")
 	TXT("/b | /both                Both types\n")
@@ -218,15 +266,14 @@ TEST_CASE("formatSwitches")
 	TXT("/s | /single <param>      Single value\n")
 	TXT("/m | /multi <params> ...  Multiple values\n");
 
-	tstring strUsage2 = parser.formatSwitches(Core::CmdLineParser::WINDOWS);
+	tstring actual = parser.formatSwitches(Core::CmdLineParser::WINDOWS);
 
 //	TRACE1(TXT("\n%s\n"), strUsage2.c_str());
-	TEST_TRUE(strUsage2 == psz2);
+	TEST_TRUE(actual == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("switchesMustMatchNameExactly")
-{
+TEST_CASE("switches longer than the short name will be rejected")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("-fl") };
 	static int argc = ARRAY_SIZE(argv);
@@ -235,6 +282,9 @@ TEST_CASE("switchesMustMatchNameExactly")
 
 	TEST_THROWS(parser.parse(argc, argv));
 }
+TEST_CASE_END
+
+TEST_CASE("switches shorter than the long name will be rejected")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("--fl") };
 	static int argc = ARRAY_SIZE(argv);
@@ -243,6 +293,9 @@ TEST_CASE("switchesMustMatchNameExactly")
 
 	TEST_THROWS(parser.parse(argc, argv));
 }
+TEST_CASE_END
+
+TEST_CASE("switches longer than the long name will be rejected")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("--flaggg") };
 	static int argc = ARRAY_SIZE(argv);
@@ -250,7 +303,6 @@ TEST_CASE("switchesMustMatchNameExactly")
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
 	TEST_THROWS(parser.parse(argc, argv));
-}
 }
 TEST_CASE_END
 

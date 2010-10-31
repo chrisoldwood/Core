@@ -12,11 +12,12 @@
 #include <Core/ParseException.hpp>
 #include <Core/ConfigurationException.hpp>
 #include <Core/RuntimeException.hpp>
+#include <Core/AnsiWide.hpp>
 
 TEST_SET(Exception)
 {
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation should succeed")
 {
 //	Core::Exception dc;											// Not default constructible.
 //	Core::Exception cc(Core::NullPtrException(TXT("Test")));	// Not copy constructible.
@@ -30,40 +31,77 @@ TEST_CASE("compilationFails")
 }
 TEST_CASE_END
 
-TEST_CASE("constructible")
+	const tstring message(TXT("test message"));
+
+TEST_CASE("NotImplException is constructed with a message")
 {
-	Core::NotImplException e(TXT("Test"));
-	Core::NullPtrException npe(TXT("Test"));
-	Core::InvalidArgException iae(TXT("Test"));
-	Core::BadLogicException ble(TXT("Test"));
-	Core::ParseException pe(TXT("Test"));
-	Core::ConfigurationException ce(TXT("Test"));
-	Core::RuntimeException re(TXT("Test"));
+	Core::NotImplException e(message);
 
-	Core::NotImplException copy(e);
-
-	TEST_PASSED("construction succeeded");
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
 }
 TEST_CASE_END
 
-TEST_CASE("twhatSucceeds")
+TEST_CASE("NullPtrException is constructed with a message")
 {
-	Core::NotImplException e(TXT("Test"));
-	Core::NotImplException copy(e);
+	Core::NullPtrException e(message);
 
-	TEST_TRUE(tstrcmp(e.twhat(), TXT("Test")) == 0);
-	TEST_TRUE(tstrcmp(copy.twhat(), TXT("Test")) == 0);
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
 }
 TEST_CASE_END
 
-TEST_CASE("whatAsserts")
+TEST_CASE("InvalidArgException is constructed with a message")
 {
-	Core::NotImplException e(TXT("Test"));
+	Core::InvalidArgException e(message);
+
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("BadLogicException is constructed with a message")
+{
+	Core::BadLogicException e(message);
+
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("ParseException is constructed with a message")
+{
+	Core::ParseException e(message);
+
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("ConfigurationException is constructed with a message")
+{
+	Core::ConfigurationException e(message);
+
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("RuntimeException is constructed with a message")
+{
+	Core::RuntimeException e(message);
+
+	TEST_TRUE(tstrstr(e.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("what ASSERTs when invoked")
+{
+	const std::string message("test message");
+	
+	Core::NotImplException e(A2W(message));
 
 #ifdef CORE_CRTDBG_ENABLED
 	int oldMode = _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
+
 	const std::exception& std_e = e;
-	TEST_TRUE(strcmp(std_e.what(), "Test") == 0);
+
+	TEST_TRUE(strstr(std_e.what(), message.c_str()) != nullptr);
+
 	_CrtSetReportMode(_CRT_ASSERT, oldMode);
 #endif
 }

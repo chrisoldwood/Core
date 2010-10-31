@@ -10,7 +10,7 @@
 TEST_SET(NotCopyable)
 {
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation should succeed")
 {
 	class CopyTest : public Core::NotCopyable
 	{

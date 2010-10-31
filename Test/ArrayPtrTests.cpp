@@ -11,14 +11,13 @@ TEST_SET(ArrayPtr)
 {
 	typedef Core::ArrayPtr<int> TestPtr;
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation only succeeds for explicit conversions")
 {
 	TestPtr test1;
 //	TestPtr test2 = new int[1];				// No implicit construction.
 //	TestPtr test3 = TestPtr(new int[1]);	// Not copy constructable.
 	TestPtr test4(new int[1]);
 //	TestPtr test5(test4);					// Not copy constructable.
-	TestPtr test6;
 
 //	test1 = test4;							// Not assignable.
 //	int pRaw1[1] = test1;					// No implicit conversion.
@@ -31,61 +30,142 @@ TEST_CASE("compilationFails")
 }
 TEST_CASE_END
 
-TEST_CASE("accessors")
+TEST_CASE("initial state is a null pointer")
 {
-	TestPtr test1;
-	TestPtr test2(new int[1]);
+	TestPtr test;
 
-	TEST_TRUE(test1.get() == nullptr);
-	TEST_TRUE(test2.get() != nullptr);
-
-	int* ptr = test2.get();
-	int& ref = test2.getRef();
-
-	TEST_TRUE(ptr  == test2.get());
-	TEST_TRUE(&ref == test2.get());
+	TEST_TRUE(test.get() == nullptr);
 }
 TEST_CASE_END
 
-TEST_CASE("comparison")
+TEST_CASE("construction with a pointer passes ownership")
 {
-	TestPtr test1;
-	TestPtr test2;
-	TestPtr test3(new int[1]);
+	int*    expected = new int[1];
+	TestPtr test(expected);
 
-	TEST_TRUE(!test1);
-	TEST_FALSE(!test3);
-
-	TEST_TRUE(test1 == test2);
-	TEST_TRUE(test1 != test3);
+	TEST_TRUE(test.get() == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("mutation")
+TEST_CASE("owned pointer can be accessed as a pointer or reference")
+{
+	int*    expected = new int[1];
+	TestPtr test(expected);
+
+	TEST_TRUE(test.get() == &test.getRef());
+}
+TEST_CASE_END
+
+TEST_CASE("retrieving reference when pointer is null throws an exception")
+{
+	TestPtr test;
+
+	TEST_THROWS(test.getRef());
+}
+TEST_CASE_END
+
+TEST_CASE("not operator returns if the contained pointer is null or not")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new int[1]);
+
+	TEST_TRUE(!hasNullPtr);
+	TEST_FALSE(!hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("[in]equivalence operator compares two pointers")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new int[1]);
+
+	TEST_TRUE(hasNullPtr == hasNullPtr);
+	TEST_TRUE(hasNullPtr != hasRealPtr);
+	TEST_TRUE(hasRealPtr == hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("reset empties the pointer when argument is null pointer")
+{
+	TestPtr test(new int[1]);
+
+	test.reset();
+
+	TEST_TRUE(test.get() == nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("reset changes ownership when argument is not null pointer")
+{
+	TestPtr test(new int[1]);
+
+	int* expected = new int[2];
+
+	test.reset(expected);
+
+	TEST_TRUE(test.get() == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("detach releases ownership of the pointer")
 {
 	int array[1] = { 12345678 };
 
-	TestPtr test;
+	TestPtr test(array);
 
-	test.reset(array);
-
-	TEST_TRUE(test.get() != nullptr);
-	TEST_TRUE(test[0] == 12345678);
+	TEST_TRUE(test.get() == array);
 
 	test.detach();
 
 	TEST_TRUE(test.get() == nullptr);
-
-	TEST_THROWS(*test);
-	TEST_THROWS(test[0]);
 }
 TEST_CASE_END
 
-TEST_CASE("freeFunctions")
+TEST_CASE("index operator returns a const reference to an element when pointer is const")
 {
 	int* array = new int[1];
 
+	array[0] = 12345678;
+
+	const TestPtr test(array);
+
+	TEST_TRUE(test[0] == array[0]);
+}
+TEST_CASE_END
+
+TEST_CASE("index operator returns a non-const reference to an element when pointer is not const")
+{
+	int array[1] = { 12345678 };
+
+	TestPtr test(array);
+
+	TEST_TRUE(test[0] == array[0]);
+
+	test[0] = 87654321;
+
+	TEST_TRUE(test[0] == array[0]);
+
+	test.detach();
+}
+TEST_CASE_END
+
+TEST_CASE("indexing a null pointer throws an exception")
+{
+	TestPtr test1;
+
+	TEST_THROWS(test1[0]);
+
+	const TestPtr test2;
+
+	TEST_THROWS(test2[0]);
+}
+TEST_CASE_END
+
+TEST_CASE("smart pointer unaware functions can attach a pointer to an empty instance")
+{
 	TestPtr test;
+
+	int* array = new int[1];
 
 	*attachTo(test) = array;
 

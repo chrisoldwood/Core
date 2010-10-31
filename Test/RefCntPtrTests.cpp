@@ -10,8 +10,10 @@
 class RefCntTest : public Core::RefCounted
 {
 public:
-	virtual void run()
-	{ }
+	virtual bool run()
+	{
+		return true;
+	}
 };
 
 class RefCntDerived : public RefCntTest
@@ -28,7 +30,7 @@ TEST_SET(RefCntPtr)
 	typedef Core::RefCntPtr<RefCntDerived> DerivedPtr;
 	typedef Core::RefCntPtr<RefCntUnrelated> UnrelatedPtr;
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation should succeed")
 {
 	TestPtr test1;
 //	TestPtr test2 = new RefCntTest;				// No implicit construction.
@@ -51,65 +53,116 @@ TEST_CASE("compilationFails")
 }
 TEST_CASE_END
 
-TEST_CASE("accessors")
+TEST_CASE("initial state is a null pointer")
 {
-	TestPtr test1;
-	TestPtr test2 = TestPtr(new RefCntTest);
+	TestPtr test;
 
-	TEST_TRUE(test1.get() == nullptr);
-	TEST_TRUE(test2.get() != nullptr);
-
-	test2->run();
-	(*test2).run();
-
-	RefCntTest* ptr = test2.get();
-	RefCntTest& ref = test2.getRef();
-
-	TEST_TRUE(ptr  == test2.get());
-	TEST_TRUE(&ref == test2.get());
-
-	ptr->run();
-	ref.run();
+	TEST_TRUE(test.get() == nullptr);
 }
 TEST_CASE_END
 
-TEST_CASE("mutators")
+TEST_CASE("construction with a pointer passes ownership")
 {
-	TestPtr test1;
-	TestPtr test2 = TestPtr(new RefCntTest);
+	RefCntTest* expected = new RefCntTest;
+	TestPtr     test(expected);
 
-	test1 = test2;
-	test1 = test1;
-
-	TEST_TRUE(test1.get() == test2.get());
-
-	test1.reset(new RefCntTest);
-
-	TEST_TRUE(test1.get() != nullptr);
-
-	test1.reset();
-
-	TEST_TRUE(test1.get() == nullptr);
-	TEST_THROWS(*test1);
-	TEST_THROWS(test1->decRefCount());
+	TEST_TRUE(test.get() == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("comparison")
+TEST_CASE("owned pointer can be accessed as a pointer or reference")
 {
-	TestPtr test1;
-	TestPtr test2;
-	TestPtr test3 = TestPtr(new RefCntTest);
+	RefCntTest* expected = new RefCntTest;
+	TestPtr     test(expected);
 
-	TEST_TRUE(!test1);
-	TEST_FALSE(!test3);
-
-	TEST_TRUE(test1 == test2);
-	TEST_TRUE(test1 != test3);
+	TEST_TRUE(test.get() == &test.getRef());
 }
 TEST_CASE_END
 
-TEST_CASE("freeFunctions")
+TEST_CASE("retrieving reference when pointer is null throws an exception")
+{
+	TestPtr test;
+
+	TEST_THROWS(test.getRef());
+}
+TEST_CASE_END
+
+TEST_CASE("operator -> returns owned pointer")
+{
+	TestPtr test(new RefCntTest);
+
+	TEST_TRUE(test->run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator -> throws when the owned pointer is null")
+{
+	TestPtr test;
+
+	TEST_THROWS(test->run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator * returns owned pointer as a reference")
+{
+	TestPtr test(new RefCntTest);
+
+	TEST_TRUE((*test).run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator * throws when the owned pointer is null")
+{
+	TestPtr test;
+
+	TEST_THROWS((*test).run());
+}
+TEST_CASE_END
+
+TEST_CASE("not operator returns if the contained pointer is null or not")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new RefCntTest);
+
+	TEST_TRUE(!hasNullPtr);
+	TEST_FALSE(!hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("[in]equivalence operator compares two pointers")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new RefCntTest);
+
+	TEST_TRUE(hasNullPtr == hasNullPtr);
+	TEST_TRUE(hasNullPtr != hasRealPtr);
+	TEST_TRUE(hasRealPtr == hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("reset empties the pointer when argument is null pointer")
+{
+	TestPtr test(new RefCntTest);
+
+	test.reset();
+
+	TEST_TRUE(test.get() == nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("reset changes ownership when argument is not null pointer")
+{
+	TestPtr test(new RefCntTest);
+
+	RefCntTest* expected = new RefCntTest;
+
+	test.reset(expected);
+
+	TEST_TRUE(test.get() == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("pointer can only be statically or dynamically cast to related types")
 {
 	TestPtr base1(new RefCntTest);
 	TestPtr base2(new RefCntTest);
@@ -137,8 +190,6 @@ TEST_CASE("freeFunctions")
 	pUnrelated = Core::dynamic_ptr_cast<RefCntUnrelated>(base1);
 
 	TEST_TRUE(pUnrelated.get() == nullptr);
-
-	TEST_TRUE(*attachTo(pUnrelated) == nullptr);
 }
 TEST_CASE_END
 

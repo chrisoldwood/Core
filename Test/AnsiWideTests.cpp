@@ -13,31 +13,58 @@ TEST_SET(AnsiWide)
 	const wchar_t* wpsz = L"ABCabc123";
 	const tchar*   tpsz = TXT("ABCabc123");
 
-TEST_CASE("functions")
+TEST_CASE("convert a string from ANSI to Unicode")
 {
-	TEST_TRUE(Core::ansiToWide(psz,  psz+strlen(psz)  ) == wpsz);
-	TEST_TRUE(Core::wideToAnsi(wpsz, wpsz+wcslen(wpsz)) == psz);
+	const std::string  test = psz;
+	const std::wstring expected = wpsz;
+
+	TEST_TRUE(Core::ansiToWide(test) == expected);
+	TEST_TRUE(Core::ansiToWide(test.c_str()) == expected);
+	TEST_TRUE(Core::ansiToWide(test.c_str(), test.c_str()+test.size()) == expected);
+
+	TEST_TRUE(static_cast<const wchar_t*>(Core::AnsiToWide(test.c_str())) == expected);
+	TEST_TRUE(static_cast<const wchar_t*>(Core::AnsiToWide(test)) == expected);
+
+	TEST_TRUE(A2W(test.c_str()) == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("classes")
+TEST_CASE("convert a string from Unicode to ANSI")
 {
-	TEST_TRUE(static_cast<const char*>(Core::WideToAnsi(std::wstring(wpsz))) == std::string(psz));
-	TEST_TRUE(static_cast<const wchar_t*>(Core::AnsiToWide(std::string(psz)))  == std::wstring(wpsz));
+	const std::wstring test = wpsz;
+	const std::string  expected = psz;
+
+	TEST_TRUE(Core::wideToAnsi(test) == expected);
+	TEST_TRUE(Core::wideToAnsi(test.c_str()) == expected);
+	TEST_TRUE(Core::wideToAnsi(test.c_str(), test.c_str()+test.size()) == expected);
+
+	TEST_TRUE(static_cast<const char*>(Core::WideToAnsi(test.c_str())) == expected);
+	TEST_TRUE(static_cast<const char*>(Core::WideToAnsi(test)) == expected);
+
+	TEST_TRUE(W2A(test.c_str()) == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("macros")
+TEST_CASE("convert from ANSI/Unicode to build dependent type")
 {
-	TEST_TRUE(std::string(W2A(wpsz)) == psz);
-	TEST_TRUE(std::wstring(A2W(psz)) == wpsz);
+	tstring expected = tpsz;
 
-	TEST_TRUE(tstring(W2T(wpsz)) == tpsz);
-	TEST_TRUE(tstring(A2T(psz))  == tpsz);
+	TEST_TRUE(A2T(psz)  == expected);
+	TEST_TRUE(W2T(wpsz) == expected);
 }
 TEST_CASE_END
 
-TEST_CASE("fmt")
+TEST_CASE("convert from build dependent type to ANSI/Unicode")
+{
+	std::string  ansiExpected = psz;
+	std::wstring wideExpected = wpsz;
+
+	TEST_TRUE(T2A(tpsz) == ansiExpected);
+	TEST_TRUE(T2W(tpsz) == wideExpected);
+}
+TEST_CASE_END
+
+TEST_CASE("format a string from ANSI, Unicode or build dependent input strings")
 {
 	const tchar* result = TXT("[A]NSI [U]NICODE");
 

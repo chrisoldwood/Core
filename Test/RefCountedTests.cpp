@@ -10,7 +10,7 @@
 TEST_SET(RefCounted)
 {
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation should succeed")
 {
 //	Core::RefCounted test1;					// Not default constructable.
 
@@ -24,30 +24,54 @@ TEST_CASE("compilationFails")
 	test1 = nullptr;
 	test2 = nullptr;
 
-
 	TEST_PASSED("compilation succeeded");
 }
 TEST_CASE_END
 
-TEST_CASE("lifetimeManaged")
-{
-	static bool dtorInvoked = false;
+	static bool dtorInvoked;
 
-	class RefCountedTest : public Core::RefCounted
+	class Test : public Core::RefCounted
 	{
-		~RefCountedTest()
+	public:
+		Test()
+		{
+			dtorInvoked = false;
+		}
+	private:
+		virtual ~Test()
 		{
 			dtorInvoked = true;
 		}
 	};
 
-	Core::RefCounted* test = nullptr;
-
-	test = new RefCountedTest;
+TEST_CASE("object starts with a reference count of 1")
+{
+	Core::RefCounted* test = new Test;
 
 	TEST_TRUE(test->refCount() == 1);
-	TEST_TRUE(test->incRefCount() == 2);
-	TEST_TRUE(test->decRefCount() == 1);
+
+	test->decRefCount();
+}
+TEST_CASE_END
+
+TEST_CASE("the reference count can be explicitly incremented and decremented")
+{
+	Core::RefCounted* test = new Test;
+
+	long count = test->refCount();
+
+	TEST_TRUE(test->incRefCount() != count);
+	TEST_TRUE(test->decRefCount() == count);
+
+	test->decRefCount();
+}
+TEST_CASE_END
+
+TEST_CASE("object is destroyed when there are no remaining refernces")
+{
+	Core::RefCounted* test = new Test;
+
+	TEST_FALSE(dtorInvoked);
 
 	test->decRefCount();
 

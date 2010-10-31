@@ -12,7 +12,7 @@ TEST_SET(UniquePtr)
 {
 	typedef Core::UniquePtr<PtrTest> TestPtr;
 
-TEST_CASE("compilationFails")
+TEST_CASE("compilation should succeed")
 {
 	TestPtr test1;
 //	TestPtr test2 = new PtrTest;			// No implicit construction.
@@ -32,72 +32,139 @@ TEST_CASE("compilationFails")
 }
 TEST_CASE_END
 
-TEST_CASE("accessors")
-{
-	TestPtr test1;
-	TestPtr test2(new PtrTest);
-
-	TEST_TRUE(test1.get() == nullptr);
-	TEST_TRUE(test2.get() != nullptr);
-
-	test2->run();
-	(*test2).run();
-
-	PtrTest* ptr = test2.get();
-	PtrTest& ref = test2.getRef();
-
-	TEST_TRUE(ptr  == test2.get());
-	TEST_TRUE(&ref == test2.get());
-
-	ptr->run();
-	ref.run();
-}
-TEST_CASE_END
-
-TEST_CASE("comparison")
-{
-	TestPtr test1;
-	TestPtr test2;
-	TestPtr test3(new PtrTest);
-
-	TEST_TRUE(!test1);
-	TEST_FALSE(!test3);
-
-	TEST_TRUE(test1 == test2);
-	TEST_TRUE(test1 != test3);
-}
-TEST_CASE_END
-
-TEST_CASE("mutators")
+TEST_CASE("initial state is a null pointer")
 {
 	TestPtr test;
 
-	test.reset(new PtrTest);
+	TEST_TRUE(test.get() == nullptr);
+}
+TEST_CASE_END
 
-	TEST_TRUE(test.get() != nullptr);
+TEST_CASE("construction with a pointer passes ownership")
+{
+	PtrTest* expected = new PtrTest;
+	TestPtr  test(expected);
+
+	TEST_TRUE(test.get() == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("owned pointer can be accessed as a pointer or reference")
+{
+	PtrTest* expected = new PtrTest;
+	TestPtr  test(expected);
+
+	TEST_TRUE(test.get() == &test.getRef());
+}
+TEST_CASE_END
+
+TEST_CASE("retrieving reference when pointer is null throws an exception")
+{
+	TestPtr test;
+
+	TEST_THROWS(test.getRef());
+}
+TEST_CASE_END
+
+TEST_CASE("operator -> returns owned pointer")
+{
+	TestPtr test(new PtrTest);
+
+	TEST_TRUE(test->run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator -> throws when the owned pointer is null")
+{
+	TestPtr test;
+
+	TEST_THROWS(test->run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator * returns owned pointer as a reference")
+{
+	TestPtr test(new PtrTest);
+
+	TEST_TRUE((*test).run());
+}
+TEST_CASE_END
+
+TEST_CASE("operator * throws when the owned pointer is null")
+{
+	TestPtr test;
+
+	TEST_THROWS((*test).run());
+}
+TEST_CASE_END
+
+TEST_CASE("not operator returns if the contained pointer is null or not")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new PtrTest);
+
+	TEST_TRUE(!hasNullPtr);
+	TEST_FALSE(!hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("[in]equivalence operator compares two pointers")
+{
+	TestPtr hasNullPtr;
+	TestPtr hasRealPtr(new PtrTest);
+
+	TEST_TRUE(hasNullPtr == hasNullPtr);
+	TEST_TRUE(hasNullPtr != hasRealPtr);
+	TEST_TRUE(hasRealPtr == hasRealPtr);
+}
+TEST_CASE_END
+
+TEST_CASE("reset empties the pointer when argument is null pointer")
+{
+	TestPtr test(new PtrTest);
 
 	test.reset();
 
 	TEST_TRUE(test.get() == nullptr);
+}
+TEST_CASE_END
 
-	TEST_THROWS(*test);
-	TEST_THROWS(test->release());
+TEST_CASE("reset changes ownership when argument is not null pointer")
+{
+	TestPtr test(new PtrTest);
 
-	delete test.detach();
+	PtrTest* expected = new PtrTest;
+
+	test.reset(expected);
+
+	TEST_TRUE(test.get() == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("detach releases ownership of the pointer")
+{
+	PtrTest  value;
+	PtrTest* expected = &value;
+
+	TestPtr test(expected);
+
+	TEST_TRUE(test.get() == expected);
+
+	test.detach();
 
 	TEST_TRUE(test.get() == nullptr);
 }
 TEST_CASE_END
 
-TEST_CASE("freeFunctions")
+TEST_CASE("smart pointer unaware functions can attach a pointer to an empty instance")
 {
-	PtrTest* ptr = new PtrTest;
-
 	TestPtr test;
 
-	*attachTo(test) = ptr;
+	PtrTest* expected = new PtrTest;
 
-	TEST_TRUE(test.get() == ptr);
+	*attachTo(test) = expected;
+
+	TEST_TRUE(test.get() == expected);
 }
 TEST_CASE_END
 

@@ -10,7 +10,7 @@
 TEST_SET(Interlocked)
 {
 
-TEST_CASE("atomicIncrement")
+TEST_CASE("increment the value by one and return the new value")
 {
 	long value = 1;
 
@@ -18,7 +18,7 @@ TEST_CASE("atomicIncrement")
 }
 TEST_CASE_END
 
-TEST_CASE("atomicDecrement")
+TEST_CASE("decrement the value by one and return the new value")
 {
 	long value = 2;
 
