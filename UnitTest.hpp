@@ -14,6 +14,7 @@
 #include <set>
 #include "tiostream.hpp"
 #include "StringUtils.hpp"
+#include <cstdlib>
 
 // Avoid bringing in <windows.h>.
 extern "C" __declspec(dllimport) void __stdcall DebugBreak();
@@ -161,7 +162,7 @@ int getTestProcessResult();
 									TEST_SUITE_RUN();		\
 								}							\
 								TEST_SUITE_END
-	
+
 //! Define a set of test cases.
 #define TEST_SET(t)			static void t();												\
 							static bool registered = Core::registerTestSet(TXT(#t), t);		\
