@@ -10,7 +10,7 @@
 				<Option platforms="Windows;" />
 				<Option output="Debug\Test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="Debug" />
-				<Option external_deps="..\Debug\libCore.a;..\Release\libCore.a;" />
+				<Option external_deps="..\Debug\libCore.a;" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -22,16 +22,18 @@
 					<Add directory="..\..\..\Lib" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="..\Debug\lib.a" />
+					<Add library="..\Debug\libCore.a" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
 				<Option platforms="Windows;" />
 				<Option output="Release\Test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="Release" />
+				<Option external_deps="..\Release\libCore.a;" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_CONSOLE" />
@@ -40,15 +42,15 @@
 					<Add directory="..\..\..\Lib" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="..\Release\lib.a" />
+					<Add library="..\Release\libCore.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
 			<Add directory="..\..\..\Lib" />
 		</Compiler>
-		<Unit filename="PtrTest.hpp" />
-		<Unit filename="Test.cpp" />
 		<Unit filename="AlgorithmTests.cpp" />
 		<Unit filename="AnsiWideTests.cpp" />
 		<Unit filename="ArrayPtrTests.cpp" />
@@ -57,10 +59,12 @@
 		<Unit filename="ExceptionTests.cpp" />
 		<Unit filename="InterlockedTests.cpp" />
 		<Unit filename="NotCopyableTests.cpp" />
+		<Unit filename="PtrTest.hpp" />
 		<Unit filename="RefCntPtrTests.cpp" />
 		<Unit filename="RefCountedTests.cpp" />
 		<Unit filename="SharedPtrTests.cpp" />
 		<Unit filename="StringUtilsTests.cpp" />
+		<Unit filename="Test.cpp" />
 		<Unit filename="TokeniserTests.cpp" />
 		<Unit filename="UniquePtrTests.cpp" />
 		<Unit filename="stdafx.cpp" />
