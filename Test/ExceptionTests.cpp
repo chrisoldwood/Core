@@ -92,8 +92,8 @@ TEST_CASE_END
 TEST_CASE("what ASSERTs when invoked")
 {
 	const std::string message("test message");
-	
-	Core::NotImplException e(A2W(message));
+
+	Core::NotImplException e(A2T(message));
 
 #ifdef CORE_CRTDBG_ENABLED
 	int oldMode = _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
@@ -103,6 +103,8 @@ TEST_CASE("what ASSERTs when invoked")
 	TEST_TRUE(strstr(std_e.what(), message.c_str()) != nullptr);
 
 	_CrtSetReportMode(_CRT_ASSERT, oldMode);
+#else
+	TEST_PASSED("Visual C++ specific test");
 #endif
 }
 TEST_CASE_END

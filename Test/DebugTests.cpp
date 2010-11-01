@@ -26,7 +26,7 @@ TEST_CASE("compilation should succeed")
 	ASSERT(isFalse);
 	_CrtSetReportMode(_CRT_ASSERT, oldMode);
 #else
-	DEBUG_USE_ONLY(isFalse);
+	UNUSED_VARIABLE(isFalse);
 #endif
 
 	STATIC_ASSERT(true);
