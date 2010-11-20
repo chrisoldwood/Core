@@ -22,7 +22,7 @@ namespace Core
 //! to ownership must be provided by the derived classes.
 
 template <typename T>
-class SmartPtr : private NotCopyable
+class SmartPtr /*: private NotCopyable*/
 {
 public:
 	//
@@ -54,6 +54,9 @@ public:
 	//! Access owned pointer as a reference.
 	T& getRef() const;
 
+	//! Query if we are not owning a pointer.
+	bool empty() const;
+
 protected:
 	//! Default constructor.
 	SmartPtr();
@@ -63,11 +66,16 @@ protected:
 
 	//! Destructor.
 	~SmartPtr();
-	
+
 	//
 	// Members.
 	//
 	T*	m_pPointer;		//!< The pointer being shadowed.
+
+private:
+	// NotCopyable.
+	SmartPtr(const SmartPtr&);
+	SmartPtr& operator=(const SmartPtr&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,6 +180,15 @@ inline T& SmartPtr<T>::getRef() const
 		throw NullPtrException();
 
 	return *m_pPointer;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Query if we are not owning a pointer.
+
+template <typename T>
+inline bool SmartPtr<T>::empty() const
+{
+	return (m_pPointer == nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

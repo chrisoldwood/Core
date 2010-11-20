@@ -8,6 +8,11 @@
 #include <Core/SharedPtr.hpp>
 #include "PtrTest.hpp"
 
+#ifdef __GNUG__
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 TEST_SET(SharedPtr)
 {
 	typedef Core::SharedPtr<PtrTest> TestPtr;

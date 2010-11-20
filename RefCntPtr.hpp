@@ -12,6 +12,7 @@
 #endif
 
 #include "RefCounted.hpp"
+#include "BadLogicException.hpp"
 
 namespace Core
 {
@@ -223,7 +224,8 @@ inline T** RefCntPtr<T>::getPtrMember()
 template <typename T>
 inline T** attachTo(RefCntPtr<T>& ptr)
 {
-	ASSERT(*ptr.getPtrMember() == nullptr);
+	if (!ptr.empty())
+		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));
 
 	return ptr.getPtrMember();
 }

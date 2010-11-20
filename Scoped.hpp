@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include "BadLogicException.hpp"
+
 namespace Core
 {
 
@@ -52,6 +54,9 @@ public:
 	//
 	// Methods.
 	//
+
+	//! Query if we are not owning a resource.
+	bool empty() const;
 
 	//! Destroy the resource.
 	void reset();
@@ -121,6 +126,15 @@ inline T Scoped<T>::get() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Query if we are not owning a resource.
+
+template <typename T>
+inline bool Scoped<T>::empty() const
+{
+	return (m_resource == m_null);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Destroy the resource.
 
 template <typename T>
@@ -169,8 +183,8 @@ inline T Scoped<T>::detach()
 template <typename T>
 inline T* attachTo(Scoped<T>& guard)
 {
-	ASSERT(guard.m_resource == guard.m_null);
-	ASSERT(guard.m_deleter  != nullptr);
+	if (!guard.empty())
+		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));
 
 	return &guard.m_resource;
 }

@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include "BadLogicException.hpp"
+
 namespace Core
 {
 
@@ -130,7 +132,8 @@ inline T** UniquePtr<T>::getPtrMember()
 template <typename T>
 inline T** attachTo(UniquePtr<T>& ptr)
 {
-	ASSERT(*ptr.getPtrMember() == nullptr);
+	if (!ptr.empty())
+		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));
 
 	return ptr.getPtrMember();
 }

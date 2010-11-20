@@ -7,6 +7,11 @@
 #include <Core/UnitTest.hpp>
 #include <Core/RefCntPtr.hpp>
 
+#ifdef __GNUG__
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 class RefCntTest : public Core::RefCounted
 {
 public:
@@ -190,6 +195,42 @@ TEST_CASE("pointer can only be statically or dynamically cast to related types")
 	pUnrelated = Core::dynamic_ptr_cast<RefCntUnrelated>(base1);
 
 	TEST_TRUE(pUnrelated.get() == nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("smart pointer unaware functions can attach a pointer to an empty instance")
+{
+	TestPtr test;
+
+	RefCntTest* expected = new RefCntTest;
+
+	*attachTo(test) = expected;
+
+	TEST_TRUE(test.get() == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("attaching a pointer to a non-empty smart pointer throws an exception")
+{
+	TestPtr test(new RefCntTest);
+
+	TEST_THROWS(attachTo(test));
+}
+TEST_CASE_END
+
+TEST_CASE("the pointer is empty when it owns nothing")
+{
+	const TestPtr test;
+
+	TEST_TRUE(test.empty());
+}
+TEST_CASE_END
+
+TEST_CASE("the pointer is not empty when it owns something")
+{
+	const TestPtr test(new RefCntTest);
+
+	TEST_FALSE(test.empty());
 }
 TEST_CASE_END
 
