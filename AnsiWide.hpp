@@ -37,8 +37,8 @@ inline std::wstring ansiToWide(const char* psz)
 
 inline std::wstring ansiToWide(const std::string& str)
 {
-	const char* pszBegin = &(*str.begin());
-	const char* pszEnd   = &(*str.end());
+	const char* pszBegin = str.data();
+	const char* pszEnd   = pszBegin + str.size();
 
 	return ansiToWide(pszBegin, pszEnd);
 }
@@ -66,8 +66,8 @@ inline std::string wideToAnsi(const wchar_t* psz)
 
 inline std::string wideToAnsi(const std::wstring& str)
 {
-	const wchar_t* pszBegin = &(*str.begin());
-	const wchar_t* pszEnd   = &(*str.end());
+	const wchar_t* pszBegin = str.data();
+	const wchar_t* pszEnd   = pszBegin + str.size();
 
 	return wideToAnsi(pszBegin, pszEnd);
 }
@@ -76,7 +76,7 @@ inline std::string wideToAnsi(const std::wstring& str)
 //! The class used to do the conversion from ANSI to Wide via the X2Y() macros.
 //  NB: The sole member must be a c-style string to work with var_args functions.
 
-class AnsiToWide
+class AnsiToWide /*: private NotCopyable*/
 {
 public:
 	//! Construct from an ANSI string.
@@ -96,6 +96,10 @@ private:
 	// Members.
 	//
 	wchar_t*	m_psz;	//! The converted string.
+
+	// NotCopyable.
+	AnsiToWide(const AnsiToWide&);
+	AnsiToWide& operator=(const AnsiToWide&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +122,7 @@ inline AnsiToWide::operator const wchar_t*() const
 //! The class used to do the conversion from Wide to ANSI via the X2Y() macros.
 //  NB: The sole member must be a c-style string to work with var_args functions.
 
-class WideToAnsi
+class WideToAnsi /*: private NotCopyable*/
 {
 public:
 	//! Construct from a wide string.
@@ -138,6 +142,10 @@ private:
 	// Members.
 	//
 	char*	m_psz;	//! The converted string.
+
+	// NotCopyable.
+	WideToAnsi(const WideToAnsi&);
+	WideToAnsi& operator=(const WideToAnsi&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

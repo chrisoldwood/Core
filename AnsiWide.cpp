@@ -30,7 +30,7 @@ std::wstring ansiToWide(const char* pszBegin, const char* pszEnd)
 	// Allocate the return value.
 	str.resize(nLength);
 
-	wchar_t* pszDst = &(*str.begin());
+	wchar_t* pszDst = const_cast<wchar_t*>(str.data());
 
 	// Do the conversion.
 	ansiToWide(pszBegin, pszEnd, pszDst);
@@ -58,7 +58,7 @@ std::string wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
 	// Allocate the return value.
 	str.resize(nLength);
 
-	char* pszDst = &(*str.begin());
+	char* pszDst = const_cast<char*>(str.data());
 
 	// Do the conversion.
 	wideToAnsi(pszBegin, pszEnd, pszDst);
@@ -70,6 +70,7 @@ std::string wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd)
 //! Construct from an ANSI string.
 
 Core::AnsiToWide::AnsiToWide(const char* psz)
+	: m_psz()
 {
 	size_t nLength = strlen(psz);
 
@@ -84,6 +85,7 @@ Core::AnsiToWide::AnsiToWide(const char* psz)
 //! Construct from an ANSI string.
 
 Core::AnsiToWide::AnsiToWide(const std::string& str)
+	: m_psz()
 {
 	size_t      nLength = str.length();
 	const char* psz     = (str.empty()) ? nullptr : &str[0];
@@ -99,6 +101,7 @@ Core::AnsiToWide::AnsiToWide(const std::string& str)
 //! Construct from a wide string.
 
 Core::WideToAnsi::WideToAnsi(const wchar_t* psz)
+	: m_psz()
 {
 	size_t nLength = wcslen(psz);
 
@@ -113,6 +116,7 @@ Core::WideToAnsi::WideToAnsi(const wchar_t* psz)
 //! Construct from a wide string.
 
 Core::WideToAnsi::WideToAnsi(const std::wstring& str)
+	: m_psz()
 {
 	size_t         nLength = str.length();
 	const wchar_t* psz     = (str.empty()) ? nullptr : &str[0];

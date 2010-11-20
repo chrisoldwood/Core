@@ -18,6 +18,7 @@ TEST_CASE("convert a string from ANSI to Unicode")
 	const std::string  test = psz;
 	const std::wstring expected = wpsz;
 
+	TEST_TRUE(Core::ansiToWide("") == L"");
 	TEST_TRUE(Core::ansiToWide(test) == expected);
 	TEST_TRUE(Core::ansiToWide(test.c_str()) == expected);
 	TEST_TRUE(Core::ansiToWide(test.c_str(), test.c_str()+test.size()) == expected);
@@ -34,6 +35,7 @@ TEST_CASE("convert a string from Unicode to ANSI")
 	const std::wstring test = wpsz;
 	const std::string  expected = psz;
 
+	TEST_TRUE(Core::wideToAnsi(L"") == "");
 	TEST_TRUE(Core::wideToAnsi(test) == expected);
 	TEST_TRUE(Core::wideToAnsi(test.c_str()) == expected);
 	TEST_TRUE(Core::wideToAnsi(test.c_str(), test.c_str()+test.size()) == expected);
