@@ -16,9 +16,11 @@
 #include "StringUtils.hpp"
 #include <cstdlib>
 
+#if !defined(__GNUC__) || !defined(_WINBASE_H)
 // Avoid bringing in <windows.h>.
 extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 extern "C" __declspec(dllimport) int  __stdcall IsDebuggerPresent();
+#endif
 
 namespace Core
 {
@@ -192,7 +194,7 @@ int getTestProcessResult();
 
 //! Define a test case.
 #define TEST_CASE(t)		{																			\
-							if (Core::onStartTestCase(TXT(#t)))	{										\
+							if (Core::onStartTestCase(TXT(t)))	{										\
 								try {
 
 //! End the test case definition.

@@ -7,6 +7,7 @@
 #include "UnitTest.hpp"
 #include "StringUtils.hpp"
 #include "tiostream.hpp"
+#include "Algorithm.hpp"
 #include "CmdLineException.hpp"
 #include "CmdLineParser.hpp"
 #include <algorithm>
@@ -29,14 +30,17 @@ static uint s_numPassed = 0;
 static uint s_numFailed = 0;
 //! The number of tests that were indeterminate.
 static uint s_numUnknown = 0;
-//! Is quiet mode enabled?
+//! Is verbose mode enabled?
 static bool s_verbose = false;
+//! Is quiet mode enabled?
+static bool s_quiet = false;
 
 //! The test runner command line switch IDs.
 enum SwitchID
 {
 	HELP	= 0,	//!< Show command line usage.
 	VERBOSE	= 1,	//!< Verbose output of each test case.
+	QUIET	= 2,	//!< Minimal output of each test case.
 };
 
 //! Test case result state.
@@ -59,6 +63,8 @@ static TestCaseNames s_failures;
 static TestCaseSetUpFn s_setup;
 //! The test case TearDown function.
 static TestCaseTearDownFn s_teardown;
+//! The list of test cases executed.
+static TestCaseNames s_executed;
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Parse the command line. This extracts the list of test cases to run.
@@ -68,13 +74,14 @@ static Core::CmdLineSwitch s_switches[] =
 	{ HELP,		TXT("?"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Display command line usage")		},
 	{ HELP,		TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Display command line usage")		},
 	{ VERBOSE,	TXT("v"),	TXT("verbose"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Verbose output of each test case")	},
+	{ QUIET,	TXT("q"),	TXT("quiet"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Minimal output of each test case")	},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Display the program options syntax.
 
-void showUsage(const tchar* process, const Core::CmdLineParser& parser)
+static void showUsage(const tchar* process, const Core::CmdLineParser& parser)
 {
 	tcout << std::endl;
 	tcout << TXT("USAGE: ") << process << (" [options...] [test_case, ...]") << std::endl;
@@ -96,6 +103,9 @@ bool parseCmdLine(int argc, tchar* argv[], TestSetFilters& filters)
 	try
 	{
 		parser.parse(argc, argv);
+
+		if (parser.isSwitchSet(VERBOSE) && parser.isSwitchSet(QUIET))
+			throw CmdLineException(TXT("--quiet and --verbose are mutually exclusive"));
 	}
 	catch (const CmdLineException& e)
 	{
@@ -113,6 +123,7 @@ bool parseCmdLine(int argc, tchar* argv[], TestSetFilters& filters)
 
 	// Process command line settings.
 	s_verbose = parser.isSwitchSet(VERBOSE);
+	s_quiet = parser.isSwitchSet(QUIET);
 
 	// Build the test case list.
 	Core::CmdLineParser::UnnamedArgs::const_iterator it = parser.getUnnamedArgs().begin();
@@ -140,7 +151,14 @@ static TestSets& getTestSetCollection()
 
 bool registerTestSet(const tchar* name, TestSetFn runner)
 {
-	getTestSetCollection().insert(std::make_pair(name, runner));
+	ASSERT(tstrlen(name) != 0);
+	ASSERT(runner != nullptr);
+
+	TestSets& sets = getTestSetCollection();
+
+	ASSERT(sets.find(name) == sets.end());
+
+	sets.insert(std::make_pair(name, runner));
 
 	return true;
 }
@@ -201,13 +219,20 @@ bool runTestSets(const TestSetFilters& filters)
 
 void onStartTestSet(const tchar* name)
 {
-	tcout << name << std::endl;
+	ASSERT(tstrlen(name) != 0);
+	ASSERT(s_currentTestCase.empty());
 
-	if (!s_verbose)
-		tcout << TXT(" ");
+	if (!s_quiet)
+	{
+		tcout << name << std::endl;
+
+		if (!s_verbose)
+			tcout << TXT(" ");
+	}
 
 	s_currentTestSet = name;
 	s_failures.clear();
+	s_executed.clear();
 	s_setup = nullptr;
 	s_teardown = nullptr;
 }
@@ -217,8 +242,12 @@ void onStartTestSet(const tchar* name)
 
 void onEndTestSet()
 {
-	if (!s_verbose)
+	ASSERT(s_currentTestCase.empty());
+
+	if (!s_quiet && !s_verbose)
+	{
 		tcout << std::endl;
+	}
 
 	if (!s_failures.empty())
 	{
@@ -234,14 +263,16 @@ void onEndTestSet()
 		}
 	}
 
-	tcout << std::endl;
+	if (!s_quiet)
+	{
+		tcout << std::endl;
+	}
 
-#ifdef _DEBUG
 	s_currentTestSet.clear();
 	s_failures.clear();
+	s_executed.clear();
 	s_setup = nullptr;
 	s_teardown = nullptr;
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -265,6 +296,10 @@ void defineTestCaseTearDown(TestCaseTearDownFn teardown)
 
 bool onStartTestCase(const tchar* name)
 {
+	ASSERT(tstrlen(name) != 0);
+	ASSERT(s_currentTestCase.empty());
+	ASSERT(!exists<tstring>(s_executed, name));
+
 	if (s_verbose)
 		tcout << TXT(" > ") << name << std::endl;
 
@@ -297,6 +332,8 @@ bool onStartTestCase(const tchar* name)
 
 void onEndTestCase()
 {
+	ASSERT(!s_currentTestCase.empty());
+
 	if (s_teardown != nullptr)
 	{
 		try
@@ -312,6 +349,8 @@ void onEndTestCase()
 			processSetupTeardownException(TXT("TearDown"), TXT("UNKNOWN"));
 		}
 	}
+
+	s_executed.push_back(s_currentTestCase);
 
 	// Update stats.
 	if (s_currentResult == SUCCEEDED)
@@ -332,6 +371,7 @@ void onEndTestCase()
 	}
 	else
 	{
+		ASSERT_FALSE();
 		ASSERT(s_currentResult == UNKNOWN);
 
 		++s_numUnknown;
@@ -340,16 +380,14 @@ void onEndTestCase()
 			tcout << TXT("?");
 	}
 
-#ifdef _DEBUG
 	s_currentResult = UNKNOWN;
 	s_currentTestCase.clear();
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Get just the filename from the path.
 
-const char* getFileName(const char* path)
+static const char* getFileName(const char* path)
 {
 	const char* filename = strrchr(path, '\\');
 
@@ -439,6 +477,11 @@ void setTestRunFinalStatus(bool successful)
 
 void writeTestsSummary()
 {
+	if (s_quiet)
+	{
+		tcout << std::endl << std::endl;
+	}
+
 	tstring str = Core::fmt(TXT("Test Results: %u Passed %u Failed %u Unknown"),
 							s_numPassed, s_numFailed, s_numUnknown);
 
