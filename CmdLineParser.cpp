@@ -9,6 +9,12 @@
 #include "StringUtils.hpp"
 #include <algorithm>
 
+#ifdef __GNUG__
+// 'X' has pointer data members [but is copyable]
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 namespace Core
 {
 
@@ -18,6 +24,8 @@ namespace Core
 CmdLineParser::CmdLineParser(SwitchCIter itFirstSwitch, SwitchCIter itLastSwitch)
 	: m_itFirstSwitch(itFirstSwitch)
 	, m_itLastSwitch(itLastSwitch)
+	, m_mapNamedArgs()
+	, m_vecUnnamedArgs()
 {
 #ifdef _DEBUG
 	// Verify switch defintions.

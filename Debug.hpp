@@ -57,7 +57,7 @@ void traceEx(const tchar* pszFormat, ...);
 #endif
 
 //! Mark a variable as only used in debug to avoid 'unreferenced variable' warnings.
-#define DEBUG_USE_ONLY(x)
+#define DEBUG_USE_ONLY(x)		((void)x)
 
 //! Mark a variable or parameter as unused in any build.
 #define UNUSED_VARIABLE(x)		(x)

@@ -19,7 +19,7 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 //! The class used to provide internal reference counting.
 
-class RefCounted : private NotCopyable
+class RefCounted /*: private NotCopyable*/
 {
 public:
 	//
@@ -45,12 +45,16 @@ protected:
 
 	//! Destructor.
 	virtual ~RefCounted();
-	
+
 private:
 	//
 	// Members.
 	//
 	long	m_lRefCount;	//!< The reference count.
+
+	// NotCopyable.
+	RefCounted(const RefCounted&);
+	RefCounted& operator=(const RefCounted&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

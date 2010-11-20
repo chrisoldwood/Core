@@ -14,6 +14,7 @@ namespace Core
 //! Default constructor.
 
 Exception::Exception()
+	: m_strDetails()
 {
 }
 

@@ -9,6 +9,7 @@
 #include <Core/CmdLineException.hpp>
 
 #ifdef __GNUG__
+// deprecated conversion from string constant to 'tchar*'
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #endif
 

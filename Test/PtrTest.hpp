@@ -9,6 +9,8 @@
 class IPtrTest
 {
 public:
+	virtual ~IPtrTest() {}
+
 	virtual ulong addRef() = 0;
 	virtual ulong release() = 0;
 	virtual bool  run() = 0;
