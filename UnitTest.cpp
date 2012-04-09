@@ -394,7 +394,7 @@ static const char* getFileName(const char* path)
 	if (filename != nullptr)
 		++filename;
 	else
-		filename = filename;
+		filename = path;
 
 	return filename;
 }
