@@ -396,3 +396,38 @@ tstring trimCopy(tstring string)
 
 //namespace Core
 }
+
+// Only available from VC++ 8.0
+#if _MSC_VER < 1400
+
+////////////////////////////////////////////////////////////////////////////////
+//! Get the length of a string, using the current locale or one that has been
+//! passed in. More secure versions of strlen().
+
+size_t strnlen(const char* string, size_t bufsize)
+{
+	size_t count = 0;
+	const char* end = string+bufsize;
+
+	for (const char* it = string; ((it != end) && (*it != '\0')); ++it)
+		++count;
+
+	return count;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Get the length of a string, using the current locale or one that has been
+//! passed in. More secure versions of strlen().
+
+size_t wcsnlen(const wchar_t* string, size_t bufsize)
+{
+	size_t count = 0;
+	const wchar_t* end = string+bufsize;
+
+	for (const wchar_t* it = string; ((it != end) && (*it != L'\0')); ++it)
+		++count;
+
+	return count;
+}
+
+#endif

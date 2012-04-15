@@ -153,5 +153,63 @@ TEST_CASE("64-bit unsigned integers can be formatted and parsed")
 }
 TEST_CASE_END
 
+TEST_CASE("strnlen should return the string length when less than the buffer size")
+{
+	const char   buffer[] = "unit test\0garbage";
+	const size_t bufsize = ARRAY_SIZE(buffer)-1;
+	const size_t length = strlen(buffer);
+
+	const size_t actual = strnlen(buffer, bufsize);
+
+	TEST_TRUE(actual == length);
+}
+TEST_CASE_END
+
+TEST_CASE("strnlen should return the buffer size when no null terminator exists")
+{
+	const char   buffer[] = "unit test";
+	const size_t bufsize = 4;
+
+	const size_t actual = strnlen(buffer, bufsize);
+
+	TEST_TRUE(actual == bufsize);
+}
+TEST_CASE_END
+
+TEST_CASE("wcsnlen should return the string length when less than the buffer size")
+{
+	const wchar_t buffer[] = L"unit test\0garbage";
+	const size_t bufsize = ARRAY_SIZE(buffer)-1;
+	const size_t length = wcslen(buffer);
+
+	const size_t actual = wcsnlen(buffer, bufsize);
+
+	TEST_TRUE(actual == length);
+}
+TEST_CASE_END
+
+TEST_CASE("wcsnlen should return the buffer size when no null terminator exists")
+{
+	const wchar_t buffer[] = L"unit test";
+	const size_t bufsize = 4;
+
+	const size_t actual = wcsnlen(buffer, bufsize);
+
+	TEST_TRUE(actual == bufsize);
+}
+TEST_CASE_END
+
+TEST_CASE("tstrnlen should map to strnlen or wcsnlen")
+{
+	const tchar  buffer[] = TXT("unit test\0garbage");
+	const size_t bufsize = ARRAY_SIZE(buffer);
+	const size_t length = tstrlen(buffer);
+
+	const size_t actual = tstrnlen(buffer, bufsize);
+
+	TEST_TRUE(actual == length);
+}
+TEST_CASE_END
+
 }
 TEST_SET_END

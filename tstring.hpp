@@ -83,6 +83,7 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 
 // String functions.
 #define tstrlen			strlen
+#define tstrnlen		strnlen
 #define tstrlwr			_strlwr
 #define tstrupr			_strupr
 #define tstrcmp			strcmp
@@ -126,6 +127,7 @@ typedef std::wistream	tistream;	//!< Build agnostic input stream type.
 
 // String functions.
 #define tstrlen			wcslen
+#define tstrnlen		wcsnlen
 #define tstrlwr			_wcslwr
 #define tstrupr			_wcsupr
 #define tstrcmp			wcscmp

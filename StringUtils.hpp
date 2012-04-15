@@ -153,4 +153,16 @@ tstring trimCopy(tstring string);
 //namespace Core
 }
 
+// Only available from VC++ 8.0
+#if _MSC_VER < 1400
+
+////////////////////////////////////////////////////////////////////////////////
+// Get the length of a string, using the current locale or one that has been
+// passed in. More secure versions of strlen().
+
+size_t strnlen(const char* string, size_t bufsize);
+size_t wcsnlen(const wchar_t* string, size_t bufsize);
+
+#endif
+
 #endif // CORE_STRINGUTILS_HPP
