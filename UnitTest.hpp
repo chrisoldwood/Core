@@ -166,14 +166,14 @@ int getTestProcessResult();
 								TEST_SUITE_END
 
 //! Define a set of test cases.
-#define TEST_SET(t)			static void t();												\
-							static bool registered = Core::registerTestSet(TXT(#t), t);		\
-							static void t()													\
-							{																\
+#define TEST_SET(t)			static void _##t##_TEST_SET();												\
+							static bool registered = Core::registerTestSet(TXT(#t), _##t##_TEST_SET);	\
+							static void _##t##_TEST_SET()												\
+							{																			\
 							Core::onStartTestSet(TXT(#t));
 
 //! End the test set definition.
-#define TEST_SET_END		Core::onEndTestSet();											\
+#define TEST_SET_END		Core::onEndTestSet();														\
 							}
 
 //! Define the test case setup function.
