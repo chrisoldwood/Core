@@ -121,6 +121,9 @@ private:
 	//! Try and match the argument to a switch definition.
 	SwitchCIter findSwitch(CharCIter itNameFirst, CharCIter itNameLast);
 
+	//! Validate the switch definitions.
+	static void validateSwitches(SwitchCIter first, SwitchCIter last);
+
 	//
 	// Forward declarations.
 	//

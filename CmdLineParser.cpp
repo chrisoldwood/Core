@@ -8,6 +8,8 @@
 #include "CmdLineException.hpp"
 #include "StringUtils.hpp"
 #include <algorithm>
+#include "BadLogicException.hpp"
+#include <set>
 
 #ifdef __GNUG__
 // 'X' has pointer data members [but is copyable]
@@ -27,14 +29,7 @@ CmdLineParser::CmdLineParser(SwitchCIter itFirstSwitch, SwitchCIter itLastSwitch
 	, m_mapNamedArgs()
 	, m_vecUnnamedArgs()
 {
-#ifdef _DEBUG
-	// Verify switch defintions.
-	for (SwitchCIter it = m_itFirstSwitch; it != m_itLastSwitch; ++it)
-	{
-		ASSERT((it->m_pszShortName != nullptr) || (it->m_pszLongName != nullptr));
-		ASSERT((it->m_eParameters == CmdLineSwitch::NONE) || (it->m_pszParamDesc != nullptr));
-	}
-#endif
+	validateSwitches(m_itFirstSwitch, m_itLastSwitch);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -227,35 +222,63 @@ tstring CmdLineParser::getSwitchValue(int nID) const
 
 tstring CmdLineParser::formatSwitches(Format eFormat) const
 {
-	size_t nMaxSwitchLen   = 0;
 	tstring strShortPrefix = (eFormat == WINDOWS) ? TXT("/") : TXT("-");
 	tstring strLongPrefix  = (eFormat == WINDOWS) ? TXT("/") : TXT("--");
 
-	// Calculate the max length of the text to the left of the switch descriptions.
+	size_t maxShortSwitchLen = 0;
+	size_t includeSeparator  = false;
+
+	// Calculate the max length of the short switch name.
 	for (SwitchCIter it = m_itFirstSwitch; it != m_itLastSwitch; ++it)
 	{
 		// Treat switches with no description as internal.
 		if (it->m_pszDescription == nullptr)
 			continue;
 
-		size_t nSwitchLen = 0;
+		size_t switchLen      = 0;
+		size_t shortSwitchLen = 0;
 
 		if (it->m_pszShortName != nullptr)
-			nSwitchLen += tstrlen(it->m_pszShortName) + strShortPrefix.length() + 1; // "-%s "
+		{
+			shortSwitchLen = tstrlen(it->m_pszShortName) + strShortPrefix.length() + 1; // "-%s "
+			switchLen     += shortSwitchLen;
+		}
 
 		if ( (it->m_pszShortName != nullptr) && (it->m_pszLongName != nullptr) )
-			nSwitchLen += 2; // "| "
+		{
+			includeSeparator = true; // "| "
+		}
+
+		maxShortSwitchLen = std::max(shortSwitchLen, maxShortSwitchLen);
+	}
+
+	size_t maxSwitchLen     = maxShortSwitchLen;
+	size_t maxLongSwitchLen = 0;
+
+	// Calculate the max length of the long switch name & parameters.
+	for (SwitchCIter it = m_itFirstSwitch; it != m_itLastSwitch; ++it)
+	{
+		// Treat switches with no description as internal.
+		if (it->m_pszDescription == nullptr)
+			continue;
+
+		size_t longSwitchLen = 0;
+		size_t switchLen     = maxShortSwitchLen + ((includeSeparator) ? 2 : 0);
 
 		if (it->m_pszLongName != nullptr)
-			nSwitchLen += tstrlen(it->m_pszLongName) + strLongPrefix.length() + 1; // "--%s "
+		{
+			longSwitchLen = tstrlen(it->m_pszLongName) + strLongPrefix.length() + 1; // "--%s "
+			switchLen     += longSwitchLen;
+		}
 
 		if ( (it->m_eParameters == CmdLineSwitch::SINGLE) || (it->m_eParameters == CmdLineSwitch::MULTIPLE) )
-			nSwitchLen += tstrlen(it->m_pszParamDesc) + 3; // "<%s> "
+			switchLen += tstrlen(it->m_pszParamDesc) + 3; // "<%s> "
 
 		if (it->m_eParameters == CmdLineSwitch::MULTIPLE)
-			nSwitchLen += 4; // "... "
+			switchLen += 4; // "... "
 
-		nMaxSwitchLen = std::max(nSwitchLen, nMaxSwitchLen);
+		maxLongSwitchLen   = std::max(longSwitchLen,  maxLongSwitchLen );
+		maxSwitchLen       = std::max(switchLen,      maxSwitchLen     );
 	}
 
 	tstring strUsage;
@@ -273,8 +296,13 @@ tstring CmdLineParser::formatSwitches(Format eFormat) const
 		if (it->m_pszShortName != nullptr)
 			strLine += fmt(TXT("%s%s "), strShortPrefix.c_str(), it->m_pszShortName);
 
+		if (strLine.length() < maxShortSwitchLen)
+			strLine += tstring(maxShortSwitchLen-strLine.length(), TXT(' '));
+
 		if ( (it->m_pszShortName != nullptr) && (it->m_pszLongName != nullptr) )
 			strLine += TXT("| ");
+		else if (includeSeparator)
+			strLine += TXT("  ");
 
 		if (it->m_pszLongName != nullptr)
 			strLine += fmt(TXT("%s%s "), strLongPrefix.c_str(), it->m_pszLongName);
@@ -285,9 +313,8 @@ tstring CmdLineParser::formatSwitches(Format eFormat) const
 		if (it->m_eParameters == CmdLineSwitch::MULTIPLE)
 			strLine += TXT("... ");
 
-		// Apply padding, if required.
-		if (strLine.length() < nMaxSwitchLen)
-			strLine += tstring(nMaxSwitchLen-strLine.length(), TXT(' '));
+		if (strLine.length() < maxSwitchLen)
+			strLine += tstring(maxSwitchLen-strLine.length(), TXT(' '));
 
 		// Append the description.
 		if (it->m_pszDescription != nullptr)
@@ -412,6 +439,39 @@ CmdLineParser::SwitchCIter CmdLineParser::findSwitch(CharCIter itNameFirst, Char
 	}
 
 	return m_itLastSwitch;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Validate the switch definitions.
+
+void CmdLineParser::validateSwitches(SwitchCIter first, SwitchCIter last)
+{
+	std::set<tstring> shortNames, longNames;
+
+	for (SwitchCIter it = first; it != last; ++it)
+	{
+		if ( (it->m_pszShortName == nullptr) && (it->m_pszLongName == nullptr) )
+			throw BadLogicException(TXT("Neither short nor long switch name provided"));
+
+		if ( (it->m_eParameters != CmdLineSwitch::NONE) && (it->m_pszParamDesc == nullptr) )
+			throw BadLogicException(TXT("Parameter expected but no parameter name provided"));
+
+		if (it->m_pszShortName != nullptr)
+		{
+			if (shortNames.find(it->m_pszShortName) != shortNames.end())
+				throw BadLogicException(TXT("Duplicate short switch name specified"));
+
+			shortNames.insert(it->m_pszShortName);
+		}
+
+		if (it->m_pszLongName != nullptr)
+		{
+			if (longNames.find(it->m_pszLongName) != longNames.end())
+				throw BadLogicException(TXT("Duplicate long switch name specified"));
+
+			longNames.insert(it->m_pszLongName);
+		}
+	}
 }
 
 //namespace Core

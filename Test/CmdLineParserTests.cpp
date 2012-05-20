@@ -7,6 +7,7 @@
 #include <Core/UnitTest.hpp>
 #include <Core/CmdLineParser.hpp>
 #include <Core/CmdLineException.hpp>
+#include <Core/BadLogicException.hpp>
 
 #ifdef __GNUG__
 // deprecated conversion from string constant to 'tchar*'
@@ -234,22 +235,50 @@ TEST_CASE("reusing the parser resets the state")
 }
 TEST_CASE_END
 
+TEST_CASE("formatting switch list should align different sized switches on separator")
+{
+	static Core::CmdLineSwitch switches[] =
+	{
+		{ 1,	TXT("a"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("short switch only")				},
+		{ 2,	NULL,		TXT("long1"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("long switch only")					},
+		{ 3,	TXT("b"),	TXT("long2"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("both switches")					},
+		{ 4,	TXT("cc"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("multi-char short switch")			},
+		{ 4,	TXT("d"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::MULTIPLE,	TXT("param"),	TXT("short switch only with params")	},
+	};
+	static size_t count = ARRAY_SIZE(switches);
+
+	Core::CmdLineParser parser(switches, switches+count);
+
+	const tchar* expected =
+	TXT("-a                 short switch only\n")
+	TXT("      --long1      long switch only\n")
+	TXT("-b  | --long2      both switches\n")
+	TXT("-cc                multi-char short switch\n")
+	TXT("-d    <param> ...  short switch only with params\n");
+
+	tstring actual = parser.formatSwitches(Core::CmdLineParser::UNIX);
+
+//	TRACE1(TXT("\n%s\n"), actual.c_str());
+	TEST_TRUE(actual == expected);
+}
+TEST_CASE_END
+
 TEST_CASE("formatting switch list in unix style uses dashes")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
 	const tchar* expected =
-	TXT("-short                     Short switch\n")
-	TXT("--long                     Long switch\n")
-	TXT("-b | --both                Both types\n")
-	TXT("-?                         Usage\n")
-	TXT("-f | --flag                Flag type\n")
-	TXT("-s | --single <param>      Single value\n")
-	TXT("-m | --multi <params> ...  Multiple values\n");
+	TXT("-short                         Short switch\n")
+	TXT("         --long                Long switch\n")
+	TXT("-b     | --both                Both types\n")
+	TXT("-?                             Usage\n")
+	TXT("-f     | --flag                Flag type\n")
+	TXT("-s     | --single <param>      Single value\n")
+	TXT("-m     | --multi <params> ...  Multiple values\n");
 
 	tstring actual = parser.formatSwitches(Core::CmdLineParser::UNIX);
 
-//	TRACE1(TXT("\n%s\n"), strUsage1.c_str());
+//	TRACE1(TXT("\n%s\n"), actual.c_str());
 	TEST_TRUE(actual == expected);
 }
 TEST_CASE_END
@@ -259,17 +288,17 @@ TEST_CASE("formatting switch list in windows style uses slashes")
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
 	const tchar* expected =
-	TXT("/short                    Short switch\n")
-	TXT("/long                     Long switch\n")
-	TXT("/b | /both                Both types\n")
-	TXT("/?                        Usage\n")
-	TXT("/f | /flag                Flag type\n")
-	TXT("/s | /single <param>      Single value\n")
-	TXT("/m | /multi <params> ...  Multiple values\n");
+	TXT("/short                        Short switch\n")
+	TXT("         /long                Long switch\n")
+	TXT("/b     | /both                Both types\n")
+	TXT("/?                            Usage\n")
+	TXT("/f     | /flag                Flag type\n")
+	TXT("/s     | /single <param>      Single value\n")
+	TXT("/m     | /multi <params> ...  Multiple values\n");
 
 	tstring actual = parser.formatSwitches(Core::CmdLineParser::WINDOWS);
 
-//	TRACE1(TXT("\n%s\n"), strUsage2.c_str());
+//	TRACE1(TXT("\n%s\n"), actual.c_str());
 	TEST_TRUE(actual == expected);
 }
 TEST_CASE_END
@@ -304,6 +333,50 @@ TEST_CASE("switches longer than the long name will be rejected")
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
 	TEST_THROWS(parser.parse(argc, argv));
+}
+TEST_CASE_END
+
+TEST_CASE("construction with a duplicate short switch name should throw")
+{
+	static Core::CmdLineSwitch switches[] =
+	{
+		{ 1,	TXT("s"),	NULL,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+		{ 2,	TXT("s"),	NULL,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+	};
+	static size_t count = ARRAY_SIZE(switches);
+
+	try
+	{
+		Core::CmdLineParser parser(switches, switches+count);
+
+		TEST_FAILED("ctor did not throw");
+	}
+	catch (const Core::BadLogicException /*e*/)
+	{
+		TEST_PASSED("ctor threw correct exception");
+	}
+}
+TEST_CASE_END
+
+TEST_CASE("construction with a duplicate long switch name should throw")
+{
+	static Core::CmdLineSwitch switches[] =
+	{
+		{ 1,	NULL,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+		{ 2,	NULL,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+	};
+	static size_t count = ARRAY_SIZE(switches);
+
+	try
+	{
+		Core::CmdLineParser parser(switches, switches+count);
+
+		TEST_FAILED("ctor did not throw");
+	}
+	catch (const Core::BadLogicException /*e*/)
+	{
+		TEST_PASSED("ctor threw correct exception");
+	}
 }
 TEST_CASE_END
 

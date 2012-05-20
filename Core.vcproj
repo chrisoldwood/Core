@@ -241,6 +241,9 @@
 				RelativePath=".\StringUtils.hpp">
 			</File>
 			<File
+				RelativePath=".\tiosfwd.hpp">
+			</File>
+			<File
 				RelativePath=".\tiostream.hpp">
 			</File>
 			<File

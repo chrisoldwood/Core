@@ -10,6 +10,4 @@
 
 - Add overloads of parse that takes a const tchar* instead of tstring.
 
-- Command line parser does not line-up 2 character short names.
-
 - Macros to disable/enable ASSERT reporting so that we can unit test ToString() functions with invalid values.
