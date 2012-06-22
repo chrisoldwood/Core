@@ -129,24 +129,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\stdafx.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Test.cpp">
-			</File>
-			<File
 				RelativePath=".\AlgorithmTests.cpp">
 			</File>
 			<File
@@ -163,6 +145,9 @@
 			</File>
 			<File
 				RelativePath=".\ExceptionTests.cpp">
+			</File>
+			<File
+				RelativePath=".\FileSystemTests.cpp">
 			</File>
 			<File
 				RelativePath=".\InterlockedTests.cpp">
@@ -183,7 +168,28 @@
 				RelativePath=".\SharedPtrTests.cpp">
 			</File>
 			<File
+				RelativePath=".\stdafx.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\StringUtilsTests.cpp">
+			</File>
+			<File
+				RelativePath=".\Test.cpp">
+			</File>
+			<File
+				RelativePath=".\TextFileIteratorTests.cpp">
 			</File>
 			<File
 				RelativePath=".\TokeniserTests.cpp">

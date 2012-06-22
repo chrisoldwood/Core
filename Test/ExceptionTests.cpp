@@ -12,6 +12,7 @@
 #include <Core/ParseException.hpp>
 #include <Core/ConfigurationException.hpp>
 #include <Core/RuntimeException.hpp>
+#include <Core/FileSystemException.hpp>
 #include <Core/AnsiWide.hpp>
 
 TEST_SET(Exception)
@@ -84,6 +85,14 @@ TEST_CASE_END
 TEST_CASE("RuntimeException is constructed with a message")
 {
 	Core::RuntimeException exception(message);
+
+	TEST_TRUE(tstrstr(exception.twhat(), message.c_str()) != nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("FileSystemException is constructed with a message")
+{
+	Core::FileSystemException exception(message);
 
 	TEST_TRUE(tstrstr(exception.twhat(), message.c_str()) != nullptr);
 }
