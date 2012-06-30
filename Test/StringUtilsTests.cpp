@@ -121,7 +121,7 @@ TEST_CASE("unsigned integers can be formatted and parsed")
 	TEST_TRUE(Core::format<uint>(UINT_MAX) == TXT("4294967295"));
 	TEST_TRUE(Core::parse<uint>(TXT(" 4294967295 ")) == UINT_MAX);
 	TEST_THROWS(Core::parse<uint>(TXT("")));
-//	TEST_THROWS(Core::parse<uint>(TXT("-1"))); // VC++ parses as signed.
+	TEST_THROWS(Core::parse<uint>(TXT("-1")));
 	TEST_THROWS(Core::parse<uint>(TXT(" 4294967296 ")));
 	TEST_THROWS(Core::parse<uint>(TXT("1nv4l1d")));
 }

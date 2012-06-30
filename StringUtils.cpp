@@ -121,6 +121,12 @@ struct FormatTraits<uint>
 
 	static ulong parse(const tchar* nptr, tchar** endptr, int base)
 	{
+		if (*nptr == TXT('-'))
+		{
+			errno = EINVAL;
+			return 0;
+		}
+
 		return tstrtoul(nptr, endptr, base);
 	}
 };
@@ -235,7 +241,7 @@ T parseInteger(const tstring& buffer)
 	it = skipWhitespace(it, end);
 
 	if (it == end)
-		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Failed to parse number: '%s'"), buffer.c_str()));
 
 	errno = 0;
 
@@ -243,7 +249,7 @@ T parseInteger(const tstring& buffer)
 	T value = Traits::parse(it, &endPtr, 10);
 
 	if ( (endPtr == nullptr) || (errno != 0) )
-		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Failed to parse number: '%s'"), buffer.c_str()));
 
 	it = endPtr;
 
@@ -251,7 +257,7 @@ T parseInteger(const tstring& buffer)
 	it = skipWhitespace(it, end);
 
 	if ( (it != end) && (*it != TXT('\0')) )
-		throw ParseException(Core::fmt(TXT("Invalid number: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Failed to parse number: '%s'"), buffer.c_str()));
 
 	return value;
 }
@@ -265,7 +271,7 @@ bool parse(const tstring& buffer)
 	uint value = parseInteger< uint, FormatTraits<uint> >(buffer);
 
 	if ( (value != 0) && (value != 1) )
-		throw ParseException(Core::fmt(TXT("Invalid boolean: '%s'"), buffer.c_str()));
+		throw ParseException(Core::fmt(TXT("Failed to parse boolean value: '%s'"), buffer.c_str()));
 
 	return (value == 1);
 }
