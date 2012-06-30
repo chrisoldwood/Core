@@ -200,8 +200,10 @@ int getTestProcessResult();
 //! End the test case definition.
 #define TEST_CASE_END			}																		\
 								catch(const Core::Exception& e) {										\
+									Core::debugWrite(TXT("Thrown: %s\n"), e.twhat());					\
 									Core::processTestException(__FILE__, __LINE__, e.twhat());			\
 								} catch(...) {															\
+									Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));	\
 									Core::processTestException(__FILE__, __LINE__, TXT("UNKNOWN"));		\
 								}																		\
 							}																			\
