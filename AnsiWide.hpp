@@ -167,6 +167,18 @@ inline WideToAnsi::operator const char*() const
 ////////////////////////////////////////////////////////////////////////////////
 // Compatibility macros and classes to replace use of <atlconv.h>
 
+//! Helper function for use NOP conversions.
+inline const tchar* getCharPtr(const tchar* ptr)
+{
+	return ptr;
+}
+
+//! Helper function for use NOP conversions.
+inline const tchar* getCharPtr(const tstring& str)
+{
+	return str.c_str();
+}
+
 //! Convert an ANSI string to Wide.
 #define A2W(psz)	static_cast<const wchar_t*>(Core::AnsiToWide(psz))
 
@@ -177,9 +189,9 @@ inline WideToAnsi::operator const char*() const
 #ifdef ANSI_BUILD
 
 //! Convert an ANSI string to a TCHAR string.
-#define A2T(psz)	(psz)
+#define A2T(psz)	(Core::getCharPtr(psz))
 //! Convert a TCHAR string to ANSI.
-#define T2A(psz)	(psz)
+#define T2A(psz)	(Core::getCharPtr(psz))
 
 //! Convert a Wide string to a TCHAR string.
 #define W2T(psz)	W2A(psz)
@@ -195,9 +207,9 @@ inline WideToAnsi::operator const char*() const
 #define T2A(psz)	W2A(psz)
 
 //! Convert a Wide string to a TCHAR string.
-#define W2T(psz)	(psz)
+#define W2T(psz)	(Core::getCharPtr(psz))
 //! Convert a TCHAR string to Wide.
-#define T2W(psz)	(psz)
+#define T2W(psz)	(Core::getCharPtr(psz))
 
 #endif
 

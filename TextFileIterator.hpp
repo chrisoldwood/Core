@@ -14,6 +14,11 @@
 #include "UniquePtr.hpp"
 #include "tfstream.hpp"
 
+#ifdef __GNUG__
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 namespace Core
 {
 
@@ -31,7 +36,7 @@ public:
 
 	//! Destructor.
 	~TextFileIterator();
-	
+
 	//
 	// Operators.
 	//
@@ -43,7 +48,7 @@ public:
 	const tstring* operator->() const;
 
 	//! Advance the iterator.
-	void operator++();
+	TextFileIterator& operator++();
 
 	//
 	// Methods.
@@ -78,9 +83,11 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 //! Advance the iterator.
 
-inline void TextFileIterator::operator++()
+inline TextFileIterator& TextFileIterator::operator++()
 {
 	increment();
+
+	return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

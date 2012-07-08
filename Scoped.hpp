@@ -28,7 +28,7 @@ T* attachTo(Scoped<T>& guard);
 //! custom destroy function.
 
 template <typename T>
-class Scoped : private NotCopyable
+class Scoped /*: private NotCopyable*/
 {
 public:
 	//! The type of the function used to destroy the resource.
@@ -43,7 +43,7 @@ public:
 
 	//! Destructor.
 	~Scoped();
-	
+
 	//
 	// Properties.
 	//
@@ -81,6 +81,11 @@ private:
 
 	//! Allow attachment via an output parameter.
 	friend T* attachTo<>(Scoped<T>& guard);
+
+private:
+	// NotCopyable.
+	Scoped(const Scoped&);
+	Scoped& operator=(const Scoped&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

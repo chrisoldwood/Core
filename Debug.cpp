@@ -67,7 +67,7 @@ void traceEx(const tchar* pszFormat, ...)
 
 #ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(fmtEx(pszFormat, args).c_str())) == 1)
+	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(fmtEx(pszFormat, args))) == 1)
 		_CrtDbgBreak();
 #endif
 

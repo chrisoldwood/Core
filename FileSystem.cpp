@@ -14,6 +14,10 @@
 #include <io.h>
 #include <tchar.h>
 
+#ifdef __GNUG__
+#pragma GCC diagnostic ignored "-Wunused-value"
+#endif
+
 namespace Core
 {
 

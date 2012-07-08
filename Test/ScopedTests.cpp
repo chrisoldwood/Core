@@ -7,6 +7,10 @@
 #include <Core/UnitTest.hpp>
 #include <Core/Scoped.hpp>
 
+static void nullDeleter(void* /*buffer*/)
+{
+}
+
 TEST_SET(Scoped)
 {
 	typedef Core::Scoped<void*> ScopedPtr;
@@ -62,7 +66,7 @@ TEST_CASE("detach releases ownership of the pointer")
 {
 	int array[1] = { 12345678 };
 
-	ScopedPtr test(array, free);
+	ScopedPtr test(array, nullDeleter);
 
 	TEST_TRUE(test.get() == array);
 
