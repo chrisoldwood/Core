@@ -14,6 +14,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-g" />
 					<Add option="-D_DEBUG" />
 				</Compiler>
 				<ResourceCompiler>
@@ -65,14 +66,17 @@
 		<Unit filename="CmdLineParserTests.cpp" />
 		<Unit filename="DebugTests.cpp" />
 		<Unit filename="ExceptionTests.cpp" />
+		<Unit filename="FileSystemTests.cpp" />
 		<Unit filename="InterlockedTests.cpp" />
 		<Unit filename="NotCopyableTests.cpp" />
 		<Unit filename="PtrTest.hpp" />
 		<Unit filename="RefCntPtrTests.cpp" />
 		<Unit filename="RefCountedTests.cpp" />
+		<Unit filename="ScopedTests.cpp" />
 		<Unit filename="SharedPtrTests.cpp" />
 		<Unit filename="StringUtilsTests.cpp" />
 		<Unit filename="Test.cpp" />
+		<Unit filename="TextFileIteratorTests.cpp" />
 		<Unit filename="TokeniserTests.cpp" />
 		<Unit filename="UniquePtrTests.cpp" />
 		<Unit filename="stdafx.cpp" />
