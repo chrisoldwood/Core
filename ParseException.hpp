@@ -21,7 +21,7 @@ class ParseException : public Core::Exception
 {
 public:
 	//! Construction from a string containing the details.
-	ParseException(const tstring& strDetails);
+	ParseException(const tstring& details);
 
 	//! Destructor.
 	virtual ~ParseException() throw();
@@ -30,8 +30,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline ParseException::ParseException(const tstring& strDetails)
-	: Exception(strDetails)
+inline ParseException::ParseException(const tstring& details)
+	: Exception(details)
 {
 }
 

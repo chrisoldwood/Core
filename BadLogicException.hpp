@@ -24,7 +24,7 @@ class BadLogicException : public Exception
 {
 public:
 	//! Construction from a string containing the details.
-	BadLogicException(const tstring& strDetails);
+	BadLogicException(const tstring& details);
 
 	//! Destructor.
 	virtual ~BadLogicException() throw();
@@ -33,8 +33,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline BadLogicException::BadLogicException(const tstring& strDetails)
-	: Exception(strDetails)
+inline BadLogicException::BadLogicException(const tstring& details)
+	: Exception(details)
 {
 }
 

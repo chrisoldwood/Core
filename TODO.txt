@@ -12,6 +12,4 @@
 
 - Macros to disable/enable ASSERT reporting so that we can unit test ToString() functions with invalid values.
 
-- Remove final traces of hungarian notation.
-
 - Deal with --Eff-C++ issue globally.

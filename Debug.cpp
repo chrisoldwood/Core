@@ -41,16 +41,16 @@ namespace Core
 //! details about why and where the assert failed. If asked it will also cause
 //! an INT 3 to kick in the debugger.
 
-void assertFail(const char* pszExpression, const char* pszFile, uint nLine)
+void assertFail(const char* expression, const char* file, uint line)
 {
 #ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_ASSERT, pszFile, nLine, NULL, "%s", pszExpression) == 1)
+	if (_CrtDbgReport(_CRT_ASSERT, file, line, NULL, "%s", expression) == 1)
 		_CrtDbgBreak();
 #else
-	UNUSED_VARIABLE(pszExpression);
-	UNUSED_VARIABLE(pszFile);
-	UNUSED_VARIABLE(nLine);
+	UNUSED_VARIABLE(expression);
+	UNUSED_VARIABLE(file);
+	UNUSED_VARIABLE(line);
 #endif
 }
 
@@ -59,15 +59,15 @@ void assertFail(const char* pszExpression, const char* pszFile, uint nLine)
 //! function for outputing debugging messages. It uses vsprintf() and so is
 //! restricted to the types it can handle.
 
-void traceEx(const tchar* pszFormat, ...)
+void traceEx(const tchar* format, ...)
 {
 	va_list	args;
 
-	va_start(args, pszFormat);
+	va_start(args, format);
 
 #ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(fmtEx(pszFormat, args))) == 1)
+	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(fmtEx(format, args))) == 1)
 		_CrtDbgBreak();
 #endif
 
@@ -80,13 +80,13 @@ void traceEx(const tchar* pszFormat, ...)
 //! Write a message to the debugger stream in both Debug and Release builds.
 //! Unlike TraceEx() this goes directly to OutputDebugString().
 
-void debugWrite(const tchar* pszFormat, ...)
+void debugWrite(const tchar* format, ...)
 {
 	va_list	args;
 
-	va_start(args, pszFormat);
+	va_start(args, format);
 
-	::OutputDebugString(fmtEx(pszFormat, args).c_str());
+	::OutputDebugString(fmtEx(format, args).c_str());
 
 	va_end(args);
 }

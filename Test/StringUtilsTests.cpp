@@ -33,15 +33,15 @@ TEST_CASE("formatting a number returns the same output as printf")
 
 	TEST_TRUE(Core::fmt(TXT("%#p"), --p) == TXT("0XFFFFFFFF"));
 
-	double dSmall = -0.1234567890123456789;
-	double dLarge = -123456789012345667890.0;
+	double small = -0.1234567890123456789;
+	double large = -123456789012345667890.0;
 
-	TEST_TRUE(Core::fmt(TXT("%.10e"), dSmall) == TXT("-1.2345678901e-001"));
-	TEST_TRUE(Core::fmt(TXT("%.10E"), dLarge) == TXT("-1.2345678901E+020"));
-	TEST_TRUE(Core::fmt(TXT("%.10f"), dSmall) == TXT("-0.1234567890"));
-	TEST_TRUE(Core::fmt(TXT("%.10f"), dLarge) == TXT("-123456789012345670000.0000000000"));
-	TEST_TRUE(Core::fmt(TXT("%g"),    dSmall) == TXT("-0.123457"));
-	TEST_TRUE(Core::fmt(TXT("%G"),    dLarge) == TXT("-1.23457E+020"));
+	TEST_TRUE(Core::fmt(TXT("%.10e"), small) == TXT("-1.2345678901e-001"));
+	TEST_TRUE(Core::fmt(TXT("%.10E"), large) == TXT("-1.2345678901E+020"));
+	TEST_TRUE(Core::fmt(TXT("%.10f"), small) == TXT("-0.1234567890"));
+	TEST_TRUE(Core::fmt(TXT("%.10f"), large) == TXT("-123456789012345670000.0000000000"));
+	TEST_TRUE(Core::fmt(TXT("%g"),    small) == TXT("-0.123457"));
+	TEST_TRUE(Core::fmt(TXT("%G"),    large) == TXT("-1.23457E+020"));
 }
 TEST_CASE_END
 

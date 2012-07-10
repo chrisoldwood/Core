@@ -31,19 +31,19 @@ namespace Core
 #endif
 
 //! The flag used to signal whether to dump leaks or not.
-static bool g_bReportLeaks = false;
+static bool g_reportLeaks = false;
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Enable or disable memory leak reporting.
 //! NB: This function is available in all builds, but does nothing in Release.
 
-void enableLeakReporting(bool bEnable)
+void enableLeakReporting(bool enable)
 {
-	DEBUG_USE_ONLY(bEnable);
+	DEBUG_USE_ONLY(enable);
 
 #ifdef _DEBUG
-	g_bReportLeaks = bEnable;
+	g_reportLeaks = enable;
 #endif
 }
 
@@ -76,7 +76,7 @@ public:
 	//! Destructor.
 	~LeakReporter();
 
-} g_oReporter;
+} g_reporter;
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Default consttructor.
@@ -93,7 +93,7 @@ LeakReporter::LeakReporter()
 
 LeakReporter::~LeakReporter()
 {
-	if (g_bReportLeaks)
+	if (g_reportLeaks)
 	{
 #ifdef CORE_CRTDBG_ENABLED
 		::OutputDebugString(TXT("Leak reporting enabled.\n"));

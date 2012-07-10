@@ -17,59 +17,59 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 // Convert a string from ANSI to Wide.
 
-void ansiToWide(const char* pszBegin, const char* pszEnd, wchar_t* pszDst);
+void ansiToWide(const char* begin, const char* end, wchar_t* dest);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Convert a string from ANSI to Wide.
 
-std::wstring ansiToWide(const char* pszBegin, const char* pszEnd);
+std::wstring ansiToWide(const char* begin, const char* end);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from ANSI to Wide.
 
-inline std::wstring ansiToWide(const char* psz)
+inline std::wstring ansiToWide(const char* string)
 {
-	return ansiToWide(psz, psz + strlen(psz));
+	return ansiToWide(string, string + strlen(string));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from ANSI to Wide.
 
-inline std::wstring ansiToWide(const std::string& str)
+inline std::wstring ansiToWide(const std::string& string)
 {
-	const char* pszBegin = str.data();
-	const char* pszEnd   = pszBegin + str.size();
+	const char* begin = string.data();
+	const char* end   = begin + string.size();
 
-	return ansiToWide(pszBegin, pszEnd);
+	return ansiToWide(begin, end);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Convert a string from Wide to ANSI.
 
-void wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd, char* pszDst);
+void wideToAnsi(const wchar_t* begin, const wchar_t* end, char* dest);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Convert a string from Wide to ANSI.
 
-std::string wideToAnsi(const wchar_t* pszBegin, const wchar_t* pszEnd);
+std::string wideToAnsi(const wchar_t* begin, const wchar_t* end);
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from Wide to ANSI.
 
-inline std::string wideToAnsi(const wchar_t* psz)
+inline std::string wideToAnsi(const wchar_t* string)
 {
-	return wideToAnsi(psz, psz + wcslen(psz));
+	return wideToAnsi(string, string + wcslen(string));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Convert a string from Wide to ANSI.
 
-inline std::string wideToAnsi(const std::wstring& str)
+inline std::string wideToAnsi(const std::wstring& string)
 {
-	const wchar_t* pszBegin = str.data();
-	const wchar_t* pszEnd   = pszBegin + str.size();
+	const wchar_t* begin = string.data();
+	const wchar_t* end   = begin + string.size();
 
-	return wideToAnsi(pszBegin, pszEnd);
+	return wideToAnsi(begin, end);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,10 +80,10 @@ class AnsiToWide /*: private NotCopyable*/
 {
 public:
 	//! Construct from an ANSI string.
-	AnsiToWide(const char* psz);
+	AnsiToWide(const char* string);
 
 	//! Construct from an ANSI string.
-	explicit AnsiToWide(const std::string& str);
+	explicit AnsiToWide(const std::string& string);
 
 	//! Destructor
 	~AnsiToWide();
@@ -95,7 +95,7 @@ private:
 	//
 	// Members.
 	//
-	wchar_t*	m_psz;	//! The converted string.
+	wchar_t*	m_string;	//! The converted string.
 
 	// NotCopyable.
 	AnsiToWide(const AnsiToWide&);
@@ -107,7 +107,7 @@ private:
 
 inline AnsiToWide::~AnsiToWide()
 {
-	delete[] m_psz;
+	delete[] m_string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ inline AnsiToWide::~AnsiToWide()
 
 inline AnsiToWide::operator const wchar_t*() const
 {
-	return m_psz;
+	return m_string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,10 +126,10 @@ class WideToAnsi /*: private NotCopyable*/
 {
 public:
 	//! Construct from a wide string.
-	WideToAnsi(const wchar_t* psz);
+	WideToAnsi(const wchar_t* string);
 
 	//! Construct from a wide string.
-	explicit WideToAnsi(const std::wstring& str);
+	explicit WideToAnsi(const std::wstring& string);
 
 	//! Destructor.
 	~WideToAnsi();
@@ -141,7 +141,7 @@ private:
 	//
 	// Members.
 	//
-	char*	m_psz;	//! The converted string.
+	char*	m_string;	//! The converted string.
 
 	// NotCopyable.
 	WideToAnsi(const WideToAnsi&);
@@ -153,7 +153,7 @@ private:
 
 inline WideToAnsi::~WideToAnsi()
 {
-	delete[] m_psz;
+	delete[] m_string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,55 +161,55 @@ inline WideToAnsi::~WideToAnsi()
 
 inline WideToAnsi::operator const char*() const
 {
-	return m_psz;
+	return m_string;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Compatibility macros and classes to replace use of <atlconv.h>
 
 //! Helper function for use NOP conversions.
-inline const tchar* getCharPtr(const tchar* ptr)
+inline const tchar* getCharPtr(const tchar* string)
 {
-	return ptr;
+	return string;
 }
 
 //! Helper function for use NOP conversions.
-inline const tchar* getCharPtr(const tstring& str)
+inline const tchar* getCharPtr(const tstring& string)
 {
-	return str.c_str();
+	return string.c_str();
 }
 
 //! Convert an ANSI string to Wide.
-#define A2W(psz)	static_cast<const wchar_t*>(Core::AnsiToWide(psz))
+#define A2W(string)	static_cast<const wchar_t*>(Core::AnsiToWide(string))
 
 //! Convert a Wide string to ANSI.
-#define W2A(psz)	static_cast<const char*>(Core::WideToAnsi(psz))
+#define W2A(string)	static_cast<const char*>(Core::WideToAnsi(string))
 
 // ANSI build.
 #ifdef ANSI_BUILD
 
 //! Convert an ANSI string to a TCHAR string.
-#define A2T(psz)	(Core::getCharPtr(psz))
+#define A2T(string)	(Core::getCharPtr(string))
 //! Convert a TCHAR string to ANSI.
-#define T2A(psz)	(Core::getCharPtr(psz))
+#define T2A(string)	(Core::getCharPtr(string))
 
 //! Convert a Wide string to a TCHAR string.
-#define W2T(psz)	W2A(psz)
+#define W2T(string)	W2A(string)
 //! Convert a TCHAR string to Wide.
-#define T2W(psz)	A2W(psz)
+#define T2W(string)	A2W(string)
 
 // UNICODE build.
 #else
 
 //! Convert an ANSI string to a TCHAR string.
-#define A2T(psz)	A2W(psz)
+#define A2T(string)	A2W(string)
 //! Convert a TCHAR string to ANSI.
-#define T2A(psz)	W2A(psz)
+#define T2A(string)	W2A(string)
 
 //! Convert a Wide string to a TCHAR string.
-#define W2T(psz)	(Core::getCharPtr(psz))
+#define W2T(string)	(Core::getCharPtr(string))
 //! Convert a TCHAR string to Wide.
-#define T2W(psz)	(Core::getCharPtr(psz))
+#define T2W(string)	(Core::getCharPtr(string))
 
 #endif
 

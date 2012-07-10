@@ -23,19 +23,19 @@ class PtrTest : public IPtrTest
 {
 public:
 	PtrTest()
-		: m_nRefCount(1)
+		: m_refCount(1)
 	{ }
 
 	virtual ulong addRef()
 	{
-		return ++m_nRefCount;
+		return ++m_refCount;
 	}
 
 	virtual ulong release()
 	{
-		if (--m_nRefCount == 0)
+		if (--m_refCount == 0)
 			delete this;
-		return m_nRefCount;
+		return m_refCount;
 	}
 
 	virtual bool run()
@@ -43,7 +43,7 @@ public:
 		return true;
 	}
 
-	ulong m_nRefCount;
+	ulong m_refCount;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

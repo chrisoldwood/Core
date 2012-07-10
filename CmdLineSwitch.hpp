@@ -43,13 +43,13 @@ struct CmdLineSwitch
 	//
 	// Members.
 	//
-	int				m_nID;				//!< The identifier for the switch.
-	const tchar*	m_pszShortName;		//!< The switch short name.
-	const tchar*	m_pszLongName;		//!< The switch long name.
-	Occurences		m_eOccurences;		//!< The number of ocurrences allowed.
-	Parameters		m_eParameters;		//!< The number of addtional parameters.
-	const tchar*	m_pszParamDesc;		//!< The parameter description.
-	const tchar*	m_pszDescription;	//!< The switch description.
+	int				m_id;				//!< The identifier for the switch.
+	const tchar*	m_shortName;		//!< The switch short name.
+	const tchar*	m_longName;			//!< The switch long name.
+	Occurences		m_occurences;		//!< The number of ocurrences allowed.
+	Parameters		m_parameters;		//!< The number of addtional parameters.
+	const tchar*	m_paramDesc;		//!< The parameter description.
+	const tchar*	m_description;		//!< The switch description.
 };
 
 //namespace Core

@@ -50,7 +50,7 @@ private:
 	//
 	// Members.
 	//
-	long	m_lRefCount;	//!< The reference count.
+	long	m_refCount;	//!< The reference count.
 
 	// NotCopyable.
 	RefCounted(const RefCounted&);
@@ -61,7 +61,7 @@ private:
 //! Default constructor.
 
 inline RefCounted::RefCounted()
-	: m_lRefCount(1)
+	: m_refCount(1)
 {
 }
 
@@ -70,7 +70,7 @@ inline RefCounted::RefCounted()
 
 inline RefCounted::~RefCounted()
 {
-	ASSERT(m_lRefCount == 0);
+	ASSERT(m_refCount == 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ inline RefCounted::~RefCounted()
 
 inline long RefCounted::refCount() const
 {
-	return m_lRefCount;
+	return m_refCount;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,11 +86,11 @@ inline long RefCounted::refCount() const
 
 inline long RefCounted::incRefCount()
 {
-	ASSERT(m_lRefCount > 0);
+	ASSERT(m_refCount > 0);
 
-	long lRefCount = Core::atomicIncrement(m_lRefCount);
+	long newCount = Core::atomicIncrement(m_refCount);
 
-	return lRefCount;
+	return newCount;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,14 +98,14 @@ inline long RefCounted::incRefCount()
 
 inline long RefCounted::decRefCount()
 {
-	ASSERT(m_lRefCount > 0);
+	ASSERT(m_refCount > 0);
 
-	long lRefCount = Core::atomicDecrement(m_lRefCount);
+	long newCount = Core::atomicDecrement(m_refCount);
 
-	if (lRefCount == 0)
+	if (newCount == 0)
 		delete this;
 
-	return lRefCount;
+	return newCount;
 }
 
 //namespace Core

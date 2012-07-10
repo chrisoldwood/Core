@@ -34,7 +34,7 @@ public:
 	ArrayPtr();
 
 	//! Construction from a raw pointer.
-	explicit ArrayPtr(T* pPointer);
+	explicit ArrayPtr(T* ptr);
 
 	//! Destructor.
 	~ArrayPtr();
@@ -44,17 +44,17 @@ public:
 	//
 
 	//! Index operator.
-	T& operator[](size_t nIndex);
+	T& operator[](size_t index);
 
 	//! Index operator.
-	const T& operator[](size_t nIndex) const;
+	const T& operator[](size_t index) const;
 
 	//
 	// Methods.
 	//
 
 	//! Change pointer ownership.
-	void reset(T* pPointer = nullptr);
+	void reset(T* ptr = nullptr);
 
 	//! Take ownership of the pointer.
 	T* detach();
@@ -83,8 +83,8 @@ inline ArrayPtr<T>::ArrayPtr()
 //! Construction from a raw pointer. Takes ownership of a new pointer.
 
 template <typename T>
-inline ArrayPtr<T>::ArrayPtr(T* pPointer)
-	: SmartPtr<T>(pPointer)
+inline ArrayPtr<T>::ArrayPtr(T* ptr)
+	: SmartPtr<T>(ptr)
 {
 }
 
@@ -101,24 +101,24 @@ inline ArrayPtr<T>::~ArrayPtr()
 //! Index operator.
 
 template <typename T>
-inline T& ArrayPtr<T>::operator[](size_t nIndex)
+inline T& ArrayPtr<T>::operator[](size_t index)
 {
-	if (this->m_pPointer == nullptr)
+	if (this->m_ptr == nullptr)
 		throw NullPtrException();
 
-	return this->m_pPointer[nIndex];
+	return this->m_ptr[index];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Index operator.
 
 template <typename T>
-inline const T& ArrayPtr<T>::operator[](size_t nIndex) const
+inline const T& ArrayPtr<T>::operator[](size_t index) const
 {
-	if (this->m_pPointer == nullptr)
+	if (this->m_ptr == nullptr)
 		throw NullPtrException();
 
-	return this->m_pPointer[nIndex];
+	return this->m_ptr[index];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,13 +126,13 @@ inline const T& ArrayPtr<T>::operator[](size_t nIndex) const
 //! another pointer, if provided.
 
 template <typename T>
-inline void ArrayPtr<T>::reset(T* pPointer)
+inline void ArrayPtr<T>::reset(T* ptr)
 {
 	// Release current resource.
-	delete[] this->m_pPointer;
+	delete[] this->m_ptr;
 
 	// Update state.
-	this->m_pPointer = pPointer;
+	this->m_ptr = ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,11 +141,11 @@ inline void ArrayPtr<T>::reset(T* pPointer)
 template <typename T>
 inline T* ArrayPtr<T>::detach()
 {
-	T* pPointer = this->m_pPointer;
+	T* ptr = this->m_ptr;
 
-	this->m_pPointer = nullptr;
+	this->m_ptr = nullptr;
 
-	return pPointer;
+	return ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ inline T* ArrayPtr<T>::detach()
 template <typename T>
 inline T** ArrayPtr<T>::getPtrMember()
 {
-	return &this->m_pPointer;
+	return &this->m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

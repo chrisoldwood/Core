@@ -21,7 +21,7 @@ class ConfigurationException : public Core::Exception
 {
 public:
 	//! Construction from a string containing the details.
-	ConfigurationException(const tstring& strDetails);
+	ConfigurationException(const tstring& details);
 
 	//! Destructor.
 	virtual ~ConfigurationException() throw();
@@ -30,8 +30,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline ConfigurationException::ConfigurationException(const tstring& strDetails)
-	: Exception(strDetails)
+inline ConfigurationException::ConfigurationException(const tstring& details)
+	: Exception(details)
 {
 }
 

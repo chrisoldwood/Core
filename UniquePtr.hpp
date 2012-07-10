@@ -34,7 +34,7 @@ public:
 	UniquePtr();
 
 	//! Construction from a raw pointer.
-	explicit UniquePtr(T* pPointer);
+	explicit UniquePtr(T* ptr);
 
 	//! Destructor.
 	~UniquePtr();
@@ -44,7 +44,7 @@ public:
 	//
 
 	//! Change pointer ownership.
-	void reset(T* pPointer = nullptr);
+	void reset(T* ptr = nullptr);
 
 	//! Take ownership of the pointer.
 	T* detach();
@@ -73,8 +73,8 @@ inline UniquePtr<T>::UniquePtr()
 //! Construction from a raw pointer. Takes ownership of a new pointer.
 
 template <typename T>
-inline UniquePtr<T>::UniquePtr(T* pPointer)
-	: SmartPtr<T>(pPointer)
+inline UniquePtr<T>::UniquePtr(T* ptr)
+	: SmartPtr<T>(ptr)
 {
 }
 
@@ -92,13 +92,13 @@ inline UniquePtr<T>::~UniquePtr()
 //! another pointer, if provided.
 
 template <typename T>
-inline void UniquePtr<T>::reset(T* pPointer)
+inline void UniquePtr<T>::reset(T* ptr)
 {
 	// Release current resource.
-	delete this->m_pPointer;
+	delete this->m_ptr;
 
 	// Update state.
-	this->m_pPointer = pPointer;
+	this->m_ptr = ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,11 +107,11 @@ inline void UniquePtr<T>::reset(T* pPointer)
 template <typename T>
 inline T* UniquePtr<T>::detach()
 {
-	T* pPointer = this->m_pPointer;
+	T* ptr = this->m_ptr;
 
-	this->m_pPointer = nullptr;
+	this->m_ptr = nullptr;
 
-	return pPointer;
+	return ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ inline T* UniquePtr<T>::detach()
 template <typename T>
 inline T** UniquePtr<T>::getPtrMember()
 {
-	return &this->m_pPointer;
+	return &this->m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

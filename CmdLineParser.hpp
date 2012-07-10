@@ -68,7 +68,7 @@ public:
 
 public:
 	//! Default constructor.
-	CmdLineParser(SwitchCIter itFirstSwitch, SwitchCIter itLastSwitch);
+	CmdLineParser(SwitchCIter firstSwitch, SwitchCIter lastSwitch);
 
 	//! Destructor.
 	~CmdLineParser();
@@ -88,16 +88,16 @@ public:
 	//
 
 	//! Parse the command line.
-	void parse(int argc, tchar* argv[], int nFlags = DEFAULTS); // throw(CmdLineException)
+	void parse(int argc, tchar* argv[], int flags = DEFAULTS); // throw(CmdLineException)
 
 	//! Check if a switch was provided.
-	bool isSwitchSet(int nID) const;
+	bool isSwitchSet(int id) const;
 
 	//! Get the value for a switch.
-	tstring getSwitchValue(int nID) const;
+	tstring getSwitchValue(int id) const;
 
 	//! Generate the list of switches for a usage message.
-	tstring formatSwitches(Format eFormat) const;
+	tstring formatSwitches(Format format) const;
 
 private:
 	//! An iterator for c-style strings.
@@ -106,10 +106,10 @@ private:
 	//
 	// Members.
 	//
-	SwitchCIter		m_itFirstSwitch;	//!< The first switch in the table.
-	SwitchCIter		m_itLastSwitch;		//!< The last switch in the table.
-	NamedArgs		m_mapNamedArgs;		//!< The collection of named arguments.
-	UnnamedArgs		m_vecUnnamedArgs;	//!< The collection of unnamed arguments.
+	SwitchCIter		m_firstSwitch;		//!< The first switch in the table.
+	SwitchCIter		m_lastSwitch;		//!< The last switch in the table.
+	NamedArgs		m_namedArgs;		//!< The collection of named arguments.
+	UnnamedArgs		m_unnamedArgs;		//!< The collection of unnamed arguments.
 
 	//
 	// Internal methods.
@@ -119,7 +119,7 @@ private:
 	void reset();
 
 	//! Try and match the argument to a switch definition.
-	SwitchCIter findSwitch(CharCIter itNameFirst, CharCIter itNameLast);
+	SwitchCIter findSwitch(CharCIter nameFirst, CharCIter nameLast);
 
 	//! Validate the switch definitions.
 	static void validateSwitches(SwitchCIter first, SwitchCIter last);
@@ -141,7 +141,7 @@ private:
 
 inline const CmdLineParser::NamedArgs& CmdLineParser::getNamedArgs() const
 {
-	return m_mapNamedArgs;
+	return m_namedArgs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ inline const CmdLineParser::NamedArgs& CmdLineParser::getNamedArgs() const
 
 inline const CmdLineParser::UnnamedArgs& CmdLineParser::getUnnamedArgs() const
 {
-	return m_vecUnnamedArgs;
+	return m_unnamedArgs;
 }
 
 //namespace Core

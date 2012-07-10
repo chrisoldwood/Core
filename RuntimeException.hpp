@@ -21,7 +21,7 @@ class RuntimeException : public Core::Exception
 {
 public:
 	//! Construction from a string containing the details.
-	RuntimeException(const tstring& strDetails);
+	RuntimeException(const tstring& details);
 
 	//! Destructor.
 	virtual ~RuntimeException() throw();
@@ -30,8 +30,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline RuntimeException::RuntimeException(const tstring& strDetails)
-	: Exception(strDetails)
+inline RuntimeException::RuntimeException(const tstring& details)
+	: Exception(details)
 {
 }
 

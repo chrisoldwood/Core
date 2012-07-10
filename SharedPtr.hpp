@@ -27,14 +27,14 @@ public:
 	SharedPtr();
 
 	//! Construction from a raw pointer.
-	explicit SharedPtr(T* pPointer);
+	explicit SharedPtr(T* ptr);
 
 	//! Copy constructor.
-	SharedPtr(const SharedPtr<T>& oPointer);
+	SharedPtr(const SharedPtr<T>& sharedPtr);
 
 	//! Copy constructor for sub-types of T.
 	template <typename U>
-	SharedPtr(const SharedPtr<U>& oPointer);
+	SharedPtr(const SharedPtr<U>& sharedPtr);
 
 	//! Destructor.
 	~SharedPtr();
@@ -44,27 +44,27 @@ public:
 	//
 
 	//! Assignment operator.
-	SharedPtr& operator=(const SharedPtr& oPointer);
+	SharedPtr& operator=(const SharedPtr& sharedPtr);
 
 	//! Assignment operator for sub-types of T.
 	template <typename U>
-	SharedPtr& operator=(const SharedPtr<U>& oPointer);
+	SharedPtr& operator=(const SharedPtr<U>& sharedPtr);
 
 	//
 	// Methods.
 	//
 
 	//! Change pointer ownership.
-	void reset(T* pPointer = nullptr);
+	void reset(T* ptr = nullptr);
 
 private:
 	//
 	// Members.
 	//
-	long*	m_pRefCnt;		//!< The pointer reference count.
+	long*	m_refCount;		//!< The pointer reference count.
 
 	//! Private constructor for use by cast functions.
-	SharedPtr(T* pPointer, long* pRefCnt);
+	SharedPtr(T* ptr, long* refCount);
 
 	//
 	// Friends.
@@ -76,11 +76,11 @@ private:
 
 	//! Allow member access for the static_cast like function.
 	template<typename P, typename U>
-	friend SharedPtr<P> static_ptr_cast(const SharedPtr<U>& oPointer);
+	friend SharedPtr<P> static_ptr_cast(const SharedPtr<U>& sharedPtr);
 
 	//! Allow member access for the dynamic_cast like function.
 	template<typename P, typename U>
-	friend SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& oPointer);
+	friend SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& sharedPtr);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ private:
 
 template <typename T>
 inline SharedPtr<T>::SharedPtr()
-	: m_pRefCnt(nullptr)
+	: m_refCount(nullptr)
 {
 }
 
@@ -96,22 +96,22 @@ inline SharedPtr<T>::SharedPtr()
 //! Construction from a raw pointer. Takes ownership of a new pointer.
 
 template <typename T>
-inline SharedPtr<T>::SharedPtr(T* pPointer)
-	: m_pRefCnt(nullptr)
+inline SharedPtr<T>::SharedPtr(T* ptr)
+	: m_refCount(nullptr)
 {
-	reset(pPointer);
+	reset(ptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Copy constructor. Takes shared ownership of another pointer.
 
 template<typename T>
-inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
-	: SmartPtr<T>(oPointer.m_pPointer)
-	, m_pRefCnt(oPointer.m_pRefCnt)
+inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& sharedPtr)
+	: SmartPtr<T>(sharedPtr.m_ptr)
+	, m_refCount(sharedPtr.m_refCount)
 {
-	if (m_pRefCnt != nullptr)
-		Core::atomicIncrement(*m_pRefCnt);
+	if (m_refCount != nullptr)
+		Core::atomicIncrement(*m_refCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,12 +120,12 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& oPointer)
 
 template <typename T>
 template <typename U>
-inline SharedPtr<T>::SharedPtr(const SharedPtr<U>& oPointer)
-	: SmartPtr<T>(oPointer.m_pPointer)
-	, m_pRefCnt(oPointer.m_pRefCnt)
+inline SharedPtr<T>::SharedPtr(const SharedPtr<U>& sharedPtr)
+	: SmartPtr<T>(sharedPtr.m_ptr)
+	, m_refCount(sharedPtr.m_refCount)
 {
-	if (m_pRefCnt != nullptr)
-		Core::atomicIncrement(*m_pRefCnt);
+	if (m_refCount != nullptr)
+		Core::atomicIncrement(*m_refCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,24 +142,24 @@ inline SharedPtr<T>::~SharedPtr()
 //! takes shared ownership of another pointer.
 
 template <typename T>
-inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr& oPointer)
+inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr& sharedPtr)
 {
 	// Ignore self-assignment.
-	if (this->m_pPointer != oPointer.m_pPointer)
+	if (this->m_ptr != sharedPtr.m_ptr)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
+		if ((m_refCount != nullptr) && (Core::atomicDecrement(*m_refCount) == 0))
 		{
-			delete this->m_pPointer;
-			delete this->m_pRefCnt;
+			delete this->m_ptr;
+			delete this->m_refCount;
 		}
 
-		this->m_pPointer = oPointer.m_pPointer;
-		this->m_pRefCnt  = oPointer.m_pRefCnt;
+		this->m_ptr = sharedPtr.m_ptr;
+		this->m_refCount = sharedPtr.m_refCount;
 
 		// Share ownership.
-		if (m_pRefCnt != nullptr)
-			Core::atomicIncrement(*m_pRefCnt);
+		if (m_refCount != nullptr)
+			Core::atomicIncrement(*m_refCount);
 	}
 
 	return *this;
@@ -172,24 +172,24 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr& oPointer)
 
 template <typename T>
 template <typename U>
-inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<U>& oPointer)
+inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<U>& sharedPtr)
 {
 	// Ignore self-assignment.
-	if (this->m_pPointer != oPointer.m_pPointer)
+	if (this->m_ptr != sharedPtr.m_ptr)
 	{
 		// Final reference?
-		if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
+		if ((m_refCount != nullptr) && (Core::atomicDecrement(*m_refCount) == 0))
 		{
-			delete this->m_pPointer;
-			delete this->m_pRefCnt;
+			delete this->m_ptr;
+			delete this->m_refCount;
 		}
 
-		this->m_pPointer = oPointer.m_pPointer;
-		this->m_pRefCnt  = oPointer.m_pRefCnt;
+		this->m_ptr = sharedPtr.m_ptr;
+		this->m_refCount = sharedPtr.m_refCount;
 
 		// Share ownership.
-		if (m_pRefCnt != nullptr)
-			Core::atomicIncrement(*m_pRefCnt);
+		if (m_refCount != nullptr)
+			Core::atomicIncrement(*m_refCount);
 	}
 
 	return *this;
@@ -200,40 +200,40 @@ inline SharedPtr<T>& SharedPtr<T>::operator=(const SharedPtr<U>& oPointer)
 //! and takes shared ownership of another pointer, if provided.
 
 template <typename T>
-inline void SharedPtr<T>::reset(T* pPointer)
+inline void SharedPtr<T>::reset(T* ptr)
 {
-	T*    pTmpPtr = nullptr;
-	long* pTmpCnt = nullptr;
+	T*    tmpPtr = nullptr;
+	long* tmpCnt = nullptr;
 
 	// Allocate new resources up front.
-	if (pPointer != nullptr)
+	if (ptr != nullptr)
 	{
-		pTmpPtr = pPointer;
-		pTmpCnt = new long(1);
+		tmpPtr = ptr;
+		tmpCnt = new long(1);
 	}
 
 	// Release current resources, if final reference.
-	if ((m_pRefCnt != nullptr) && (Core::atomicDecrement(*m_pRefCnt) == 0))
+	if ((m_refCount != nullptr) && (Core::atomicDecrement(*m_refCount) == 0))
 	{
-		delete this->m_pPointer;
-		delete this->m_pRefCnt;
+		delete this->m_ptr;
+		delete this->m_refCount;
 	}
 
 	// Update state.
-	this->m_pPointer = pTmpPtr;
-	this->m_pRefCnt  = pTmpCnt;
+	this->m_ptr = tmpPtr;
+	this->m_refCount = tmpCnt;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Private constructor for use by cast functions.
 
 template <typename T>
-inline SharedPtr<T>::SharedPtr(T* pPointer, long* pRefCnt)
-	: SmartPtr<T>(pPointer)
-	, m_pRefCnt(pRefCnt)
+inline SharedPtr<T>::SharedPtr(T* ptr, long* refCount)
+	: SmartPtr<T>(ptr)
+	, m_refCount(refCount)
 {
-	if (m_pRefCnt != nullptr)
-		Core::atomicIncrement(*m_pRefCnt);
+	if (m_refCount != nullptr)
+		Core::atomicIncrement(*m_refCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,9 +241,9 @@ inline SharedPtr<T>::SharedPtr(T* pPointer, long* pRefCnt)
 //! derived ptr type from the base ptr type.
 
 template<typename P, typename U>
-inline SharedPtr<P> static_ptr_cast(const SharedPtr<U>& oPointer)
+inline SharedPtr<P> static_ptr_cast(const SharedPtr<U>& sharedPtr)
 {
-	return SharedPtr<P>(static_cast<P*>(oPointer.m_pPointer), oPointer.m_pRefCnt);
+	return SharedPtr<P>(static_cast<P*>(sharedPtr.m_ptr), sharedPtr.m_refCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,15 +251,15 @@ inline SharedPtr<P> static_ptr_cast(const SharedPtr<U>& oPointer)
 //! derived ptr type from the base ptr type.
 
 template<typename P, typename U>
-inline SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& oPointer)
+inline SharedPtr<P> dynamic_ptr_cast(const SharedPtr<U>& sharedPtr)
 {
-	P*    pTmpPtr = dynamic_cast<P*>(oPointer.m_pPointer);
-	long* pTmpCnt = oPointer.m_pRefCnt;
+	P*    tmpPtr = dynamic_cast<P*>(sharedPtr.m_ptr);
+	long* tmpCnt = sharedPtr.m_refCount;
 
-	if (pTmpPtr == nullptr)
-		pTmpCnt = nullptr;
+	if (tmpPtr == nullptr)
+		tmpCnt = nullptr;
 
-	return SharedPtr<P>(pTmpPtr, pTmpCnt);
+	return SharedPtr<P>(tmpPtr, tmpCnt);
 }
 
 //namespace Core

@@ -37,25 +37,25 @@ namespace Core
 //! number of characters.
 
 template<typename CharT>
-inline size_t numBytes(size_t nChars)
+inline size_t numBytes(size_t numChars)
 {
-	return (nChars * sizeof(CharT));
+	return (numChars * sizeof(CharT));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Calculate the number of bytes required to represent the string.
 
-inline size_t numBytes(const char* psz)
+inline size_t numBytes(const char* string)
 {
-	return numBytes<char>(strlen(psz));
+	return numBytes<char>(strlen(string));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Calculate the number of bytes required to represent the string.
 
-inline size_t numBytes(const wchar_t* psz)
+inline size_t numBytes(const wchar_t* string)
 {
-	return numBytes<wchar_t>(wcslen(psz));
+	return numBytes<wchar_t>(wcslen(string));
 }
 
 //namespace Core

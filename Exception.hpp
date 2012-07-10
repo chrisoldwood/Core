@@ -37,7 +37,7 @@ protected:
 	Exception();
 
 	//! Construction from a string containg the details.
-	Exception(const tstring& strDetails);
+	Exception(const tstring& details);
 
 	//! Copy constructor.
 	Exception(const Exception& rhs);
@@ -45,9 +45,9 @@ protected:
 	//
 	// Members.
 	//
-	tstring				m_strDetails;		//!< The error message.
+	tstring				m_details;			//!< The error message.
 #ifdef UNICODE_BUILD
-	mutable std::string	m_strAnsiDetails;	//!< The ANSI error message.
+	mutable std::string	m_ansiDetails;		//!< The ANSI error message.
 #endif
 
 private:

@@ -24,7 +24,7 @@ class FileSystemException : public Exception
 {
 public:
 	//! Construction from a string containing the details.
-	FileSystemException(const tstring& strDetails);
+	FileSystemException(const tstring& details);
 
 	//! Destructor.
 	virtual ~FileSystemException() throw();
@@ -33,8 +33,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline FileSystemException::FileSystemException(const tstring& strDetails)
-	: Exception(strDetails)
+inline FileSystemException::FileSystemException(const tstring& details)
+	: Exception(details)
 {
 }
 

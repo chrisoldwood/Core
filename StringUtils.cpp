@@ -22,49 +22,49 @@ namespace Core
 //! Format the string ala printf. This function is used internally as the
 //! underlying function used for all var args string formatting.
 
-tstring fmtEx(const tchar* pszFormat, va_list args)
+tstring fmtEx(const tchar* format, va_list args)
 {
 #ifdef _MSC_VER
 
 	// Allocate the buffer.
-	size_t nLength = _vsctprintf(pszFormat, args);
+	size_t length = _vsctprintf(format, args);
 
-	tstring str(nLength, TXT('\0'));
+	tstring str(length, TXT('\0'));
 
 	// Format the string.
-	int nResult = _vsntprintf(&str[0], nLength, pszFormat, args);
+	int result = _vsntprintf(&str[0], length, format, args);
 
-	ASSERT(static_cast<size_t>(nResult) == nLength);
+	ASSERT(static_cast<size_t>(result) == length);
 
 	// Handle any errors.
-	if (nResult < 0)
-		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
+	if (result < 0)
+		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), result));
 
 	return str;
 
 #else
 
 	// Allocate an initial buffer.
-	size_t nLength = 256;
+	size_t length = 256;
 
-	tstring str(nLength, TXT('\0'));
+	tstring str(length, TXT('\0'));
 
-	int nResult = -1;
+	int result = -1;
 
 	// Format the string, growing the buffer and repeating if necessary.
-	while ((nResult = _vsntprintf(&str[0], nLength, pszFormat, args)) == -1)
+	while ((result = _vsntprintf(&str[0], length, format, args)) == -1)
 	{
-		nLength *= 2;
-		str.resize(nLength, TXT('\0'));
+		length *= 2;
+		str.resize(length, TXT('\0'));
 	}
 
-	ASSERT(static_cast<size_t>(nResult) <= nLength);
+	ASSERT(static_cast<size_t>(result) <= length);
 
 	// Handle any errors.
-	if (nResult < 0)
-		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), nResult));
+	if (result < 0)
+		throw BadLogicException(fmt(TXT("Invalid format or buffer size used in Fmt(). Result: %d"), result));
 
-	str.resize(nResult);
+	str.resize(result);
 
 	return str;
 
@@ -74,13 +74,13 @@ tstring fmtEx(const tchar* pszFormat, va_list args)
 ////////////////////////////////////////////////////////////////////////////////
 //! Format the string ala printf.
 
-tstring fmt(const tchar* pszFormat, ...)
+tstring fmt(const tchar* format, ...)
 {
 	va_list	args;
 
-	va_start(args, pszFormat);
+	va_start(args, format);
 
-	return fmtEx(pszFormat, args);
+	return fmtEx(format, args);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

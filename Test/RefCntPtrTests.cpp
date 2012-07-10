@@ -177,7 +177,7 @@ TEST_CASE("pointer can only be statically or dynamically cast to related types")
 	DerivedPtr derived2(new RefCntDerived);
 	TestPtr    base4(derived1);
 
-	UnrelatedPtr pUnrelated;
+	UnrelatedPtr unrelated;
 
 	base2 = derived1;
 	base2 = derived1;
@@ -192,9 +192,9 @@ TEST_CASE("pointer can only be statically or dynamically cast to related types")
 
 	TEST_TRUE(derived2.get() == base3.get());
 
-	pUnrelated = Core::dynamic_ptr_cast<RefCntUnrelated>(base1);
+	unrelated = Core::dynamic_ptr_cast<RefCntUnrelated>(base1);
 
-	TEST_TRUE(pUnrelated.get() == nullptr);
+	TEST_TRUE(unrelated.get() == nullptr);
 }
 TEST_CASE_END
 

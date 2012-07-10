@@ -21,7 +21,7 @@ class CmdLineException : public Exception
 {
 public:
 	//! Construction from a string containing the details.
-	CmdLineException(const tstring& strDetails);
+	CmdLineException(const tstring& details);
 
 	//! Destructor.
 	virtual ~CmdLineException() throw();
@@ -35,8 +35,8 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline CmdLineException::CmdLineException(const tstring& strDetails)
-	: Exception(strDetails)
+inline CmdLineException::CmdLineException(const tstring& details)
+	: Exception(details)
 {
 }
 

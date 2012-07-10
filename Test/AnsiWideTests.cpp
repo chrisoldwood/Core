@@ -9,14 +9,14 @@
 
 TEST_SET(AnsiWide)
 {
-	const char*    psz  =  "ABCabc123";
-	const wchar_t* wpsz = L"ABCabc123";
-	const tchar*   tpsz = TXT("ABCabc123");
+	const char*    ansiString =  "ABCabc123";
+	const wchar_t* wideString = L"ABCabc123";
+	const tchar*   tString    = TXT("ABCabc123");
 
 TEST_CASE("convert a string from ANSI to Unicode")
 {
-	const std::string  test = psz;
-	const std::wstring expected = wpsz;
+	const std::string  test = ansiString;
+	const std::wstring expected = wideString;
 
 	TEST_TRUE(Core::ansiToWide("") == L"");
 	TEST_TRUE(Core::ansiToWide(test) == expected);
@@ -32,8 +32,8 @@ TEST_CASE_END
 
 TEST_CASE("convert a string from Unicode to ANSI")
 {
-	const std::wstring test = wpsz;
-	const std::string  expected = psz;
+	const std::wstring test = wideString;
+	const std::string  expected = ansiString;
 
 	TEST_TRUE(Core::wideToAnsi(L"") == "");
 	TEST_TRUE(Core::wideToAnsi(test) == expected);
@@ -49,20 +49,20 @@ TEST_CASE_END
 
 TEST_CASE("convert from ANSI/Unicode to build dependent type")
 {
-	tstring expected = tpsz;
+	tstring expected = tString;
 
-	TEST_TRUE(A2T(psz)  == expected);
-	TEST_TRUE(W2T(wpsz) == expected);
+	TEST_TRUE(A2T(ansiString) == expected);
+	TEST_TRUE(W2T(wideString) == expected);
 }
 TEST_CASE_END
 
 TEST_CASE("convert from build dependent type to ANSI/Unicode")
 {
-	std::string  ansiExpected = psz;
-	std::wstring wideExpected = wpsz;
+	std::string  ansiExpected = ansiString;
+	std::wstring wideExpected = wideString;
 
-	TEST_TRUE(T2A(tpsz) == ansiExpected);
-	TEST_TRUE(T2W(tpsz) == wideExpected);
+	TEST_TRUE(T2A(tString) == ansiExpected);
+	TEST_TRUE(T2W(tString) == wideExpected);
 }
 TEST_CASE_END
 

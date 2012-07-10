@@ -14,15 +14,15 @@ namespace Core
 //! Default constructor.
 
 Exception::Exception()
-	: m_strDetails()
+	: m_details()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containg the details.
 
-Exception::Exception(const tstring& strDetails)
-	: m_strDetails(strDetails)
+Exception::Exception(const tstring& details)
+	: m_details(details)
 {
 }
 
@@ -30,7 +30,7 @@ Exception::Exception(const tstring& strDetails)
 //! Copy constructor.
 
 Exception::Exception(const Exception& rhs)
-	: m_strDetails(rhs.m_strDetails)
+	: m_details(rhs.m_details)
 {
 }
 
@@ -50,7 +50,7 @@ const tchar* Exception::twhat() const throw()
 
 	try
 	{
-		details = m_strDetails.c_str();
+		details = m_details.c_str();
 	}
 	catch (...)
 	{ }
@@ -73,13 +73,13 @@ const char* Exception::what() const throw()
 		ASSERT_FALSE();
 
 #ifdef ANSI_BUILD
-		details = m_strDetails.c_str();
+		details = m_details.c_str();
 #else
 		// Generate ANSI string on demand.
-		if (m_strAnsiDetails.empty())
-			m_strAnsiDetails = Core::WideToAnsi(m_strDetails);
+		if (m_ansiDetails.empty())
+			m_ansiDetails = Core::WideToAnsi(m_details);
 
-		details = m_strAnsiDetails.c_str();
+		details = m_ansiDetails.c_str();
 #endif
 	}
 	catch (...)

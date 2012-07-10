@@ -29,7 +29,7 @@ public:
 	NullPtrException();
 
 	//! Construction from a string containing the details.
-	NullPtrException(const tstring& strDetails);
+	NullPtrException(const tstring& details);
 
 	//! Destructor.
 	virtual ~NullPtrException() throw();
@@ -46,8 +46,8 @@ inline NullPtrException::NullPtrException()
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a string containing the details.
 
-inline NullPtrException::NullPtrException(const tstring& strDetails)
-	: Exception(strDetails)
+inline NullPtrException::NullPtrException(const tstring& details)
+	: Exception(details)
 {
 }
 

@@ -25,7 +25,7 @@ TEST_CASE("compilation only succeeds for explicit conversions")
 //	TestPtr test5(test4);					// Not copy constructable.
 
 //	test1 = test4;							// Not assignable.
-//	int pRaw1[1] = test1;					// No implicit conversion.
+//	int raw[1] = test1;						// No implicit conversion.
 
 //	TEST_FALSE((test1 == NULL) || (test1 != NULL));		// No implicit construction.
 

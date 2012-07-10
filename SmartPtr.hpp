@@ -62,7 +62,7 @@ protected:
 	SmartPtr();
 
 	//! Construction from a raw pointer.
-	explicit SmartPtr(T* pPointer);
+	explicit SmartPtr(T* ptr);
 
 	//! Destructor.
 	~SmartPtr();
@@ -70,7 +70,7 @@ protected:
 	//
 	// Members.
 	//
-	T*	m_pPointer;		//!< The pointer being shadowed.
+	T*	m_ptr;		//!< The pointer being shadowed.
 
 private:
 	// NotCopyable.
@@ -83,7 +83,7 @@ private:
 
 template <typename T>
 inline SmartPtr<T>::SmartPtr()
-	: m_pPointer(nullptr)
+	: m_ptr(nullptr)
 {
 }
 
@@ -91,8 +91,8 @@ inline SmartPtr<T>::SmartPtr()
 //! Construction from a raw pointer.
 
 template <typename T>
-inline SmartPtr<T>::SmartPtr(T* pPointer)
-	: m_pPointer(pPointer)
+inline SmartPtr<T>::SmartPtr(T* ptr)
+	: m_ptr(ptr)
 {
 }
 
@@ -110,10 +110,10 @@ inline SmartPtr<T>::~SmartPtr()
 template <typename T>
 inline const T& SmartPtr<T>::operator*() const
 {
-	if (m_pPointer == nullptr)
+	if (m_ptr == nullptr)
 		throw NullPtrException();
 
-	return *m_pPointer;
+	return *m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,10 +122,10 @@ inline const T& SmartPtr<T>::operator*() const
 template <typename T>
 inline T& SmartPtr<T>::operator*()
 {
-	if (m_pPointer == nullptr)
+	if (m_ptr == nullptr)
 		throw NullPtrException();
 
-	return *m_pPointer;
+	return *m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,10 +134,10 @@ inline T& SmartPtr<T>::operator*()
 template <typename T>
 inline const T* SmartPtr<T>::operator->() const
 {
-	if (m_pPointer == nullptr)
+	if (m_ptr == nullptr)
 		throw NullPtrException();
 
-	return m_pPointer;
+	return m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,10 +146,10 @@ inline const T* SmartPtr<T>::operator->() const
 template <typename T>
 inline T* SmartPtr<T>::operator->()
 {
-	if (m_pPointer == nullptr)
+	if (m_ptr == nullptr)
 		throw NullPtrException();
 
-	return m_pPointer;
+	return m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ inline T* SmartPtr<T>::operator->()
 template <typename T>
 bool SmartPtr<T>::operator!() const
 {
-	return (m_pPointer == nullptr);
+	return (m_ptr == nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +167,7 @@ bool SmartPtr<T>::operator!() const
 template <typename T>
 inline T* SmartPtr<T>::get() const
 {
-	return m_pPointer;
+	return m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,10 +176,10 @@ inline T* SmartPtr<T>::get() const
 template <typename T>
 inline T& SmartPtr<T>::getRef() const
 {
-	if (m_pPointer == nullptr)
+	if (m_ptr == nullptr)
 		throw NullPtrException();
 
-	return *m_pPointer;
+	return *m_ptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,25 +188,25 @@ inline T& SmartPtr<T>::getRef() const
 template <typename T>
 inline bool SmartPtr<T>::empty() const
 {
-	return (m_pPointer == nullptr);
+	return (m_ptr == nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! SmartPtr<T> equality operator. Compare two SmartPtr's for equality.
 
 template <typename T, typename U>
-inline bool operator==(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
+inline bool operator==(const SmartPtr<T>& lhs, const SmartPtr<U>& rhs)
 {
-	return (oLHS.get() == oRHS.get());
+	return (lhs.get() == rhs.get());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //! SmartPtr<T> inequality operator. Compare two SmartPtr's for inequality.
 
 template <typename T, typename U>
-inline bool operator!=(const SmartPtr<T>& oLHS, const SmartPtr<U>& oRHS)
+inline bool operator!=(const SmartPtr<T>& lhs, const SmartPtr<U>& rhs)
 {
-	return (oLHS.get() != oRHS.get());
+	return (lhs.get() != rhs.get());
 }
 
 //namespace Core
