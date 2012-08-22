@@ -150,6 +150,16 @@ void trim(tstring& string);
 
 tstring trimCopy(tstring string);
 
+////////////////////////////////////////////////////////////////////////////////
+// Extract the leftmost N characters as a substring.
+
+tstring left(const tstring& string, size_t count);
+
+////////////////////////////////////////////////////////////////////////////////
+// Extract the rightmost N characters as a substring.
+
+tstring right(const tstring& string, size_t count);
+
 //namespace Core
 }
 

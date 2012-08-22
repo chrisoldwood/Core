@@ -161,6 +161,12 @@ struct FormatTraits<ulonglong>
 
 	static ulonglong parse(const tchar* nptr, tchar** endptr, int base)
 	{
+		if (*nptr == TXT('-'))
+		{
+			errno = EINVAL;
+			return 0;
+		}
+
 		return tstrtoull(nptr, endptr, base);
 	}
 };
@@ -398,6 +404,25 @@ tstring trimCopy(tstring string)
 {
 	trim(string);
 	return string;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Extract the leftmost N characters as a substring.
+
+tstring left(const tstring& string, size_t count)
+{
+	return string.substr(0, count);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Extract the rightmost N characters as a substring.
+
+tstring right(const tstring& string, size_t count)
+{
+	const size_t length = string.length();
+	const size_t offset = (count >= length) ? 0 : (length - count);
+
+	return string.substr(offset, count);
 }
 
 //namespace Core

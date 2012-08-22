@@ -147,7 +147,7 @@ TEST_CASE("64-bit unsigned integers can be formatted and parsed")
 	TEST_TRUE(Core::format<uint64>(_UI64_MAX) == TXT("18446744073709551615"));
 	TEST_TRUE(Core::parse<uint64>(TXT(" 18446744073709551615 ")) == _UI64_MAX);
 	TEST_THROWS(Core::parse<uint64>(TXT("")));
-//	TEST_THROWS(Core::parse<uint64>(TXT("-1"))); // VC++ parses as signed.
+	TEST_THROWS(Core::parse<uint64>(TXT("-1"))); // VC++ parses as signed.
 	TEST_THROWS(Core::parse<uint64>(TXT(" 18446744073709551616 ")));
 	TEST_THROWS(Core::parse<uint64>(TXT("1nv4l1d")));
 }
@@ -208,6 +208,50 @@ TEST_CASE("tstrnlen should map to strnlen or wcsnlen")
 	const size_t actual = tstrnlen(buffer, bufsize);
 
 	TEST_TRUE(actual == length);
+}
+TEST_CASE_END
+
+TEST_CASE("left should return the first N characters of the string")
+{
+	const tstring input = TXT("unit test");
+	const tstring expected = TXT("unit");
+
+	const tstring actual = Core::left(input, 4);
+
+	TEST_TRUE(actual == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("left should return the original input string when too many characters are requested")
+{
+	const tstring input = TXT("unit test");
+	const tstring expected = input;
+
+	const tstring actual = Core::left(input, input.length()+1);
+
+	TEST_TRUE(actual == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("right should return the last N characters of the string")
+{
+	const tstring input = TXT("unit test");
+	const tstring expected = TXT("test");
+
+	const tstring actual = Core::right(input, 4);
+
+	TEST_TRUE(actual == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("right should return the original input string when too many characters are requested")
+{
+	const tstring input = TXT("unit test");
+	const tstring expected = input;
+
+	const tstring actual = Core::right(input, input.length()+1);
+
+	TEST_TRUE(actual == expected);
 }
 TEST_CASE_END
 
