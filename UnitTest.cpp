@@ -34,6 +34,8 @@ static uint s_numUnknown = 0;
 static bool s_verbose = false;
 //! Is quiet mode enabled?
 static bool s_quiet = false;
+//! Invoke DebugBreak on failure?
+static bool s_debug = false;
 
 //! The test runner command line switch IDs.
 enum SwitchID
@@ -41,6 +43,7 @@ enum SwitchID
 	HELP	= 0,	//!< Show command line usage.
 	VERBOSE	= 1,	//!< Verbose output of each test case.
 	QUIET	= 2,	//!< Minimal output of each test case.
+	DEBUG	= 3,	//!< Invoke DebugBreak() when a test fails.
 };
 
 //! Test case result state.
@@ -75,6 +78,7 @@ static Core::CmdLineSwitch s_switches[] =
 	{ HELP,		TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Display command line usage")		},
 	{ VERBOSE,	TXT("v"),	TXT("verbose"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Verbose output of each test case")	},
 	{ QUIET,	TXT("q"),	TXT("quiet"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Minimal output of each test case")	},
+	{ DEBUG,	TXT("d"),	TXT("debug"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Invoke DebugBreak() on failure")	},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 
@@ -124,6 +128,7 @@ bool parseCmdLine(int argc, tchar* argv[], TestSetFilters& filters)
 	// Process command line settings.
 	s_verbose = parser.isSwitchSet(VERBOSE);
 	s_quiet = parser.isSwitchSet(QUIET);
+	s_debug = parser.isSwitchSet(DEBUG);
 
 	// Build the test case list.
 	Core::CmdLineParser::UnnamedArgs::const_iterator it = parser.getUnnamedArgs().begin();
@@ -259,6 +264,7 @@ void onEndTestSet()
 
 		for (; it != end; ++it)
 		{
+			debugWrite(TXT(" > %s\n"), it->c_str());
 			tcout << TXT(" > ") << *it << std::endl;
 		}
 	}
@@ -421,8 +427,7 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 		tcout << Core::fmt(TXT(" %s [%hs, %3u] %s"), result, filename, line, expression) << std::endl;
 	}
 
-	// Break into debugger, if present.
-	if (!passed && ::IsDebuggerPresent())
+	if (!passed && s_debug)
 		::DebugBreak();
 }
 
@@ -442,7 +447,7 @@ void processTestException(const char* file, size_t line, const tchar* error)
 		tcout << Core::fmt(TXT(" %s [%hs, %3u] Unhandled Exception: %s"), TXT("FAILED"), filename, line, error) << std::endl;
 	}
 
-	if (::IsDebuggerPresent())
+	if (s_debug)
 		::DebugBreak();
 }
 
@@ -460,7 +465,7 @@ void processSetupTeardownException(const tchar* function, const tchar* error)
 		tcout << Core::fmt(TXT(" %s [%s] Unhandled Exception: %s"), TXT("FAILED"), function, error) << std::endl;
 	}
 
-	if (::IsDebuggerPresent())
+	if (s_debug)
 		::DebugBreak();
 }
 
