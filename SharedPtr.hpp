@@ -116,7 +116,7 @@ inline SharedPtr<T>::SharedPtr(const SharedPtr<T>& sharedPtr)
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Copy constructor for sub-types of T. Takes shared ownership of another
-//! pointer that must be a sub-type of T..
+//! pointer that must be a sub-type of T or be "more" const than T.
 
 template <typename T>
 template <typename U>

@@ -13,11 +13,32 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #endif
 
+namespace
+{
+
+class TestType
+{
+public:
+	TestType()
+		: m_value()
+	{ }
+
+	TestType(int value)
+		: m_value(value)
+	{ }
+
+	int m_value;
+};
+
+}
+
 TEST_SET(SharedPtr)
 {
 	typedef Core::SharedPtr<PtrTest> TestPtr;
 	typedef Core::SharedPtr<Derived> DerivedPtr;
 	typedef Core::SharedPtr<Unrelated> UnrelatedPtr;
+	typedef Core::SharedPtr<TestType> MutableTestTypePtr;
+	typedef Core::SharedPtr<const TestType> ImmutableTestTypePtr;
 
 TEST_CASE("compilation should succeed")
 {
@@ -37,6 +58,12 @@ TEST_CASE("compilation should succeed")
 	UnrelatedPtr unrelated;
 
 //	unrelated = Core::static_ptr_cast<Unrelated>(base);	// No explicit conversion.
+
+	MutableTestTypePtr   mutableValue(new TestType);
+	ImmutableTestTypePtr immutableValue;
+
+//	mutableValue = immutableValue;			// No conversion allowed.
+	immutableValue = mutableValue;			// [No] conversion allowed?
 
 	TEST_PASSED("compilation succeeded");
 }
