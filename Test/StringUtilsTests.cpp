@@ -255,5 +255,128 @@ TEST_CASE("right should return the original input string when too many character
 }
 TEST_CASE_END
 
+TEST_CASE("tstristr should return NULL when the source string is empty")
+{
+	const tstring string = TXT("");
+	const tstring search = TXT("search");
+	const tchar*  expected = nullptr;
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should return the source string when the search string is empty")
+{
+	const tstring string = TXT("string");
+	const tstring search = TXT("");
+	const tchar*  expected = &string[0];
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should return NULL when no match found")
+{
+	const tstring string = TXT("unit test");
+	const tstring search = TXT("wont match");
+	const tchar*  expected = nullptr;
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should return a pointer to the first matching character")
+{
+	const tstring string = TXT("unit test");
+	const tstring search = TXT("test");
+	const tchar*  expected = &string[0] + tstrlen(TXT("unit "));
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should match the first occurence")
+{
+	const tstring string = TXT("match match");
+	const tstring search = TXT("match");
+	const tchar*  expected = &string[0];
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should ignore partial matches")
+{
+	TEST_TRUE(Core::tstristr(TXT("tes"), TXT("test")) == nullptr);
+
+	TEST_TRUE(Core::tstristr(TXT("tes "), TXT("test")) == nullptr);
+}
+TEST_CASE_END
+
+TEST_CASE("tstristr should ignore case when searching")
+{
+	const tstring string = TXT("UniT TesT");
+	const tstring search = TXT("test");
+	const tchar*  expected = &string[0] + tstrlen(TXT("UniT "));
+
+	TEST_TRUE(Core::tstristr(string, search) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("replace should return an empty string when the input string is empty")
+{
+	const tstring string = TXT("");
+	const tstring pattern = TXT("match");
+	const tstring replacement = TXT("replacement");
+	const tstring expected = TXT("");
+
+	TEST_TRUE(Core::replace(string, pattern, replacement) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("replace should return the input string when the pattern is empty")
+{
+	const tstring string = TXT(" match match ");
+	const tstring pattern = TXT("");
+	const tstring replacement = TXT("replacement");
+	const tstring expected = string;
+
+	TEST_TRUE(Core::replace(string, pattern, replacement) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("replace should replace all occurences of the pattern")
+{
+	const tstring string = TXT(" match match ");
+	const tstring pattern = TXT("match");
+	const tstring replacement = TXT("replacement");
+	const tstring expected = TXT(" replacement replacement ");
+
+	TEST_TRUE(Core::replace(string, pattern, replacement) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("replace should handle adjacent matches with no leading or trailing text")
+{
+	const tstring string = TXT("matchmatch");
+	const tstring pattern = TXT("match");
+	const tstring replacement = TXT("replacement");
+	const tstring expected = TXT("replacementreplacement");
+
+	TEST_TRUE(Core::replace(string, pattern, replacement) == expected);
+}
+TEST_CASE_END
+
+TEST_CASE("replaceNoCase should ignore the case of the pattern")
+{
+	const tstring string = TXT(" MatcH maTch ");
+	const tstring pattern = TXT("match");
+	const tstring replacement = TXT("replacement");
+	const tstring expected = TXT(" replacement replacement ");
+
+	TEST_TRUE(Core::replaceNoCase(string, pattern, replacement) == expected);
+}
+TEST_CASE_END
+
 }
 TEST_SET_END

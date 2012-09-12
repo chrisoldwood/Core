@@ -160,6 +160,30 @@ tstring left(const tstring& string, size_t count);
 
 tstring right(const tstring& string, size_t count);
 
+////////////////////////////////////////////////////////////////////////////////
+// Case-insensitive version of strstr().
+
+const tchar* tstristr(const tchar* string, const tchar* search);
+
+////////////////////////////////////////////////////////////////////////////////
+// Case-insensitive version of strstr().
+
+inline const tchar* tstristr(const tstring& string, const tstring& search)
+{
+	return tstristr(string.c_str(), search.c_str());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Replace all occurences of a pattern in a string with another.
+
+tstring replace(const tstring& string, const tstring& pattern, const tstring& replacement);
+
+////////////////////////////////////////////////////////////////////////////////
+// Replace all occurences of a (case-insensitive) pattern in a string with
+// another.
+
+tstring replaceNoCase(const tstring& string, const tstring& pattern, const tstring& replacement);
+
 //namespace Core
 }
 

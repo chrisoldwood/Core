@@ -425,6 +425,110 @@ tstring right(const tstring& string, size_t count)
 	return string.substr(offset, count);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//! Case-insensitive version of strstr().
+
+const tchar* tstristr(const tchar* string, const tchar* search)
+{
+	if (*string == '\0')
+		return nullptr;
+
+	if (*search == '\0')
+		return string;
+	
+	const tchar* stringIter = string;
+
+	while (*stringIter != '\0')
+	{
+		while ( (*stringIter != '\0') && (ttolower(*stringIter) != ttolower(*search)) )
+			++stringIter;
+
+		if (*stringIter != '\0')
+		{
+			const tchar* result = stringIter;
+			const tchar* searchIter = search;
+
+			while ( (*stringIter != '\0') && (*searchIter != '\0')
+				 && (ttolower(*stringIter) == ttolower(*searchIter)) )
+			{
+				++stringIter;
+				++searchIter;
+			}
+
+			if (*searchIter == '\0')
+				return result;
+		}
+	}
+	
+	return nullptr;
+}
+
+//! The type for the function used to match patterns when replacing text.
+typedef const tchar* (*MatchFn)(const tchar* string, const tchar* search);
+
+////////////////////////////////////////////////////////////////////////////////
+//! Replace all occurences of a pattern in a string with another. This is the
+//! common implementation that uses a custom function to find the matches.
+//!
+//! \note This is a simple algorithm that makes multiple passes so should only
+//! be used for short strings.
+
+static tstring replaceImpl(const tstring& string, const tstring& pattern, const tstring& replacement, MatchFn findMatch)
+{
+	if (string.empty())
+		return TXT("");
+
+	if (pattern.empty())
+		return string;
+
+	tstring      result = string;
+	const tchar* begin = result.c_str();
+	const tchar* end = begin + result.length();
+	const tchar* it;
+
+	while ((it = findMatch(begin, pattern.c_str())) != nullptr)
+	{
+		tstring      temp;
+		const tchar* matchEnd = it + pattern.length();
+
+		temp  = result.substr(0, it - begin);
+		temp += replacement;
+		temp += result.substr(matchEnd - begin, end - matchEnd);
+
+		std::swap(temp, result);
+
+		begin = result.c_str();
+		end   = begin + result.length();
+	}
+
+	return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Adapter to const correct the return value from strstr().
+
+static const tchar* const_tstrstr(const tchar* string, const tchar* search)
+{
+	return tstrstr(string, search);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Replace all occurences of a pattern in a string with another.
+
+tstring replace(const tstring& string, const tstring& pattern, const tstring& replacement)
+{
+	return replaceImpl(string, pattern, replacement, const_tstrstr);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Replace all occurences of a (case-insensitive) pattern in a string with
+//! another.
+
+tstring replaceNoCase(const tstring& string, const tstring& pattern, const tstring& replacement)
+{
+	return replaceImpl(string, pattern, replacement, tstristr);
+}
+
 //namespace Core
 }
 
