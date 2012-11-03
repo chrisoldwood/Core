@@ -14,6 +14,7 @@
 #include "AnsiWide.hpp"
 #include <locale>
 #include <stdlib.h>
+#include <errno.h>
 
 namespace Core
 {
