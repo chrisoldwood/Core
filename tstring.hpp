@@ -101,8 +101,8 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tstrtoul		strtoul
 #define tstrtod			strtod
 #ifdef _MSC_VER
-#define tstrtoll		strtoi64
-#define tstrtoull		strtoui64
+#define tstrtoll		_strtoi64
+#define tstrtoull		_strtoui64
 #else
 #define tstrtoll		strtoll
 #define tstrtoull		strtoull
