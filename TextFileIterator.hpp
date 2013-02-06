@@ -14,11 +14,6 @@
 #include "UniquePtr.hpp"
 #include "tfstream.hpp"
 
-#ifdef __GNUG__
-// base class 'X' has a non-virtual destructor
-#pragma GCC diagnostic ignored "-Weffc++"
-#endif
-
 namespace Core
 {
 

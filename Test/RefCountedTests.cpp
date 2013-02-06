@@ -21,6 +21,10 @@ TEST_CASE("compilation should succeed")
 
 //	*test1 = *test2;						// Not assignable.
 
+#ifdef __GNUG__
+	test1 = test2;
+	test2 = test1;
+#endif
 	test1 = nullptr;
 	test2 = nullptr;
 

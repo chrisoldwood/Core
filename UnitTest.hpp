@@ -174,6 +174,7 @@ int getTestProcessResult();
 
 //! End the test set definition.
 #define TEST_SET_END		Core::onEndTestSet();														\
+							registered = true;															\
 							}
 
 //! Define the test case setup function.

@@ -11,12 +11,6 @@
 #include "BadLogicException.hpp"
 #include <set>
 
-#ifdef __GNUG__
-// 'X' has pointer data members [but is copyable]
-// base class 'X' has a non-virtual destructor
-#pragma GCC diagnostic ignored "-Weffc++"
-#endif
-
 namespace Core
 {
 

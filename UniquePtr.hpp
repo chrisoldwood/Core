@@ -16,6 +16,11 @@
 namespace Core
 {
 
+#ifdef __GNUG__
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 // Forward declarations.
 template <typename T>
 class UniquePtr;
@@ -38,7 +43,7 @@ public:
 
 	//! Destructor.
 	~UniquePtr();
-	
+
 	//
 	// Methods.
 	//
@@ -48,7 +53,7 @@ public:
 
 	//! Take ownership of the pointer.
 	T* detach();
-	
+
 private:
 	//! Access the underlying pointer member.
 	T** getPtrMember();
