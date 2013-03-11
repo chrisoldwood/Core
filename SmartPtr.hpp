@@ -16,6 +16,11 @@
 namespace Core
 {
 
+#ifdef __GNUG__
+// base class 'X' has a non-virtual destructor
+#pragma GCC diagnostic ignored "-Weffc++"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //! The base class for all smart-pointer types. This class provides the common
 //! smart-pointer storage and methods for accessing it. All behaviour relating

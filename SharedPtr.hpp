@@ -12,6 +12,7 @@
 #endif
 
 #include "Interlocked.hpp"
+#include "SmartPtr.hpp"
 
 namespace Core
 {

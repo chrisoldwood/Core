@@ -26,7 +26,7 @@ namespace Core
 //! multiple times and/or have multiple values (eg -x \<value\> -x \<value\> or
 //! -x \<value\> <value>).
 
-class CmdLineParser
+class CmdLineParser /*: private NotCopyable*/
 {
 public:
 	//
@@ -128,6 +128,11 @@ private:
 	struct IsShortName;
 	//! The predicate for matching the switches long name.
 	struct IsLongName;
+
+private:
+	// NotCopyable.
+	CmdLineParser(const CmdLineParser&);
+	CmdLineParser& operator=(const CmdLineParser&);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
