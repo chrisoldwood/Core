@@ -2,7 +2,7 @@
 
 - IOStream for tracing out.
 
-- Nullable<T>
+- Nullable<T> / Optional<T>
 
 - Switch to c++ headers e.g. <cstdarg> instead of <stdarg.h>
 
@@ -15,3 +15,7 @@
 - Deal with --Eff-C++ issue globally.
 
 - Optimise stristr() and replace() so they're less naive.
+
+- Command line parser parseSwitchValue<T> that combines getSwitchValue and parse<T>.
+
+- parse<DWORD> overload (i.e. unsigned long) (pass switch name for better error message).
