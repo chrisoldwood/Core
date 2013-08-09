@@ -71,6 +71,10 @@ template<> struct STATIC_ASSERT_CHECK<true> {};
 //! Compile time ASSERT.
 #define STATIC_ASSERT(x)		enum { static_assert##__LINE__ = sizeof(Core::STATIC_ASSERT_CHECK<(x)>) };
 
+//! Debug only expression.
+#define ASSERT_RESULT(v, e)		ASSERT(e);			\
+								DEBUG_USE_ONLY(v)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Release versions
 
@@ -91,6 +95,8 @@ template<> struct STATIC_ASSERT_CHECK<true> {};
 #define UNUSED_VARIABLE(x)	(x)
 
 #define STATIC_ASSERT(x)
+
+#define ASSERT_RESULT(v, e)	(v)
 
 #endif // _DEBUG
 
