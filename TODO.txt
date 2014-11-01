@@ -19,3 +19,5 @@
 - Command line parser parseSwitchValue<T> that combines getSwitchValue and parse<T>.
 
 - parse<DWORD> overload (i.e. unsigned long) (pass switch name for better error message).
+
+- Output failed TEST_XXX() when listing failures in quiet mode (only see case, not failed assert).

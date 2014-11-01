@@ -10,7 +10,7 @@
 TEST_SET(Algorithm)
 {
 
-TEST_CASE("exists returns true when it finds the item in the sequence")
+TEST_CASE("exists returns true when it finds the item in the vector")
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
@@ -19,12 +19,30 @@ TEST_CASE("exists returns true when it finds the item in the sequence")
 }
 TEST_CASE_END
 
-TEST_CASE("exists returns false when it cannot find the item in the sequence")
+TEST_CASE("exists returns false when it cannot find the item in the vector")
 {
 	int              values[] = {1, 2, 3};
 	std::vector<int> array(values, values+ARRAY_SIZE(values));
 
 	TEST_FALSE(Core::exists(array, 5));
+}
+TEST_CASE_END
+
+TEST_CASE("exists returns true when it finds the item in the set")
+{
+	int           values[] = {1, 2, 3};
+	std::set<int> a_set(values, values+ARRAY_SIZE(values));
+
+	TEST_TRUE(Core::exists(a_set, 2));
+}
+TEST_CASE_END
+
+TEST_CASE("exists returns false when it cannot find the item in the set")
+{
+	int           values[] = {1, 2, 3};
+	std::set<int> a_set(values, values+ARRAY_SIZE(values));
+
+	TEST_FALSE(Core::exists(a_set, 5));
 }
 TEST_CASE_END
 

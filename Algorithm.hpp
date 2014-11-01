@@ -27,6 +27,15 @@ inline bool exists(const std::vector<T>& container, T value)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Search to see if the value exists within the container.
+
+template<typename T>
+inline bool exists(const std::set<T>& container, T value)
+{
+	return (container.find(value) != container.end());
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Perform a deep copy of the container.
 
 template<typename T>
