@@ -7,6 +7,11 @@
 #include <Core/UnitTest.hpp>
 #include <Core/Algorithm.hpp>
 
+bool ValueIsTwo(int value)
+{
+	return value == 2;
+}
+
 TEST_SET(Algorithm)
 {
 
@@ -67,6 +72,35 @@ TEST_CASE("deep copying a vector creates an equivalent sequence with different o
 	Core::deepCopy(array1, array2);
 
 	TEST_TRUE(std::equal(array1.begin(), array1.end(), array2.begin(), comparator::equalStateNotReference));
+}
+TEST_CASE_END
+
+TEST_CASE("values matching a predicate will be erased from the vector")
+{
+	std::vector<int> container;
+
+	container.push_back(1);
+	container.push_back(2);
+	container.push_back(3);
+
+	Core::erase_if(container, ValueIsTwo);
+
+	TEST_TRUE(container.size() == 2);
+	TEST_TRUE(container[0] == 1);
+	TEST_TRUE(container[1] == 3);
+}
+TEST_CASE_END
+
+TEST_CASE("values not matching a predicate lives the vector intact")
+{
+	std::vector<int> container;
+
+	container.push_back(1);
+	container.push_back(3);
+
+	Core::erase_if(container, ValueIsTwo);
+
+	TEST_TRUE(container.size() == 2);
 }
 TEST_CASE_END
 

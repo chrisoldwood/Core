@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <set>
 
 namespace Core
 {
@@ -45,6 +46,17 @@ inline void deepCopy(const std::vector< Core::SharedPtr<T> >& input, std::vector
 
 	for (ConstIter it = input.begin(); it != input.end(); ++it)
 		output.push_back(Core::SharedPtr<T>(new T(*(*it))));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Remove items from a vector that match a predicate.
+
+template<typename T, typename F>
+inline void erase_if(std::vector<T>& container, F predicate)
+{
+	std::vector<T>::iterator it = std::remove_if(container.begin(), container.end(), predicate);
+
+	container.erase(it, container.end());
 }
 
 //namespace Core
