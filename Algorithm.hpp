@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <vector>
 #include <set>
+#include <map>
 
 namespace Core
 {
@@ -57,6 +58,20 @@ inline void erase_if(std::vector<T>& container, F predicate)
 	std::vector<T>::iterator it = std::remove_if(container.begin(), container.end(), predicate);
 
 	container.erase(it, container.end());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Find the value in the map or return the default value.
+
+template<typename K, typename V>
+inline V findOrDefault(const std::map<K, V>& container, K key, V defaultValue)
+{
+	std::map<K, V>::const_iterator it = container.find(key);
+
+	if (it == container.end())
+		return defaultValue;
+
+	return it->second;
 }
 
 //namespace Core

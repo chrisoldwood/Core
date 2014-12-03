@@ -91,7 +91,7 @@ TEST_CASE("values matching a predicate will be erased from the vector")
 }
 TEST_CASE_END
 
-TEST_CASE("values not matching a predicate lives the vector intact")
+TEST_CASE("values not matching a predicate leaves the vector intact")
 {
 	std::vector<int> container;
 
@@ -101,6 +101,35 @@ TEST_CASE("values not matching a predicate lives the vector intact")
 	Core::erase_if(container, ValueIsTwo);
 
 	TEST_TRUE(container.size() == 2);
+}
+TEST_CASE_END
+
+TEST_CASE("finding a key in a map returns the value if the key is found")
+{
+	std::map<int, int> container;
+
+	const int key = 10;
+	const int expectedValue = 100;
+	const int defaultValue = 999;
+
+	container[key] = expectedValue;
+
+	const int actual = Core::findOrDefault(container, key, defaultValue);
+
+	TEST_TRUE(actual == expectedValue);
+}
+TEST_CASE_END
+
+TEST_CASE("finding a key in a map returns the default if the key is not found")
+{
+	std::map<int, int> container;
+
+	const int key = 10;
+	const int defaultValue = 999;
+
+	const int actual = Core::findOrDefault(container, key, defaultValue);
+
+	TEST_TRUE(actual == defaultValue);
 }
 TEST_CASE_END
 
