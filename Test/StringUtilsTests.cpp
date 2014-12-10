@@ -127,6 +127,33 @@ TEST_CASE("unsigned integers can be formatted and parsed")
 }
 TEST_CASE_END
 
+TEST_CASE("signed long integers can be formatted and parsed")
+{
+	TEST_TRUE(Core::format<long>(LONG_MIN) == TXT("-2147483648"));
+	TEST_TRUE(Core::parse<long>(TXT(" -2147483648 ")) == LONG_MIN);
+	TEST_TRUE(Core::format<long>(LONG_MAX) == TXT("2147483647"));
+	TEST_TRUE(Core::parse<long>(TXT(" 2147483647 ")) == LONG_MAX);
+
+	TEST_THROWS(Core::parse<long>(TXT("")));
+	TEST_THROWS(Core::parse<long>(TXT("-2147483649")));
+	TEST_THROWS(Core::parse<long>(TXT("2147483648")));
+	TEST_THROWS(Core::parse<long>(TXT("1nv4l1d")));
+}
+TEST_CASE_END
+
+TEST_CASE("unsigned long integers can be formatted and parsed")
+{
+	TEST_TRUE(Core::format<ulong>(0) == TXT("0"));
+	TEST_TRUE(Core::parse<ulong>(TXT(" 0 ")) == 0);
+	TEST_TRUE(Core::format<ulong>(ULONG_MAX) == TXT("4294967295"));
+	TEST_TRUE(Core::parse<ulong>(TXT(" 4294967295 ")) == ULONG_MAX);
+	TEST_THROWS(Core::parse<ulong>(TXT("")));
+	TEST_THROWS(Core::parse<ulong>(TXT("-1")));
+	TEST_THROWS(Core::parse<ulong>(TXT(" 4294967296 ")));
+	TEST_THROWS(Core::parse<ulong>(TXT("1nv4l1d")));
+}
+TEST_CASE_END
+
 TEST_CASE("64-bit signed integers can be formatted and parsed")
 {
 	TEST_TRUE(Core::format<int64>(_I64_MIN) == TXT("-9223372036854775808"));

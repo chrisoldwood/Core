@@ -63,6 +63,18 @@ template<>
 tstring format(const uint& value);
 
 ////////////////////////////////////////////////////////////////////////////////
+// Format a signed long integer value into a string.
+
+template<>
+tstring format(const long& value);
+
+////////////////////////////////////////////////////////////////////////////////
+// Format a unsigned long integer value into a string.
+
+template<>
+tstring format(const ulong& value);
+
+////////////////////////////////////////////////////////////////////////////////
 // Format a signed long long integer value into a string.
 
 template<>
@@ -97,6 +109,18 @@ int parse(const tstring& buffer); // throw(ParseException)
 
 template<>
 uint parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse a signed long integer value from a string.
+
+template<>
+long parse(const tstring& buffer); // throw(ParseException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse an unsigned long integer value from a string.
+
+template<>
+ulong parse(const tstring& buffer); // throw(ParseException)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Parse a signed long long integer value from a string.

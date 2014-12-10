@@ -133,6 +133,46 @@ struct FormatTraits<uint>
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling long integers.
+
+template<>
+struct FormatTraits<long>
+{
+	static int format(tchar* buffer, size_t size, long value)
+	{
+		return _sntprintf(buffer, size, TXT("%d"), value);
+	}
+
+	static long parse(const tchar* nptr, tchar** endptr, int base)
+	{
+		return tstrtol(nptr, endptr, base);
+	}
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//! Formatting and parsing functions for handling unsigned long integers.
+
+template<>
+struct FormatTraits<ulong>
+{
+	static int format(tchar* buffer, size_t size, ulong value)
+	{
+		return _sntprintf(buffer, size, TXT("%u"), value);
+	}
+
+	static ulong parse(const tchar* nptr, tchar** endptr, int base)
+	{
+		if (*nptr == TXT('-'))
+		{
+			errno = EINVAL;
+			return 0;
+		}
+
+		return tstrtoul(nptr, endptr, base);
+	}
+};
+
+////////////////////////////////////////////////////////////////////////////////
 //! Formatting and parsing functions for handling long long int's.
 
 template<>
@@ -213,6 +253,24 @@ template<>
 tstring format(const uint& value)
 {
 	return formatInteger< uint, FormatTraits<uint> >(value);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Format a signed long integer value into a string.
+
+template<>
+tstring format(const long& value)
+{
+	return formatInteger< long, FormatTraits<long> >(value);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Format an unsigned long integer value into a string.
+
+template<>
+tstring format(const ulong& value)
+{
+	return formatInteger< ulong, FormatTraits<ulong> >(value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,6 +357,24 @@ template<>
 uint parse(const tstring& buffer)
 {
 	return parseInteger< uint, FormatTraits<uint> >(buffer);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse a signed long integer value from a string.
+
+template<>
+long parse(const tstring& buffer)
+{
+	return parseInteger< long, FormatTraits<long> >(buffer);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Parse an unsigned long integer value from a string.
+
+template<>
+ulong parse(const tstring& buffer)
+{
+	return parseInteger< ulong, FormatTraits<ulong> >(buffer);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
