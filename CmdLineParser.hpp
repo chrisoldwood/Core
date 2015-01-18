@@ -14,6 +14,7 @@
 #include <vector>
 #include <map>
 #include "CmdLineSwitch.hpp"
+#include "StringUtils.hpp"
 
 namespace Core
 {
@@ -90,6 +91,10 @@ public:
 	//! Get the value for a switch.
 	tstring getSwitchValue(int id) const;
 
+	//! Get and parse the value for a switch.
+	template<typename T>
+	T parseSwitchValue(int id) const;
+
 	//! Generate the list of switches for a usage message.
 	tstring formatSwitches(Format format) const;
 
@@ -149,6 +154,15 @@ inline const CmdLineParser::NamedArgs& CmdLineParser::getNamedArgs() const
 inline const CmdLineParser::UnnamedArgs& CmdLineParser::getUnnamedArgs() const
 {
 	return m_unnamedArgs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Get and parse the value for a switch.
+
+template<typename T>
+inline T CmdLineParser::parseSwitchValue(int id) const
+{
+	return Core::parse<T>(getSwitchValue(id));
 }
 
 //namespace Core

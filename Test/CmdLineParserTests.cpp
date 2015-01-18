@@ -380,5 +380,35 @@ TEST_CASE("construction with a duplicate long switch name should throw")
 }
 TEST_CASE_END
 
+TEST_CASE("a non-string switch value can be parsed when it exists")
+{
+	const int value = 12345;
+	const tstring valueAsString = Core::format(value);
+
+	static tchar* argv[] = { TXT("program.exe"), TXT("-s"), const_cast<tchar*>(valueAsString.c_str()) };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	parser.parse(argc, argv);
+
+	TEST_TRUE(parser.getSwitchValue(SINGLE) == valueAsString);
+	TEST_TRUE(parser.parseSwitchValue<int>(SINGLE) == value);
+}
+TEST_CASE_END
+
+TEST_CASE("a non-string switch value throws when it cannot be parsed")
+{
+	static tchar* argv[] = { TXT("program.exe"), TXT("-s"), TXT("not a valid integer") };
+	static int argc = ARRAY_SIZE(argv);
+
+	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
+
+	parser.parse(argc, argv);
+
+	TEST_THROWS(parser.parseSwitchValue<int>(SINGLE));
+}
+TEST_CASE_END
+
 }
 TEST_SET_END

@@ -16,6 +16,4 @@
 
 - Optimise stristr() and replace() so they're less naive.
 
-- Command line parser parseSwitchValue<T> that combines getSwitchValue and parse<T>.
-
 - Output failed TEST_XXX() when listing failures in quiet mode (only see case, not failed assert).
