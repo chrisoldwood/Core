@@ -21,6 +21,10 @@ namespace Core
 typedef std::map<tstring, TestSetFn> TestSets;
 //! A collection of test case names.
 typedef std::vector<tstring> TestCaseNames;
+//! A collection of per-test assert messages.
+typedef std::vector<tstring> TestCaseAsserts;
+//! A collection of test suite assert messages.
+typedef std::vector<TestCaseAsserts> TestSuiteAsserts;
 
 //! The overall state of the test run.
 static bool s_successful = false;
@@ -60,8 +64,12 @@ static TestResult s_currentResult = UNKNOWN;
 static tstring s_currentTestSet;
 //! The name of the executing test case.
 static tstring s_currentTestCase;
+//! The set of asserts for the executing test case.
+static TestCaseAsserts s_currentTestCaseAsserts;
 //! The list of failed test cases for the set.
 static TestCaseNames s_failures;
+//! The list of asserts for the failed test cases.
+static TestSuiteAsserts s_failuresAsserts;
 //! The test case SetUp function.
 static TestCaseSetUpFn s_setup;
 //! The test case TearDown function.
@@ -226,6 +234,7 @@ void onStartTestSet(const tchar* name)
 {
 	ASSERT(tstrlen(name) != 0);
 	ASSERT(s_currentTestCase.empty());
+	ASSERT(s_currentTestCaseAsserts.empty());
 
 	if (!s_quiet)
 	{
@@ -237,6 +246,7 @@ void onStartTestSet(const tchar* name)
 
 	s_currentTestSet = name;
 	s_failures.clear();
+	s_failuresAsserts.clear();
 	s_executed.clear();
 	s_setup = nullptr;
 	s_teardown = nullptr;
@@ -248,6 +258,7 @@ void onStartTestSet(const tchar* name)
 void onEndTestSet()
 {
 	ASSERT(s_currentTestCase.empty());
+	ASSERT(s_currentTestCaseAsserts.empty());
 
 	if (!s_quiet && !s_verbose)
 	{
@@ -256,16 +267,22 @@ void onEndTestSet()
 
 	if (!s_failures.empty())
 	{
+		const tstring failureCount = (s_quiet) ? Core::fmt(TXT(" %s: %u failure(s)"), s_currentTestSet.c_str(), s_failures.size())
+											   : Core::fmt(TXT(" %u failure(s)"), s_failures.size());
+
 		tcout << std::endl;
-		tcout << TXT(" ") << s_failures.size() << TXT(" failure(s)") << std::endl;
+		tcout << failureCount << std::endl;
 
-		TestCaseNames::const_iterator it = s_failures.begin();
-		TestCaseNames::const_iterator end = s_failures.end();
-
-		for (; it != end; ++it)
+		for (size_t i = 0; i != s_failures.size(); ++i)
 		{
-			debugWrite(TXT(" > %s\n"), it->c_str());
-			tcout << TXT(" > ") << *it << std::endl;
+			debugWrite(TXT(" > %s\n"), s_failures[i].c_str());
+			tcout << TXT(" > ") << s_failures[i] << std::endl;
+
+			for (size_t j = 0; j != s_failuresAsserts[i].size(); ++j)
+			{
+				debugWrite(TXT("  %s\n"), s_failuresAsserts[i][j].c_str());
+				tcout << TXT("  ") << s_failuresAsserts[i][j] << std::endl;
+			}
 		}
 	}
 
@@ -276,6 +293,7 @@ void onEndTestSet()
 
 	s_currentTestSet.clear();
 	s_failures.clear();
+	s_failuresAsserts.clear();
 	s_executed.clear();
 	s_setup = nullptr;
 	s_teardown = nullptr;
@@ -304,6 +322,7 @@ bool onStartTestCase(const tchar* name)
 {
 	ASSERT(tstrlen(name) != 0);
 	ASSERT(s_currentTestCase.empty());
+	ASSERT(s_currentTestCaseAsserts.empty());
 	ASSERT(!exists<tstring>(s_executed, name));
 
 	if (s_verbose)
@@ -339,6 +358,7 @@ bool onStartTestCase(const tchar* name)
 void onEndTestCase()
 {
 	ASSERT(!s_currentTestCase.empty());
+	ASSERT(!s_currentTestCaseAsserts.empty());
 
 	if (s_teardown != nullptr)
 	{
@@ -371,6 +391,7 @@ void onEndTestCase()
 		++s_numFailed;
 
 		s_failures.push_back(s_currentTestCase);
+		s_failuresAsserts.push_back(s_currentTestCaseAsserts);
 
 		if (!s_verbose)
 			tcout << TXT("F");
@@ -388,6 +409,7 @@ void onEndTestCase()
 
 	s_currentResult = UNKNOWN;
 	s_currentTestCase.clear();
+	s_currentTestCaseAsserts.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -419,12 +441,15 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 		s_currentResult = FAILED;
 	}
 
+	const tchar*  result = (passed) ? TXT("Passed") : TXT("FAILED");
+	const char*   filename = getFileName(file);
+	const tstring assert = Core::fmt(TXT(" %s [%hs, %3u] %s"), result, filename, line, expression);
+
+	s_currentTestCaseAsserts.push_back(assert);
+
 	if (s_verbose)
 	{
-		const tchar* result = (passed) ? TXT("Passed") : TXT("FAILED");
-		const char*  filename = getFileName(file);
-
-		tcout << Core::fmt(TXT(" %s [%hs, %3u] %s"), result, filename, line, expression) << std::endl;
+		tcout << assert << std::endl;
 	}
 
 	if (!passed && s_debug)

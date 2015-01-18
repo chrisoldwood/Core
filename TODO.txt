@@ -8,12 +8,10 @@
 
 - Add non-MS impl of Trace() & AssertFail().
 
-- Add overloads of parse that takes a const tchar* instead of tstring.
+- Add overloads of parse that take a const tchar* instead of tstring.
 
 - Macros to disable/enable ASSERT reporting so that we can unit test ToString() functions with invalid values.
 
 - Deal with --Eff-C++ issue globally.
 
 - Optimise stristr() and replace() so they're less naive.
-
-- Output failed TEST_XXX() when listing failures in quiet mode (only see case, not failed assert).
