@@ -204,6 +204,9 @@
 				RelativePath=".\FileSystemException.hpp">
 			</File>
 			<File
+				RelativePath=".\Functor.hpp">
+			</File>
+			<File
 				RelativePath=".\Interlocked.hpp">
 			</File>
 			<File

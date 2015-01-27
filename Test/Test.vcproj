@@ -146,6 +146,9 @@
 				RelativePath=".\FileSystemTests.cpp">
 			</File>
 			<File
+				RelativePath=".\FunctorTests.cpp">
+			</File>
+			<File
 				RelativePath=".\InterlockedTests.cpp">
 			</File>
 			<File
