@@ -74,6 +74,15 @@ inline V findOrDefault(const std::map<K, V>& container, K key, V defaultValue)
 	return it->second;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//! Find a value within a container using a predicate.
+
+template<typename T, typename P>
+inline typename std::vector<T>::const_iterator find_if(const std::vector<T>& container, P predicate)
+{
+	return std::find_if(container.begin(), container.end(), predicate);
+}
+
 //namespace Core
 }
 

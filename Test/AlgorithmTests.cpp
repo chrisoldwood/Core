@@ -6,11 +6,18 @@
 #include "stdafx.h"
 #include <Core/UnitTest.hpp>
 #include <Core/Algorithm.hpp>
+#include <Core/Functor.hpp>
 
 bool ValueIsTwo(int value)
 {
 	return value == 2;
 }
+
+CORE_DEFINE_PREDICATE(IntValueEquals, int, value, rhs)
+{
+	return rhs == value;
+}
+CORE_END_PREDICATE
 
 TEST_SET(Algorithm)
 {
@@ -130,6 +137,24 @@ TEST_CASE("finding a key in a map returns the default if the key is not found")
 	const int actual = Core::findOrDefault(container, key, defaultValue);
 
 	TEST_TRUE(actual == defaultValue);
+}
+TEST_CASE_END
+
+TEST_CASE("find_if searches the entire vector")
+{
+	const int first = 1, last = 3;
+	const int values[] = { first, 2, last };
+
+	std::vector<int> array(values, values+ARRAY_SIZE(values));
+	std::vector<int>::const_iterator it;
+
+	it = Core::find_if(array, IntValueEquals(first));
+
+	TEST_TRUE(*it == first);
+
+	it = Core::find_if(array, IntValueEquals(last));
+
+	TEST_TRUE(*it == last);
 }
 TEST_CASE_END
 
