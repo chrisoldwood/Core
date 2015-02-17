@@ -358,7 +358,6 @@ bool onStartTestCase(const tchar* name)
 void onEndTestCase()
 {
 	ASSERT(!s_currentTestCase.empty());
-	ASSERT(!s_currentTestCaseAsserts.empty());
 
 	if (s_teardown != nullptr)
 	{
@@ -463,13 +462,15 @@ void processTestException(const char* file, size_t line, const tchar* error)
 {
 	s_currentResult = FAILED;
 
+	const tchar*  result = TXT("FAILED");
+	const char*   filename = getFileName(file);
+	const tstring assert = Core::fmt(TXT(" %s [%hs, %3u] Threw: %s"), result, filename, line, error);
+
+	s_currentTestCaseAsserts.push_back(assert);
+
 	if (s_verbose)
 	{
-		Core::debugWrite(TXT("Unhandled Exception: %s\n"), error);
-
-		const char* filename = getFileName(file);
-
-		tcout << Core::fmt(TXT(" %s [%hs, %3u] Unhandled Exception: %s"), TXT("FAILED"), filename, line, error) << std::endl;
+		tcout << assert << std::endl;
 	}
 
 	if (s_debug)
