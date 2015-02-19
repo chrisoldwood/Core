@@ -15,3 +15,7 @@
 - Deal with --Eff-C++ issue globally.
 
 - Optimise stristr() and replace() so they're less naive.
+
+- Add ASSUME_XXX() as variant of TEST_XXX() for verifying assumptions.
+
+- Add TEST_DOESNT_THROW() for verifying no exception is thrown.
