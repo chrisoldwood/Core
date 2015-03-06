@@ -108,26 +108,23 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			Name="Algorithm"
+			Filter="">
 			<File
-				RelativePath=".\AnsiWide.cpp">
+				RelativePath=".\Algorithm.hpp">
 			</File>
 			<File
-				RelativePath=".\CmdLineParser.cpp">
+				RelativePath=".\Functor.hpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Build"
+			Filter="">
+			<File
+				RelativePath=".\BuildConfig.hpp">
 			</File>
 			<File
-				RelativePath=".\Debug.cpp">
-			</File>
-			<File
-				RelativePath=".\Exception.cpp">
-			</File>
-			<File
-				RelativePath=".\FileSystem.cpp">
-			</File>
-			<File
-				RelativePath=".\LeakReporter.cpp">
+				RelativePath=".\Common.hpp">
 			</File>
 			<File
 				RelativePath=".\pch.cpp">
@@ -145,57 +142,45 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StringUtils.cpp">
+				RelativePath=".\Pragmas.hpp">
 			</File>
 			<File
-				RelativePath=".\TextFileIterator.cpp">
-			</File>
-			<File
-				RelativePath=".\Tokeniser.cpp">
-			</File>
-			<File
-				RelativePath=".\UnitTest.cpp">
+				RelativePath=".\WinTargets.hpp">
 			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath=".\Algorithm.hpp">
-			</File>
-			<File
-				RelativePath=".\AnsiWide.hpp">
-			</File>
-			<File
-				RelativePath=".\ArrayPtr.hpp">
-			</File>
+			Name="Exception"
+			Filter="">
 			<File
 				RelativePath=".\BadLogicException.hpp">
-			</File>
-			<File
-				RelativePath=".\BuildConfig.hpp">
-			</File>
-			<File
-				RelativePath=".\CmdLineException.hpp">
-			</File>
-			<File
-				RelativePath=".\CmdLineParser.hpp">
-			</File>
-			<File
-				RelativePath=".\CmdLineSwitch.hpp">
-			</File>
-			<File
-				RelativePath=".\Common.hpp">
 			</File>
 			<File
 				RelativePath=".\ConfigurationException.hpp">
 			</File>
 			<File
-				RelativePath=".\Debug.hpp">
+				RelativePath=".\Exception.cpp">
 			</File>
 			<File
 				RelativePath=".\Exception.hpp">
+			</File>
+			<File
+				RelativePath=".\InvalidArgException.hpp">
+			</File>
+			<File
+				RelativePath=".\NotImplException.hpp">
+			</File>
+			<File
+				RelativePath=".\NullPtrException.hpp">
+			</File>
+			<File
+				RelativePath=".\RuntimeException.hpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="IO"
+			Filter="">
+			<File
+				RelativePath=".\FileSystem.cpp">
 			</File>
 			<File
 				RelativePath=".\FileSystem.hpp">
@@ -204,52 +189,7 @@
 				RelativePath=".\FileSystemException.hpp">
 			</File>
 			<File
-				RelativePath=".\Functor.hpp">
-			</File>
-			<File
-				RelativePath=".\Interlocked.hpp">
-			</File>
-			<File
-				RelativePath=".\InvalidArgException.hpp">
-			</File>
-			<File
-				RelativePath=".\NotCopyable.hpp">
-			</File>
-			<File
-				RelativePath=".\NotImplException.hpp">
-			</File>
-			<File
-				RelativePath=".\nullptr.hpp">
-			</File>
-			<File
-				RelativePath=".\NullPtrException.hpp">
-			</File>
-			<File
-				RelativePath=".\ParseException.hpp">
-			</File>
-			<File
-				RelativePath=".\Pragmas.hpp">
-			</File>
-			<File
-				RelativePath=".\RefCntPtr.hpp">
-			</File>
-			<File
-				RelativePath=".\RefCounted.hpp">
-			</File>
-			<File
-				RelativePath=".\RuntimeException.hpp">
-			</File>
-			<File
-				RelativePath=".\Scoped.hpp">
-			</File>
-			<File
-				RelativePath=".\SharedPtr.hpp">
-			</File>
-			<File
-				RelativePath=".\SmartPtr.hpp">
-			</File>
-			<File
-				RelativePath=".\StringUtils.hpp">
+				RelativePath=".\TextFileIterator.cpp">
 			</File>
 			<File
 				RelativePath=".\TextFileIterator.hpp">
@@ -263,11 +203,103 @@
 			<File
 				RelativePath=".\tiostream.hpp">
 			</File>
+		</Filter>
+		<Filter
+			Name="Process"
+			Filter="">
+			<File
+				RelativePath=".\CmdLineException.hpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineParser.cpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineParser.hpp">
+			</File>
+			<File
+				RelativePath=".\CmdLineSwitch.hpp">
+			</File>
+			<File
+				RelativePath=".\Debug.cpp">
+			</File>
+			<File
+				RelativePath=".\Debug.hpp">
+			</File>
+			<File
+				RelativePath=".\LeakReporter.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Test"
+			Filter="">
+			<File
+				RelativePath=".\UnitTest.cpp">
+			</File>
+			<File
+				RelativePath=".\UnitTest.hpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Text"
+			Filter="">
+			<File
+				RelativePath=".\AnsiWide.cpp">
+			</File>
+			<File
+				RelativePath=".\AnsiWide.hpp">
+			</File>
+			<File
+				RelativePath=".\ParseException.hpp">
+			</File>
+			<File
+				RelativePath=".\StringUtils.cpp">
+			</File>
+			<File
+				RelativePath=".\StringUtils.hpp">
+			</File>
+			<File
+				RelativePath=".\Tokeniser.cpp">
+			</File>
 			<File
 				RelativePath=".\Tokeniser.hpp">
 			</File>
 			<File
 				RelativePath=".\tstring.hpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Thread"
+			Filter="">
+			<File
+				RelativePath=".\Interlocked.hpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Type"
+			Filter="">
+			<File
+				RelativePath=".\ArrayPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\NotCopyable.hpp">
+			</File>
+			<File
+				RelativePath=".\nullptr.hpp">
+			</File>
+			<File
+				RelativePath=".\RefCntPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\RefCounted.hpp">
+			</File>
+			<File
+				RelativePath=".\Scoped.hpp">
+			</File>
+			<File
+				RelativePath=".\SharedPtr.hpp">
+			</File>
+			<File
+				RelativePath=".\SmartPtr.hpp">
 			</File>
 			<File
 				RelativePath=".\Types.hpp">
@@ -275,18 +307,10 @@
 			<File
 				RelativePath=".\UniquePtr.hpp">
 			</File>
-			<File
-				RelativePath=".\UnitTest.hpp">
-			</File>
-			<File
-				RelativePath=".\WinTargets.hpp">
-			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
-		</Filter>
+		<File
+			RelativePath=".\DevNotes.txt">
+		</File>
 		<File
 			RelativePath=".\Doxygen.cfg">
 		</File>

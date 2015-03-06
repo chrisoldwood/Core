@@ -121,18 +121,25 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			Name="Algorithm"
+			Filter="">
 			<File
 				RelativePath=".\AlgorithmTests.cpp">
 			</File>
 			<File
-				RelativePath=".\AnsiWideTests.cpp">
+				RelativePath=".\FunctorTests.cpp">
 			</File>
+		</Filter>
+		<Filter
+			Name="Exception"
+			Filter="">
 			<File
-				RelativePath=".\ArrayPtrTests.cpp">
+				RelativePath=".\ExceptionTests.cpp">
 			</File>
+		</Filter>
+		<Filter
+			Name="IO"
+			Filter="">
 			<File
 				RelativePath=".\CmdLineParserTests.cpp">
 			</File>
@@ -140,19 +147,40 @@
 				RelativePath=".\DebugTests.cpp">
 			</File>
 			<File
-				RelativePath=".\ExceptionTests.cpp">
-			</File>
-			<File
 				RelativePath=".\FileSystemTests.cpp">
 			</File>
 			<File
-				RelativePath=".\FunctorTests.cpp">
+				RelativePath=".\TextFileIteratorTests.cpp">
 			</File>
+		</Filter>
+		<Filter
+			Name="Text"
+			Filter="">
+			<File
+				RelativePath=".\AnsiWideTests.cpp">
+			</File>
+			<File
+				RelativePath=".\StringUtilsTests.cpp">
+			</File>
+			<File
+				RelativePath=".\TokeniserTests.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Thread"
+			Filter="">
 			<File
 				RelativePath=".\InterlockedTests.cpp">
 			</File>
+		</Filter>
+		<Filter
+			Name="Type"
+			Filter="">
 			<File
-				RelativePath=".\NotCopyableTests.cpp">
+				RelativePath=".\ArrayPtrTests.cpp">
+			</File>
+			<File
+				RelativePath=".\PtrTest.hpp">
 			</File>
 			<File
 				RelativePath=".\RefCntPtrTests.cpp">
@@ -167,52 +195,38 @@
 				RelativePath=".\SharedPtrTests.cpp">
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\StringUtilsTests.cpp">
-			</File>
-			<File
-				RelativePath=".\Test.cpp">
-			</File>
-			<File
-				RelativePath=".\TextFileIteratorTests.cpp">
-			</File>
-			<File
-				RelativePath=".\TokeniserTests.cpp">
-			</File>
-			<File
 				RelativePath=".\UniquePtrTests.cpp">
 			</File>
+			<Filter
+				Name="Source Files"
+				Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+				<File
+					RelativePath=".\NotCopyableTests.cpp">
+				</File>
+			</Filter>
 		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath=".\PtrTest.hpp">
-			</File>
-			<File
-				RelativePath=".\stdafx.h">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
-		</Filter>
+		<File
+			RelativePath=".\stdafx.cpp">
+			<FileConfiguration
+				Name="Debug|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32">
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\stdafx.h">
+		</File>
+		<File
+			RelativePath=".\Test.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
