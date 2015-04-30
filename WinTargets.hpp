@@ -12,9 +12,10 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// These definitions control what versions of Windows we are targetting.
+// These definitions control what versions of Windows we are targeting.
 
 #define WINVER			0x0502		//! Target Windows XP SP2+
 #define _WIN32_WINNT	0x0502		//! Target Windows XP SP2+
+#define _WIN32_IE		0x0603		//! Target Internet Explorer 6.0 SP2+
 
 #endif // CORE_WINTARGETS_HPP

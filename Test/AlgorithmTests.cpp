@@ -8,7 +8,7 @@
 #include <Core/Algorithm.hpp>
 #include <Core/Functor.hpp>
 
-bool ValueIsTwo(int value)
+static bool ValueIsTwo(int value)
 {
 	return value == 2;
 }
