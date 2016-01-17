@@ -31,7 +31,11 @@ TEST_CASE("formatting a number returns the same output as printf")
 
 	byte* p = 0;
 
+#ifndef __WIN64
 	TEST_TRUE(Core::fmt(TXT("%#p"), --p) == TXT("0XFFFFFFFF"));
+#else
+	TEST_TRUE(Core::fmt(TXT("%#p"), --p) == TXT("0XFFFFFFFFFFFFFFFF"));
+#endif
 
 	double small = -0.1234567890123456789;
 	double large = -123456789012345667890.0;

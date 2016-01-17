@@ -212,7 +212,7 @@ tstring replaceNoCase(const tstring& string, const tstring& pattern, const tstri
 }
 
 // Only available from VC++ 8.0
-#if _MSC_VER < 1400
+#if ( (defined(_MSC_VER) && (_MSC_VER < 1400)) || (defined(__GNUG__) && !defined(_WIN64)) )
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get the length of a string, using the current locale or one that has been

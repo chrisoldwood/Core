@@ -53,8 +53,15 @@ inline long atomicDecrement(volatile long& value)
 // Manually define the exported Windows SDK Interlocked*() functions to avoid
 // bringing in <windows.h>.
 
+#ifndef _WIN64
 extern "C" long __stdcall InterlockedIncrement(volatile long* lpValue);
 extern "C" long __stdcall InterlockedDecrement(volatile long* lpValue);
+#else
+extern "C" long __cdecl _InterlockedIncrement(volatile long* lpValue);
+extern "C" long __cdecl _InterlockedDecrement(volatile long* lpValue);
+#define InterlockedIncrement _InterlockedIncrement
+#define InterlockedDecrement _InterlockedDecrement
+#endif
 
 namespace Core
 {
