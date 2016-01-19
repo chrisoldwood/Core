@@ -16,7 +16,7 @@
 #include "StringUtils.hpp"
 #include <cstdlib>
 
-#if !defined(__GNUC__) || !defined(_WINBASE_H)
+#if (defined(_MSC_VER)) || ( defined(__GNUC__) && (!defined(_APISETDEBUG_) && !defined(_WINBASE_H)) )
 // Avoid bringing in <windows.h>.
 extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 extern "C" __declspec(dllimport) int  __stdcall IsDebuggerPresent();
