@@ -67,12 +67,14 @@
 		<Unit filename="ConfigurationException.hpp" />
 		<Unit filename="Debug.cpp" />
 		<Unit filename="Debug.hpp" />
+		<Unit filename="DevNotes.txt" />
 		<Unit filename="Doxygen.cfg" />
 		<Unit filename="Exception.cpp" />
 		<Unit filename="Exception.hpp" />
 		<Unit filename="FileSystem.cpp" />
 		<Unit filename="FileSystem.hpp" />
 		<Unit filename="FileSystemException.hpp" />
+		<Unit filename="Functor.hpp" />
 		<Unit filename="Interlocked.hpp" />
 		<Unit filename="InvalidArgException.hpp" />
 		<Unit filename="LeakReporter.cpp" />

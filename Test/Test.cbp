@@ -67,6 +67,7 @@
 		<Unit filename="DebugTests.cpp" />
 		<Unit filename="ExceptionTests.cpp" />
 		<Unit filename="FileSystemTests.cpp" />
+		<Unit filename="FunctorTests.cpp" />
 		<Unit filename="InterlockedTests.cpp" />
 		<Unit filename="NotCopyableTests.cpp" />
 		<Unit filename="PtrTest.hpp" />
