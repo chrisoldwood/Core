@@ -24,11 +24,6 @@ class RefCntPtr;
 template <typename T>
 T** attachTo(RefCntPtr<T>& ptr);
 
-#ifdef __GNUG__
-// base class 'X' has a non-virtual destructor
-#pragma GCC diagnostic ignored "-Weffc++"
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 //! The smart-pointer type for use with types that contain their own reference
 //! counting mechanism, e.g. Core::RefCounted.
