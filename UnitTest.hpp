@@ -129,8 +129,11 @@ int getTestProcessResult();
 //! Mark that the test has passed for the specified reason.
 #define TEST_PASSED(r)	Core::processAssertResult(__FILE__, __LINE__, TXT(r), true);
 
-//! Mark that the test has failed for the specified reason.
+//! Mark that the test has failed for the specified reason. The message is a string literal.
 #define TEST_FAILED(r)	Core::processAssertResult(__FILE__, __LINE__, TXT(r), false);
+
+//! Mark that the test has failed for the specified reason. The message is a string value.
+#define TEST_FAILED_STR(r)	Core::processAssertResult(__FILE__, __LINE__, r, false);
 
 //! Test suite preparation.
 #define TEST_SUITE(c, v)	Core::TestSetFilters filters;			\
