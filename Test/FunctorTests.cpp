@@ -3,7 +3,7 @@
 //! \brief  The unit tests for the Functor macros.
 //! \author Chris Oldwood
 
-#include "stdafx.h"
+#include "Common.hpp"
 #include <Core/UnitTest.hpp>
 #include <algorithm>
 #include <Core/Functor.hpp>

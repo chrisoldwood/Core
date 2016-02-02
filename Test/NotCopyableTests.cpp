@@ -3,7 +3,7 @@
 //! \brief  The unit tests for the NotCopyable class.
 //! \author Chris Oldwood
 
-#include "stdafx.h"
+#include "Common.hpp"
 #include <Core/UnitTest.hpp>
 #include <Core/NotCopyable.hpp>
 

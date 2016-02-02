@@ -3,7 +3,7 @@
 //! \brief  The unit tests for the Scoped class.
 //! \author Chris Oldwood
 
-#include "stdafx.h"
+#include "Common.hpp"
 #include <Core/UnitTest.hpp>
 #include <Core/Scoped.hpp>
 
