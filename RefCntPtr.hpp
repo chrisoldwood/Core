@@ -222,7 +222,7 @@ inline T** RefCntPtr<T>::getPtrMember()
 //! e.g. LoadTypeLib(..., attachTo(p)).
 
 template <typename T>
-inline T** attachTo(RefCntPtr<T>& ptr)
+T** attachTo(RefCntPtr<T>& ptr)
 {
 	if (!ptr.empty())
 		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));
@@ -245,7 +245,7 @@ inline RefCntPtr<P> static_ptr_cast(const RefCntPtr<U>& refCnfPtr)
 //! derived ptr type from the base ptr type.
 
 template<typename P, typename U>
-inline RefCntPtr<P> dynamic_ptr_cast(const RefCntPtr<U>& refCnfPtr)
+RefCntPtr<P> dynamic_ptr_cast(const RefCntPtr<U>& refCnfPtr)
 {
 	return RefCntPtr<P>(dynamic_cast<P*>(refCnfPtr.m_ptr), true);
 }

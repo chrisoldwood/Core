@@ -186,7 +186,7 @@ inline T Scoped<T>::detach()
 //! e.g. LoadTypeLib(..., attachTo(p)).
 
 template <typename T>
-inline T* attachTo(Scoped<T>& guard)
+T* attachTo(Scoped<T>& guard)
 {
 	if (!guard.empty())
 		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));

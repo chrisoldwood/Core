@@ -56,6 +56,11 @@
 #define _SCL_SECURE_NO_WARNINGS
 
 ////////////////////////////////////////////////////////////////////////////////
+// Disable VC++ 14.0 warnings about non-conformant implementations.
+
+#define _CRT_NON_CONFORMING_WCSTOK
+
+////////////////////////////////////////////////////////////////////////////////
 // These additional definitions control other aspects of <windows.h>
 
 #define STRICT						//! Ensures handles are distinct types.

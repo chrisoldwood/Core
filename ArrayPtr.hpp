@@ -164,7 +164,7 @@ inline T** ArrayPtr<T>::getPtrMember()
 //! e.g. LoadTypeLib(..., attachTo(p)).
 
 template <typename T>
-inline T** attachTo(ArrayPtr<T>& ptr)
+T** attachTo(ArrayPtr<T>& ptr)
 {
 	if (!ptr.empty())
 		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));

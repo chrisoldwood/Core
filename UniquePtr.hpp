@@ -130,7 +130,7 @@ inline T** UniquePtr<T>::getPtrMember()
 //! e.g. LoadTypeLib(..., attachTo(p)).
 
 template <typename T>
-inline T** attachTo(UniquePtr<T>& ptr)
+T** attachTo(UniquePtr<T>& ptr)
 {
 	if (!ptr.empty())
 		throw BadLogicException(TXT("Cannot attach to a non-empty smart pointer"));

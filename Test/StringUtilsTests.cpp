@@ -15,6 +15,9 @@
 
 TEST_SET(StringUtils)
 {
+#if (_MSC_VER < 1900)
+	_set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
 
 TEST_CASE("formatting a number returns the same output as printf")
 {
@@ -32,20 +35,24 @@ TEST_CASE("formatting a number returns the same output as printf")
 	byte* p = 0;
 
 #ifndef __WIN64
-	TEST_TRUE(Core::fmt(TXT("%#p"), --p) == TXT("0XFFFFFFFF"));
+	TEST_TRUE(Core::fmt(TXT("%p"), --p) == TXT("FFFFFFFF"));
 #else
-	TEST_TRUE(Core::fmt(TXT("%#p"), --p) == TXT("0XFFFFFFFFFFFFFFFF"));
+	TEST_TRUE(Core::fmt(TXT("%p"), --p) == TXT("FFFFFFFFFFFFFFFF"));
 #endif
 
 	double small = -0.1234567890123456789;
 	double large = -123456789012345667890.0;
 
-	TEST_TRUE(Core::fmt(TXT("%.10e"), small) == TXT("-1.2345678901e-001"));
-	TEST_TRUE(Core::fmt(TXT("%.10E"), large) == TXT("-1.2345678901E+020"));
+	TEST_TRUE(Core::fmt(TXT("%.10e"), small) == TXT("-1.2345678901e-01"));
+	TEST_TRUE(Core::fmt(TXT("%.10E"), large) == TXT("-1.2345678901E+20"));
 	TEST_TRUE(Core::fmt(TXT("%.10f"), small) == TXT("-0.1234567890"));
+#if (_MSC_VER >= 1900)
+	TEST_TRUE(Core::fmt(TXT("%.10f"), large) == TXT("-123456789012345667584.0000000000"));
+#else
 	TEST_TRUE(Core::fmt(TXT("%.10f"), large) == TXT("-123456789012345670000.0000000000"));
+#endif
 	TEST_TRUE(Core::fmt(TXT("%g"),    small) == TXT("-0.123457"));
-	TEST_TRUE(Core::fmt(TXT("%G"),    large) == TXT("-1.23457E+020"));
+	TEST_TRUE(Core::fmt(TXT("%G"),    large) == TXT("-1.23457E+20"));
 }
 TEST_CASE_END
 
