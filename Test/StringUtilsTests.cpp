@@ -15,9 +15,6 @@
 
 TEST_SET(StringUtils)
 {
-#if (_MSC_VER < 1900)
-	_set_output_format(_TWO_DIGIT_EXPONENT);
-#endif
 
 TEST_CASE("formatting a number returns the same output as printf")
 {
@@ -40,6 +37,14 @@ TEST_CASE("formatting a number returns the same output as printf")
 	TEST_TRUE(Core::fmt(TXT("%p"), --p) == TXT("FFFFFFFFFFFFFFFF"));
 #endif
 
+// Need to configure MinGW GCC to use MSVCRT80+ so we can invoke
+// _set_output_format() below to limit the exponent to only 2 digits.
+#ifndef __GNUG__
+
+#if (_MSC_VER < 1900)
+	_set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
+
 	double small = -0.1234567890123456789;
 	double large = -123456789012345667890.0;
 
@@ -53,6 +58,8 @@ TEST_CASE("formatting a number returns the same output as printf")
 #endif
 	TEST_TRUE(Core::fmt(TXT("%g"),    small) == TXT("-0.123457"));
 	TEST_TRUE(Core::fmt(TXT("%G"),    large) == TXT("-1.23457E+20"));
+
+#endif // __GNUG__
 }
 TEST_CASE_END
 

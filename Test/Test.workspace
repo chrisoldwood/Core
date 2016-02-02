@@ -2,7 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Core Tests">
 		<Project filename="../Core.cbp" />
-		<Project filename="Test.cbp" active="1">
+		<Project filename="Test.cbp">
 			<Depends filename="../Core.cbp" />
 		</Project>
 	</Workspace>
