@@ -351,7 +351,7 @@ TEST_CASE("construction with a duplicate short switch name should throw")
 
 		TEST_FAILED("ctor did not throw");
 	}
-	catch (const Core::BadLogicException /*e*/)
+	catch (const Core::BadLogicException& /*e*/)
 	{
 		TEST_PASSED("ctor threw correct exception");
 	}
@@ -373,7 +373,7 @@ TEST_CASE("construction with a duplicate long switch name should throw")
 
 		TEST_FAILED("ctor did not throw");
 	}
-	catch (const Core::BadLogicException /*e*/)
+	catch (const Core::BadLogicException& /*e*/)
 	{
 		TEST_PASSED("ctor threw correct exception");
 	}
