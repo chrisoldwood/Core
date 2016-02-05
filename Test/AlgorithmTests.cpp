@@ -111,6 +111,48 @@ TEST_CASE("values not matching a predicate leaves the vector intact")
 }
 TEST_CASE_END
 
+TEST_CASE("a value can be removed from a vector by its position")
+{
+	std::vector<int> container;
+
+	container.push_back(1);
+	container.push_back(2);
+	container.push_back(3);
+
+	Core::eraseAt(container, 1);
+
+	TEST_TRUE(container.size() == 2);
+	TEST_TRUE(container[0] == 1);
+	TEST_TRUE(container[1] == 3);
+}
+TEST_CASE_END
+
+TEST_CASE("an object owned by a vector can be destroyed by its position")
+{
+	std::vector<int*> container;
+
+	container.push_back(new int(1));
+
+	Core::deleteAt(container, 0);
+
+	TEST_TRUE(container.size() == 0);
+}
+TEST_CASE_END
+
+TEST_CASE("all objects owned by a vector can be destroyed together")
+{
+	std::vector<int*> container;
+
+	container.push_back(new int(1));
+	container.push_back(new int(2));
+	container.push_back(new int(3));
+
+	Core::deleteAll(container);
+
+	TEST_TRUE(container.size() == 0);
+}
+TEST_CASE_END
+
 TEST_CASE("finding a key in a map returns the value if the key is found")
 {
 	std::map<int, int> container;

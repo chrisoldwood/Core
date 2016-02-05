@@ -61,6 +61,44 @@ inline void erase_if(std::vector<T>& container, F predicate)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Remove an item from a vector by its position.
+
+template<typename T>
+inline void eraseAt(std::vector<T>& container, size_t position)
+{
+	ASSERT(!container.empty());
+
+	container.erase(container.begin() + position);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Remove and destroy an item from a vector by its position.
+
+template<typename T>
+inline void deleteAt(std::vector<T>& container, size_t position)
+{
+	ASSERT(!container.empty());
+
+	T item = container[position];
+	eraseAt(container, position);
+	delete item;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Remove and destroy all items in a vector.
+
+template<typename T>
+inline void deleteAll(std::vector<T>& container)
+{
+	typedef typename std::vector<T>::const_iterator ConstIter;
+
+	for (ConstIter it = container.begin(); it != container.end(); ++it)
+		delete *it;
+
+	container.clear();	
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Find the value in the map or return the default value.
 
 template<typename K, typename V>
