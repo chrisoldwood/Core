@@ -50,6 +50,21 @@ inline void deepCopy(const std::vector< Core::SharedPtr<T> >& input, std::vector
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Find the index of the first value that matches. Returns npos if no match
+//! is found.
+
+template<typename T>
+inline size_t indexOf(std::vector<T>& container, T value)
+{
+	typename std::vector<T>::iterator it = std::find(container.begin(), container.end(), value);
+
+	if (it == container.end())
+		return Core::npos;
+
+	return (it - container.begin());
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Remove items from a vector that match a predicate.
 
 template<typename T, typename F>
@@ -72,6 +87,18 @@ inline void eraseAt(std::vector<T>& container, size_t position)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Remove an item from a vector by its value.
+
+template<typename T>
+inline void eraseValue(std::vector<T>& container, T value)
+{
+	size_t index = indexOf(container, value);
+
+	if (index != npos)
+		eraseAt(container, index);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Remove and destroy an item from a vector by its position.
 
 template<typename T>
@@ -82,6 +109,18 @@ inline void deleteAt(std::vector<T>& container, size_t position)
 	T item = container[position];
 	eraseAt(container, position);
 	delete item;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Remove and destroy an item from a vector by its value.
+
+template<typename T>
+inline void deleteValue(std::vector<T>& container, T value)
+{
+	size_t index = indexOf(container, value);
+
+	if (index != npos)
+		deleteAt(container, index);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
