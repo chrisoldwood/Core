@@ -29,7 +29,7 @@ public:
 	//! An array of strings.
 	typedef std::vector<tstring> Tokens;
 
-	//! The flags that control the tokensiation.
+	//! The flags that control the tokenisation.
 	enum Flags
 	{
 		NONE		= 0x0000,	//!< Default.

@@ -318,7 +318,7 @@ T parseInteger(const tstring& buffer)
 
 	it = endPtr;
 
-	// Skip trailing whitespace.
+	// Skip trailing white-space.
 	it = skipWhitespace(it, end);
 
 	if ( (it != end) && (*it != TXT('\0')) )
@@ -444,7 +444,7 @@ tstring createLower(tstring string)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Trim any leading whitespace from the string.
+//! Trim any leading white-space from the string.
 
 void trimLeft(tstring& string)
 {
@@ -455,7 +455,7 @@ void trimLeft(tstring& string)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Trim any trailing whitespace from the string.
+//! Trim any trailing white-space from the string.
 
 void trimRight(tstring& string)
 {
@@ -466,7 +466,7 @@ void trimRight(tstring& string)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Trim any leading or trailing whitespace from the string.
+//! Trim any leading or trailing white-space from the string.
 
 void trim(tstring& string)
 {
@@ -475,7 +475,7 @@ void trim(tstring& string)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Trim any leading or trailing whitespace from a copy of the string.
+//! Trim any leading or trailing white-space from a copy of the string.
 
 tstring trimCopy(tstring string)
 {
@@ -484,7 +484,7 @@ tstring trimCopy(tstring string)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Extract the leftmost N characters as a substring.
+//! Extract the leftmost N characters as a sub-string.
 
 tstring left(const tstring& string, size_t count)
 {
@@ -492,7 +492,7 @@ tstring left(const tstring& string, size_t count)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Extract the rightmost N characters as a substring.
+//! Extract the rightmost N characters as a sub-string.
 
 tstring right(const tstring& string, size_t count)
 {
@@ -512,7 +512,7 @@ const tchar* tstristr(const tchar* string, const tchar* search)
 
 	if (*search == '\0')
 		return string;
-	
+
 	const tchar* stringIter = string;
 
 	while (*stringIter != '\0')
@@ -536,7 +536,7 @@ const tchar* tstristr(const tchar* string, const tchar* search)
 				return result;
 		}
 	}
-	
+
 	return nullptr;
 }
 
@@ -544,7 +544,7 @@ const tchar* tstristr(const tchar* string, const tchar* search)
 typedef const tchar* (*MatchFn)(const tchar* string, const tchar* search);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Replace all occurences of a pattern in a string with another. This is the
+//! Replace all occurrences of a pattern in a string with another. This is the
 //! common implementation that uses a custom function to find the matches.
 //!
 //! \note This is a simple algorithm that makes multiple passes so should only
@@ -590,7 +590,7 @@ static const tchar* const_tstrstr(const tchar* string, const tchar* search)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Replace all occurences of a pattern in a string with another.
+//! Replace all occurrences of a pattern in a string with another.
 
 tstring replace(const tstring& string, const tstring& pattern, const tstring& replacement)
 {
@@ -598,7 +598,7 @@ tstring replace(const tstring& string, const tstring& pattern, const tstring& re
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Replace all occurences of a (case-insensitive) pattern in a string with
+//! Replace all occurrences of a (case-insensitive) pattern in a string with
 //! another.
 
 tstring replaceNoCase(const tstring& string, const tstring& pattern, const tstring& replacement)

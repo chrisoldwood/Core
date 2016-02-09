@@ -19,7 +19,7 @@ Exception::Exception()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Construction from a string containg the details.
+//! Construction from a string containing the details.
 
 Exception::Exception(const tstring& details)
 	: m_details(details)

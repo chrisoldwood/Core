@@ -22,7 +22,7 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 //! A command line parser. The parser supports both Unix style (eg -h & --help)
 //! and Windows style (eg /h & /help) switches. The value for the switch can
-//! be specifed after the switch name (eg -p \<file\>) or inline in either
+//! be specified after the switch name (eg -p \<file\>) or in-line in either
 //! format (eg /p:\<file\> or --print=\<file\>). A switch can also be referenced
 //! multiple times and/or have multiple values (eg -x \<value\> -x \<value\> or
 //! -x \<value\> <value>).

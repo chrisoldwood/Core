@@ -47,7 +47,7 @@
 #include <crtdbg.h>
 #define CORE_CRTDBG_ENABLED		//!< Flag CRT debug functions as available.
 
-// Common STL headers that use the 'new' keyword which is later remamped.
+// Common STL headers that use the 'new' keyword which is later remapped.
 #include <map>
 
 #endif // _MSC_VER

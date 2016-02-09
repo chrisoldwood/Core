@@ -90,7 +90,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Construction from a destroy function and null value. This ctor is used with
-//! the attachTo() free function to setup the deleter before attaching the
+//! the attachTo() free function to set-up the deleter before attaching the
 //! resource.
 
 template <typename T>

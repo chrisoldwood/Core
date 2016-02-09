@@ -159,7 +159,7 @@ inline RefCntPtr<T>& RefCntPtr<T>::operator=(const RefCntPtr& refCnfPtr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Assignment operator for sub-types of T. Releases teh current resource and
+//! Assignment operator for sub-types of T. Releases the current resource and
 //! takes shared ownership of another pointer that must be a sub-type of T.
 
 template <typename T>

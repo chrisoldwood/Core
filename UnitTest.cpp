@@ -308,7 +308,7 @@ void defineTestCaseSetup(TestCaseSetUpFn setup)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Define the test case teardown function.
+//! Define the test case tear-down function.
 
 void defineTestCaseTearDown(TestCaseTearDownFn teardown)
 {
@@ -377,7 +377,7 @@ void onEndTestCase()
 
 	s_executed.push_back(s_currentTestCase);
 
-	// Update stats.
+	// Update statistics.
 	if (s_currentResult == SUCCEEDED)
 	{
 		++s_numPassed;
@@ -412,7 +412,7 @@ void onEndTestCase()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Get just the filename from the path.
+//! Get just the file-name from the path.
 
 static const char* getFileName(const char* path)
 {
@@ -478,7 +478,7 @@ void processTestException(const char* file, size_t line, const tchar* error)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Process an unexpected exception during setup or teardown.
+//! Process an unexpected exception during set-up or tear-down.
 
 void processSetupTeardownException(const tchar* function, const tchar* error)
 {

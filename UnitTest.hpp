@@ -55,10 +55,10 @@ void onStartTestSet(const tchar* name);
 // End the test set.
 void onEndTestSet();
 
-// Define the test case setup function.
+// Define the test case set-up function.
 void defineTestCaseSetup(TestCaseSetUpFn setup);
 
-// Define the test case teardown function.
+// Define the test case tear-down function.
 void defineTestCaseTearDown(TestCaseTearDownFn teardown);
 
 // Start a new test case.
@@ -73,7 +73,7 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 // Process an unexpected exception running a test case.
 void processTestException(const char* file, size_t line, const tchar* error);
 
-// Process an unexpected exception during setup or teardown.
+// Process an unexpected exception during set-up or tear-down.
 void processSetupTeardownException(const tchar* function, const tchar* error);
 
 // Set how the test run completed.
@@ -111,7 +111,7 @@ int getTestProcessResult();
 							Core::debugWrite(TXT("Unhandled Exception: %s\n"), TXT("UNKNOWN"));		\
 							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);			\
 						}
-//! Test that the expression casuses an exception.
+//! Test that the expression causes an exception.
 #define TEST_THROWS(x)	try {																	\
 							(x);																\
 							Core::processAssertResult(__FILE__, __LINE__, TXT(#x), false);		\
@@ -142,7 +142,7 @@ int getTestProcessResult();
 							Core::enableLeakReporting(true);		\
 							try {
 
-//! Test suite reporting and cleanup.
+//! Test suite reporting and clean-up.
 #define TEST_SUITE_END			Core::setTestRunFinalStatus(true);										\
 							}																			\
 							catch(const Core::Exception& e) {											\
@@ -161,7 +161,7 @@ int getTestProcessResult();
 #define TEST_SUITE_RUN()	if (!Core::runTestSets(filters))	\
 								return EXIT_FAILURE;
 
-//! Handle the entire setup, execution and reporting of the test suite.
+//! Handle the entire set-up, execution and reporting of the test suite.
 #define TEST_SUITE_MAIN(c, v)	TEST_SUITE(argc, argv)		\
 								{							\
 									TEST_SUITE_RUN();		\
@@ -180,19 +180,19 @@ int getTestProcessResult();
 							registered = true;															\
 							}
 
-//! Define the test case setup function.
+//! Define the test case set-up function.
 #define TEST_CASE_SETUP()		struct TestCaseSetup {			\
 									static void fn()
 
-//! End the test case setup function definition.
+//! End the test case set-up function definition.
 #define TEST_CASE_SETUP_END		};								\
 								Core::defineTestCaseSetup(TestCaseSetup::fn);
 
-//! Define the test case teardown function.
+//! Define the test case tear-down function.
 #define TEST_CASE_TEARDOWN()	struct TestCaseTearDown {			\
 									static void fn()
 
-//! End the test case teardown function definition.
+//! End the test case tear-down function definition.
 #define TEST_CASE_TEARDOWN_END	};								\
 								Core::defineTestCaseTearDown(TestCaseTearDown::fn);
 

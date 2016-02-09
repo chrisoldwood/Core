@@ -25,7 +25,7 @@ struct CmdLineSwitch
 	// Types.
 	//
 
-	//! The number of occurences.
+	//! The number of occurrences.
 	enum Occurences
 	{
 		ONCE,
@@ -46,8 +46,8 @@ struct CmdLineSwitch
 	int				m_id;				//!< The identifier for the switch.
 	const tchar*	m_shortName;		//!< The switch short name.
 	const tchar*	m_longName;			//!< The switch long name.
-	Occurences		m_occurences;		//!< The number of ocurrences allowed.
-	Parameters		m_parameters;		//!< The number of addtional parameters.
+	Occurences		m_occurences;		//!< The number of occurrences allowed.
+	Parameters		m_parameters;		//!< The number of additional parameters.
 	const tchar*	m_paramDesc;		//!< The parameter description.
 	const tchar*	m_description;		//!< The switch description.
 };

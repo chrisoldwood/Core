@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //! \file   FileSystemTests.cpp
-//! \brief  The unit tests for the filesystem functions.
+//! \brief  The unit tests for the file-system functions.
 //! \author Chris Oldwood
 
 #include "Common.hpp"
@@ -41,13 +41,13 @@ TEST_CASE_END
 
 TEST_CASE("pathExists should return true when the path exists")
 {
-	TEST_TRUE(Core::pathExists(Core::getTempFolder()));	
+	TEST_TRUE(Core::pathExists(Core::getTempFolder()));
 }
 TEST_CASE_END
 
 TEST_CASE("pathExists should return false when the path is invalid")
 {
-	TEST_FALSE(Core::pathExists(TXT(".\\invalid_local_file_name.txt")));	
+	TEST_FALSE(Core::pathExists(TXT(".\\invalid_local_file_name.txt")));
 }
 TEST_CASE_END
 
@@ -73,7 +73,7 @@ TEST_CASE("deleteFile should throw when an error occurs")
 }
 TEST_CASE_END
 
-TEST_CASE("deleteFile should not throw when an error occurs and erros should be ignored")
+TEST_CASE("deleteFile should not throw when an error occurs and errors should be ignored")
 {
 	tstring invalidFile = TXT(".\\invalid_local_file_name.txt");
 

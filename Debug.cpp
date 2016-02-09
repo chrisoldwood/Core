@@ -56,7 +56,7 @@ void assertFail(const char* expression, const char* file, uint line)
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Function to write a message to the debugger output. This is a printf() style
-//! function for outputing debugging messages. It uses vsprintf() and so is
+//! function for outputting debugging messages. It uses vsprintf() and so is
 //! restricted to the types it can handle.
 
 void traceEx(const tchar* format, ...)

@@ -30,7 +30,7 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Construction from a string containg the details.
+//! Construction from a string containing the details.
 
 inline NotImplException::NotImplException(const tstring& details)
 	: Exception(details)

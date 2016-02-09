@@ -36,7 +36,7 @@ public:
 	//! Increase the reference count by one.
 	long incRefCount();
 
-	//! Decrese the reference count by one
+	//! Decrease the reference count by one
 	long decRefCount();
 
 protected:
@@ -94,7 +94,7 @@ inline long RefCounted::incRefCount()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Decrese the reference count by one
+//! Decrease the reference count by one
 
 inline long RefCounted::decRefCount()
 {

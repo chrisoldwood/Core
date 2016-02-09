@@ -71,7 +71,7 @@ TEST_CASE("the reference count can be explicitly incremented and decremented")
 }
 TEST_CASE_END
 
-TEST_CASE("object is destroyed when there are no remaining refernces")
+TEST_CASE("object is destroyed when there are no remaining references")
 {
 	Core::RefCounted* test = new Test;
 

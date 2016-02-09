@@ -70,7 +70,7 @@ extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
 class LeakReporter
 {
 public:
-	//! Default consttructor.
+	//! Default constructor.
 	LeakReporter();
 
 	//! Destructor.
@@ -79,7 +79,7 @@ public:
 } g_reporter;
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Default consttructor.
+//! Default constructor.
 
 LeakReporter::LeakReporter()
 {

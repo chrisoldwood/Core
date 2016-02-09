@@ -36,7 +36,7 @@ protected:
 	//! Default constructor.
 	Exception();
 
-	//! Construction from a string containg the details.
+	//! Construction from a string containing the details.
 	Exception(const tstring& details);
 
 	//! Copy constructor.

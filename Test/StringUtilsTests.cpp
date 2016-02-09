@@ -87,7 +87,7 @@ TEST_CASE("string conversion from mixed to upper and lower case")
 }
 TEST_CASE_END
 
-TEST_CASE("trim strips spaces, tabs, carrage returns and newlines from the front and back of strings")
+TEST_CASE("trim strips spaces, tabs, carriage returns and newlines from the front and back of strings")
 {
 	TEST_TRUE(Core::trimCopy(TXT(" \t\r\nTEST")) == TXT("TEST"));
 	TEST_TRUE(Core::trimCopy(TXT("TEST \t\r\n")) == TXT("TEST"));
@@ -95,7 +95,7 @@ TEST_CASE("trim strips spaces, tabs, carrage returns and newlines from the front
 }
 TEST_CASE_END
 
-TEST_CASE("skipping whitespace includes spaces, tabs, carrage returns and newlines")
+TEST_CASE("skipping white-space includes spaces, tabs, carriage returns and newlines")
 {
 	tchar*       test = TXT(" \t\r\n");
 	const tchar* end  = test+tstrlen(test);
@@ -340,7 +340,7 @@ TEST_CASE("tstristr should return a pointer to the first matching character")
 }
 TEST_CASE_END
 
-TEST_CASE("tstristr should match the first occurence")
+TEST_CASE("tstristr should match the first occurrence")
 {
 	const tstring string = TXT("match match");
 	const tstring search = TXT("match");

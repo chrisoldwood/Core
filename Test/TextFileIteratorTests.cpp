@@ -38,7 +38,7 @@ TEST_SET(TextFileIterator)
 
 	createTestTextFile(testTextFile);
 
-TEST_CASE("paramaterless ctor creates an end iterator")
+TEST_CASE("parameterless ctor creates an end iterator")
 {
 	Core::TextFileIterator end;
 

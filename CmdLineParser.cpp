@@ -106,7 +106,7 @@ void CmdLineParser::parse(int argc, tchar* argv[], int flags)
 			CharCIter valueFirst = std::find_if(nameFirst, nameLast, IsSeparator(valueSeps));
 			CharCIter valueLast  = nameLast;
 
-			// If inline value present, adjust switch name.
+			// If in-line value present, adjust switch name.
 			if (valueFirst != valueLast)
 			{
 				nameLast = valueFirst;
@@ -132,7 +132,7 @@ void CmdLineParser::parse(int argc, tchar* argv[], int flags)
 			// Expecting one or more values?
 			if (theSwitch->m_parameters != CmdLineSwitch::NONE)
 			{
-				// Value is inline?
+				// Value is in-line?
 				if (nameLast != valueFirst)
 				{
 					namedArg->second.push_back(tstring(valueFirst, valueLast));

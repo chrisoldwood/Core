@@ -27,7 +27,7 @@ tstring fmtEx(const tchar* format, va_list args);
 tstring fmt(const tchar* format, ...);
 
 ////////////////////////////////////////////////////////////////////////////////
-//! Skip any leading whitespace.
+//! Skip any leading white-space.
 
 template<typename First, typename Last>
 First skipWhitespace(First first, Last last)
@@ -155,32 +155,32 @@ void makeLower(tstring& string);
 tstring createLower(tstring string);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Trim any leading whitespace from the string.
+// Trim any leading white-space from the string.
 
 void trimLeft(tstring& string);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Trim any trailing whitespace from the string.
+// Trim any trailing white-space from the string.
 
 void trimRight(tstring& string);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Trim any leading or trailing whitespace from the string.
+// Trim any leading or trailing white-space from the string.
 
 void trim(tstring& string);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Trim any leading or trailing whitespace from a copy of the string.
+// Trim any leading or trailing white-space from a copy of the string.
 
 tstring trimCopy(tstring string);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Extract the leftmost N characters as a substring.
+// Extract the leftmost N characters as a sub-string.
 
 tstring left(const tstring& string, size_t count);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Extract the rightmost N characters as a substring.
+// Extract the rightmost N characters as a sub-string.
 
 tstring right(const tstring& string, size_t count);
 
@@ -198,12 +198,12 @@ inline const tchar* tstristr(const tstring& string, const tstring& search)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Replace all occurences of a pattern in a string with another.
+// Replace all occurrences of a pattern in a string with another.
 
 tstring replace(const tstring& string, const tstring& pattern, const tstring& replacement);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Replace all occurences of a (case-insensitive) pattern in a string with
+// Replace all occurrences of a (case-insensitive) pattern in a string with
 // another.
 
 tstring replaceNoCase(const tstring& string, const tstring& pattern, const tstring& replacement);

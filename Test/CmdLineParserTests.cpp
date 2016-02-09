@@ -64,7 +64,7 @@ TEST_CASE("invalid switch names cause an exception to be thrown")
 }
 TEST_CASE_END
 
-TEST_CASE("default flags allows both windows and unix format switches and unamed arguments")
+TEST_CASE("default flags allows both windows and Unix format switches and unnamed arguments")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 
@@ -82,7 +82,7 @@ TEST_CASE_END
 
 TEST_CASE("single use flag switches throw an exception when used multiple times")
 {
-	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("-?"), TXT("-?") };
+	static tchar* argv[] = { TXT("program.exe"), TXT("unnamed"), TXT("-?"), TXT("-?") };
 	static int argc = ARRAY_SIZE(argv);
 
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
@@ -93,7 +93,7 @@ TEST_CASE_END
 
 TEST_CASE("strings beginning with a dash are treated as values when windows only format specified")
 {
-	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("-?"), TXT("-?") };
+	static tchar* argv[] = { TXT("program.exe"), TXT("unnamed"), TXT("-?"), TXT("-?") };
 	static int argc = ARRAY_SIZE(argv);
 
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
@@ -104,9 +104,9 @@ TEST_CASE("strings beginning with a dash are treated as values when windows only
 }
 TEST_CASE_END
 
-TEST_CASE("strings beginning with a slash are treated as values when unix only format specified")
+TEST_CASE("strings beginning with a slash are treated as values when Unix only format specified")
 {
-	static tchar* argv[] = { TXT("program.exe"), TXT("unamed"), TXT("/?"), };
+	static tchar* argv[] = { TXT("program.exe"), TXT("unnamed"), TXT("/?"), };
 	static int argc = ARRAY_SIZE(argv);
 
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
@@ -156,7 +156,7 @@ TEST_CASE("windows style switches can include the value when separated by a colo
 }
 TEST_CASE_END
 
-TEST_CASE("unix style switches can include the value when separated by an equals sign")
+TEST_CASE("Unix style switches can include the value when separated by an equals sign")
 {
 	static tchar* argv[] = { TXT("program.exe"), TXT("-s=value4"), TXT("-s"), TXT("value3"), TXT("--single=value2"), TXT("--single"), TXT("value1") };
 	static int argc = ARRAY_SIZE(argv);
@@ -263,7 +263,7 @@ TEST_CASE("formatting switch list should align different sized switches on separ
 }
 TEST_CASE_END
 
-TEST_CASE("formatting switch list in unix style uses dashes")
+TEST_CASE("formatting switch list in Unix style uses dashes")
 {
 	Core::CmdLineParser parser(s_aoSwitches, s_aoSwitches+s_nCount);
 

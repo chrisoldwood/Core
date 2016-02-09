@@ -18,7 +18,7 @@ namespace Core
 
 ////////////////////////////////////////////////////////////////////////////////
 //! The type of exception thrown when an attempt is made to dereference a null
-//! pointer. It is prefereable for this to be thrown than the pointer be
+//! pointer. It is preferable for this to be thrown than the pointer be
 //! dereferenced and an Access Violation occur as Structured Exception handling
 //! may not be enabled on the thread at the time.
 
