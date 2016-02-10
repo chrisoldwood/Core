@@ -82,11 +82,11 @@ static TestCaseNames s_executed;
 
 static Core::CmdLineSwitch s_switches[] =
 {
-	{ HELP,		TXT("?"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Display command line usage")		},
-	{ HELP,		TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Display command line usage")		},
-	{ VERBOSE,	TXT("v"),	TXT("verbose"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Verbose output of each test case")	},
-	{ QUIET,	TXT("q"),	TXT("quiet"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Minimal output of each test case")	},
-	{ DEBUG,	TXT("d"),	TXT("debug"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	TXT("Invoke DebugBreak() on failure")	},
+	{ HELP,		TXT("?"),	nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	TXT("Display command line usage")		},
+	{ HELP,		TXT("h"),	TXT("help"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	TXT("Display command line usage")		},
+	{ VERBOSE,	TXT("v"),	TXT("verbose"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	TXT("Verbose output of each test case")	},
+	{ QUIET,	TXT("q"),	TXT("quiet"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	TXT("Minimal output of each test case")	},
+	{ DEBUG,	TXT("d"),	TXT("debug"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	TXT("Invoke DebugBreak() on failure")	},
 };
 static size_t s_switchCount = ARRAY_SIZE(s_switches);
 

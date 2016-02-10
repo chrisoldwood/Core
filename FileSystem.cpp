@@ -81,8 +81,8 @@ static tstring formatWin32ErrorMessage(DWORD errorCode)
 	tchar* buffer;
 
 	DWORD result = ::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-									NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-									reinterpret_cast<tchar*>(&buffer), 0, NULL);
+									nullptr, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+									reinterpret_cast<tchar*>(&buffer), 0, nullptr);
 
 	if (result == 0)
 		return TXT("Failed to format message with::FormatMessage()");

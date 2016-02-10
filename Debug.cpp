@@ -45,7 +45,7 @@ void assertFail(const char* expression, const char* file, uint line)
 {
 #ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_ASSERT, file, line, NULL, "%s", expression) == 1)
+	if (_CrtDbgReport(_CRT_ASSERT, file, line, nullptr, "%s", expression) == 1)
 		_CrtDbgBreak();
 #else
 	UNUSED_VARIABLE(expression);
@@ -67,7 +67,7 @@ void traceEx(const tchar* format, ...)
 
 #ifdef CORE_CRTDBG_ENABLED
 	// Output using CRT function.
-	if (_CrtDbgReport(_CRT_WARN, NULL, 0, NULL, "%s", T2A(fmtEx(format, args))) == 1)
+	if (_CrtDbgReport(_CRT_WARN, nullptr, 0, nullptr, "%s", T2A(fmtEx(format, args))) == 1)
 		_CrtDbgBreak();
 #endif
 

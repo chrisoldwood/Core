@@ -30,14 +30,14 @@ TEST_SET(CmdLineParser)
 
 	static Core::CmdLineSwitch s_aoSwitches[] =
 	{
-		{ SHORT_ONLY,	TXT("short"),	NULL,			Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Short switch")		},
-		{ LONG_ONLY,	NULL,			TXT("long"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Long switch")		},
-		{ SHORT_LONG,	TXT("b"),		TXT("both"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Both types")		},
-		{ USAGE,		TXT("?"),		NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Usage")			},
-		{ FLAG,			TXT("f"),		TXT("flag"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		NULL,			TXT("Flag type")		},
+		{ SHORT_ONLY,	TXT("short"),	nullptr,		Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("Short switch")		},
+		{ LONG_ONLY,	nullptr,		TXT("long"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("Long switch")		},
+		{ SHORT_LONG,	TXT("b"),		TXT("both"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("Both types")		},
+		{ USAGE,		TXT("?"),		nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("Usage")			},
+		{ FLAG,			TXT("f"),		TXT("flag"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("Flag type")		},
 		{ SINGLE,		TXT("s"),		TXT("single"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::SINGLE,	TXT("param"),	TXT("Single value")		},
 		{ MULTIPLE,		TXT("m"),		TXT("multi"),	Core::CmdLineSwitch::MANY,	Core::CmdLineSwitch::MULTIPLE,	TXT("params"),	TXT("Multiple values")	},
-		{ INTERNAL,		TXT("@"),		NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			NULL					},
+		{ INTERNAL,		TXT("@"),		nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		nullptr					},
 	};
 	static size_t s_nCount = ARRAY_SIZE(s_aoSwitches);
 
@@ -239,11 +239,11 @@ TEST_CASE("formatting switch list should align different sized switches on separ
 {
 	static Core::CmdLineSwitch switches[] =
 	{
-		{ 1,	TXT("a"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("short switch only")				},
-		{ 2,	NULL,		TXT("long1"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("long switch only")					},
-		{ 3,	TXT("b"),	TXT("long2"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("both switches")					},
-		{ 4,	TXT("cc"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		NULL,			TXT("multi-char short switch")			},
-		{ 4,	TXT("d"),	NULL,			Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::MULTIPLE,	TXT("param"),	TXT("short switch only with params")	},
+		{ 1,	TXT("a"),	nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("short switch only")				},
+		{ 2,	nullptr,	TXT("long1"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("long switch only")					},
+		{ 3,	TXT("b"),	TXT("long2"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("both switches")					},
+		{ 4,	TXT("cc"),	nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,		nullptr,		TXT("multi-char short switch")			},
+		{ 4,	TXT("d"),	nullptr,		Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::MULTIPLE,	TXT("param"),	TXT("short switch only with params")	},
 	};
 	static size_t count = ARRAY_SIZE(switches);
 
@@ -340,8 +340,8 @@ TEST_CASE("construction with a duplicate short switch name should throw")
 {
 	static Core::CmdLineSwitch switches[] =
 	{
-		{ 1,	TXT("s"),	NULL,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
-		{ 2,	TXT("s"),	NULL,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+		{ 1,	TXT("s"),	nullptr,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	nullptr	},
+		{ 2,	TXT("s"),	nullptr,	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	nullptr	},
 	};
 	static size_t count = ARRAY_SIZE(switches);
 
@@ -362,8 +362,8 @@ TEST_CASE("construction with a duplicate long switch name should throw")
 {
 	static Core::CmdLineSwitch switches[] =
 	{
-		{ 1,	NULL,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
-		{ 2,	NULL,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	NULL,	NULL	},
+		{ 1,	nullptr,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	nullptr	},
+		{ 2,	nullptr,	TXT("long"),	Core::CmdLineSwitch::ONCE,	Core::CmdLineSwitch::NONE,	nullptr,	nullptr	},
 	};
 	static size_t count = ARRAY_SIZE(switches);
 

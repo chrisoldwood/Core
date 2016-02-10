@@ -45,7 +45,7 @@ TEST_CASE("compilation should succeed")
 
 //	PtrTest* ptr = test1;					// No implicit conversion.
 
-//	TEST_FALSE((test1 == NULL) || (test1 != NULL));	// No implicit construction.
+//	TEST_FALSE((test1 == nullptr) || (test1 != nullptr));	// No implicit construction.
 
 //	delete test1;							// No implicit conversion.
 

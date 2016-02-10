@@ -22,7 +22,7 @@ TEST_CASE("compilation only succeeds for explicit conversions")
 //	test1 = test4;							// Not assignable.
 //	int raw[1] = test1;						// No implicit conversion.
 
-//	TEST_FALSE((test1 == NULL) || (test1 != NULL));		// No implicit construction.
+//	TEST_FALSE((test1 == nullptr) || (test1 != nullptr));		// No implicit construction.
 
 //	delete[] test1;							// No implicit conversion.
 
