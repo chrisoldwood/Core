@@ -21,3 +21,5 @@
 - Add TEST_DOESNT_THROW() for verifying no exception is thrown.
 
 - refactor algortihm header into separate extensions headers for each container type.
+
+- Add support for Scoped deleter's that do not return void, e.g. NetApiBufferFree.
