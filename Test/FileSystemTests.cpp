@@ -19,7 +19,7 @@ static void createEmptyFile(const tstring& path)
 TEST_SET(FileSystem)
 {
 
-TEST_CASE("getTempFolder should not return an empty path")
+TEST_CASE("getting the path to the temporary folder does not return an empty path")
 {
 	tstring folder = Core::getTempFolder();
 
@@ -27,7 +27,7 @@ TEST_CASE("getTempFolder should not return an empty path")
 }
 TEST_CASE_END
 
-TEST_CASE("combinePaths should ensure only 1 folder separator exists at the join")
+TEST_CASE("combining two paths ensures that only one folder separator exists at the join")
 {
 	tstring actual = Core::combinePaths(TXT("folder"), TXT("file"));
 
@@ -39,19 +39,19 @@ TEST_CASE("combinePaths should ensure only 1 folder separator exists at the join
 }
 TEST_CASE_END
 
-TEST_CASE("pathExists should return true when the path exists")
+TEST_CASE("checking if a path exists returns true when it does")
 {
 	TEST_TRUE(Core::pathExists(Core::getTempFolder()));
 }
 TEST_CASE_END
 
-TEST_CASE("pathExists should return false when the path is invalid")
+TEST_CASE("checking if a path exists returns false when the path is invalid")
 {
 	TEST_FALSE(Core::pathExists(TXT(".\\invalid_local_file_name.txt")));
 }
 TEST_CASE_END
 
-TEST_CASE("deleteFile should succeed when the file exists")
+TEST_CASE("deleting a file removes it when the file exists")
 {
 	tstring testFileName = Core::combinePaths(Core::getTempFolder(), TXT("core_test_file.txt"));
 
@@ -65,7 +65,7 @@ TEST_CASE("deleteFile should succeed when the file exists")
 }
 TEST_CASE_END
 
-TEST_CASE("deleteFile should throw when an error occurs")
+TEST_CASE("deleting a file throws when an error occurs")
 {
 	tstring invalidFile = TXT(".\\invalid_local_file_name.txt");
 
@@ -73,7 +73,7 @@ TEST_CASE("deleteFile should throw when an error occurs")
 }
 TEST_CASE_END
 
-TEST_CASE("deleteFile should not throw when an error occurs and errors should be ignored")
+TEST_CASE("deleting a file does not throw when an error occurs and errors should be ignored")
 {
 	tstring invalidFile = TXT(".\\invalid_local_file_name.txt");
 
@@ -83,7 +83,7 @@ TEST_CASE("deleteFile should not throw when an error occurs and errors should be
 }
 TEST_CASE_END
 
-TEST_CASE("creating a folder succeeds when it does not already exist")
+TEST_CASE("a folder can be created when it does not already exist")
 {
 	const tstring tempFolder = Core::getTempFolder();
 	const tstring testFolder = Core::combinePaths(tempFolder, TXT("FileSystemTest"));
@@ -123,7 +123,7 @@ TEST_CASE("deleting a folder throws when an error occurs")
 }
 TEST_CASE_END
 
-TEST_CASE("deleting a folder succeeds when the path exists and references a folder")
+TEST_CASE("a folder can be deleted when the path exists and references an actual folder")
 {
 	const tstring tempFolder = Core::getTempFolder();
 	const tstring testFolder = Core::combinePaths(tempFolder, TXT("FileSystemTest"));
