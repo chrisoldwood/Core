@@ -30,9 +30,19 @@ tstring combinePaths(const tstring& lhs, const tstring& rhs);
 bool pathExists(const tstring& path);
 
 ////////////////////////////////////////////////////////////////////////////////
+// Create the specified folder.
+
+void createFolder(const tstring& path); // throw(FileSystemExceptionException)
+
+////////////////////////////////////////////////////////////////////////////////
+// Delete the specified folder.
+
+void deleteFolder(const tstring& path, bool ignoreErrors = false); // throw(FileSystemExceptionException)
+
+////////////////////////////////////////////////////////////////////////////////
 // Delete the specified file.
 
-void deleteFile(const tstring& path, bool ignoreErrors = false);
+void deleteFile(const tstring& path, bool ignoreErrors = false); // throw(FileSystemExceptionException)
 
 //namespace Core
 }

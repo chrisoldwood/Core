@@ -18,6 +18,19 @@
 #pragma GCC diagnostic ignored "-Wunused-value"
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+// Localised TCHAR mappings for the file-system related functions.
+
+#ifdef ANSI_BUILD
+#define tstrerror	strerror
+#define tmkdir		_mkdir
+#define trmdir		_rmdir
+#else // UNICODE_BUILD
+#define tstrerror	_wcserror
+#define tmkdir		_wmkdir
+#define trmdir		_wrmdir
+#endif
+
 namespace Core
 {
 
@@ -95,6 +108,44 @@ static tstring formatWin32ErrorMessage(DWORD errorCode)
 	trim(message);
 
 	return message;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Create the specified folder.
+
+void createFolder(const tstring& path)
+{
+	int result = tmkdir(path.c_str());
+
+	if (result != 0)
+	{
+		int     errorCode = errno;		
+		tstring errorText = tstrerror(errorCode);
+
+		tstring operation = Core::fmt(TXT("Failed to create folder '%s'"), path.c_str());
+		tstring message = Core::fmt(TXT("%s [%d - %s]"), operation.c_str(), errorCode, errorText.c_str());
+
+		throw FileSystemException(message);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Delete the specified folder.
+
+void deleteFolder(const tstring& path, bool ignoreErrors)
+{
+	int result = trmdir(path.c_str());
+
+	if ( (result != 0) && (!ignoreErrors) )
+	{
+		int     errorCode = errno;		
+		tstring errorText = tstrerror(errorCode);
+
+		tstring operation = Core::fmt(TXT("Failed to delete folder '%s'"), path.c_str());
+		tstring message = Core::fmt(TXT("%s [%d - %s]"), operation.c_str(), errorCode, errorText.c_str());
+
+		throw FileSystemException(message);
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

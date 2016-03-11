@@ -16,7 +16,7 @@ static void createEmptyFile(const tstring& path)
 	testFile.close();
 }
 
-TEST_SET(Path)
+TEST_SET(FileSystem)
 {
 
 TEST_CASE("getTempFolder should not return an empty path")
@@ -78,6 +78,70 @@ TEST_CASE("deleteFile should not throw when an error occurs and errors should be
 	tstring invalidFile = TXT(".\\invalid_local_file_name.txt");
 
 	Core::deleteFile(invalidFile, true);
+
+	TEST_PASSED("no exception thrown");
+}
+TEST_CASE_END
+
+TEST_CASE("creating a folder succeeds when it does not already exist")
+{
+	const tstring tempFolder = Core::getTempFolder();
+	const tstring testFolder = Core::combinePaths(tempFolder, TXT("FileSystemTest"));
+
+	ASSERT(!Core::pathExists(testFolder));
+
+	Core::createFolder(testFolder);
+
+	TEST_TRUE(Core::pathExists(testFolder));
+
+	Core::deleteFolder(testFolder, true);
+	ASSERT(!Core::pathExists(testFolder));
+}
+TEST_CASE_END
+
+TEST_CASE("creating a folder throws when the path already exists")
+{
+	const tstring tempFolder = Core::getTempFolder();
+	const tstring testFolder = Core::combinePaths(tempFolder, TXT("FileSystemTest"));
+
+	ASSERT(!Core::pathExists(testFolder));
+
+	Core::createFolder(testFolder);
+
+	TEST_THROWS(Core::createFolder(testFolder));
+
+	Core::deleteFolder(testFolder, true);
+	ASSERT(!Core::pathExists(testFolder));
+}
+TEST_CASE_END
+
+TEST_CASE("deleting a folder throws when an error occurs")
+{
+	const tstring invalidFolder = TXT(".\\invalid_local_folder_name");
+
+	TEST_THROWS(Core::deleteFolder(invalidFolder));
+}
+TEST_CASE_END
+
+TEST_CASE("deleting a folder succeeds when the path exists and references a folder")
+{
+	const tstring tempFolder = Core::getTempFolder();
+	const tstring testFolder = Core::combinePaths(tempFolder, TXT("FileSystemTest"));
+
+	ASSERT(!Core::pathExists(testFolder));
+	Core::createFolder(testFolder);
+
+	Core::deleteFolder(testFolder);
+
+	TEST_FALSE(Core::pathExists(testFolder));
+}
+TEST_CASE_END
+
+TEST_CASE("deleting a folder doesn't throw when an error occurs and errors should be ignored")
+{
+	const tstring invalidFolder = TXT(".\\invalid_local_folder_name");
+
+	Core::deleteFolder(invalidFolder, true);
 
 	TEST_PASSED("no exception thrown");
 }
