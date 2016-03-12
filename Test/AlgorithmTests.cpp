@@ -15,7 +15,13 @@ static bool ValueIsTwo(int value)
 
 CORE_DEFINE_PREDICATE(IntValueEquals, int, value, rhs)
 {
-	return rhs == value;
+	return value == rhs;
+}
+CORE_END_PREDICATE
+
+CORE_DEFINE_PREDICATE(StringValueEqualsIgnoringCase, const tchar*, value, rhs)
+{
+	return (tstricmp(value, rhs) == 0);
 }
 CORE_END_PREDICATE
 
@@ -25,18 +31,36 @@ TEST_SET(Algorithm)
 TEST_CASE("exists returns true when it finds the item in the vector")
 {
 	int              values[] = {1, 2, 3};
-	std::vector<int> array(values, values+ARRAY_SIZE(values));
+	std::vector<int> a_vector(values, values+ARRAY_SIZE(values));
 
-	TEST_TRUE(Core::exists(array, 2));
+	TEST_TRUE(Core::exists(a_vector, 2));
 }
 TEST_CASE_END
 
 TEST_CASE("exists returns false when it cannot find the item in the vector")
 {
 	int              values[] = {1, 2, 3};
-	std::vector<int> array(values, values+ARRAY_SIZE(values));
+	std::vector<int> a_vector(values, values+ARRAY_SIZE(values));
 
-	TEST_FALSE(Core::exists(array, 5));
+	TEST_FALSE(Core::exists(a_vector, 5));
+}
+TEST_CASE_END
+
+TEST_CASE("exists_if returns true when it finds the item in the vector using a predicate")
+{
+	const tchar*              values[] = {TXT("A"), TXT("B"), TXT("C")};
+	std::vector<const tchar*> a_vector(values, values+ARRAY_SIZE(values));
+
+	TEST_TRUE(Core::exists_if(a_vector, StringValueEqualsIgnoringCase(TXT("b"))));
+}
+TEST_CASE_END
+
+TEST_CASE("exists_if returns false when it cannot find the item in the vector using a predicate")
+{
+	const tchar*              values[] = {TXT("A"), TXT("B"), TXT("C")};
+	std::vector<const tchar*> a_vector(values, values+ARRAY_SIZE(values));
+
+	TEST_FALSE(Core::exists_if(a_vector, StringValueEqualsIgnoringCase(TXT("z"))));
 }
 TEST_CASE_END
 
@@ -55,6 +79,24 @@ TEST_CASE("exists returns false when it cannot find the item in the set")
 	std::set<int> a_set(values, values+ARRAY_SIZE(values));
 
 	TEST_FALSE(Core::exists(a_set, 5));
+}
+TEST_CASE_END
+
+TEST_CASE("exists_if returns true when it finds the item in the set using a predicate")
+{
+	const tchar*           values[] = {TXT("A"), TXT("B"), TXT("C")};
+	std::set<const tchar*> a_set(values, values+ARRAY_SIZE(values));
+
+	TEST_TRUE(Core::exists_if(a_set, StringValueEqualsIgnoringCase(TXT("b"))));
+}
+TEST_CASE_END
+
+TEST_CASE("exists_if returns false when it cannot find the item in the set using a predicate")
+{
+	const tchar*           values[] = {TXT("A"), TXT("B"), TXT("C")};
+	std::set<const tchar*> a_set(values, values+ARRAY_SIZE(values));
+
+	TEST_FALSE(Core::exists_if(a_set, StringValueEqualsIgnoringCase(TXT("z"))));
 }
 TEST_CASE_END
 

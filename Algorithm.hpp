@@ -20,6 +20,15 @@ namespace Core
 {
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Find a value within a container using a predicate.
+
+template<typename T, typename P>
+inline typename std::vector<T>::const_iterator find_if(const std::vector<T>& container, P predicate)
+{
+	return std::find_if(container.begin(), container.end(), predicate);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Search to see if the value exists within the container.
 
 template<typename T>
@@ -29,12 +38,30 @@ inline bool exists(const std::vector<T>& container, T value)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//! Search to see if the value exists within the container using the predicate.
+
+template<typename T, typename P>
+inline bool exists_if(const std::vector<T>& container, P predicate)
+{
+	return (Core::find_if(container, predicate) != container.end());
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //! Search to see if the value exists within the container.
 
 template<typename T>
 inline bool exists(const std::set<T>& container, T value)
 {
 	return (container.find(value) != container.end());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//! Search to see if the value exists within the container.
+
+template<typename T, typename P>
+inline bool exists_if(const std::set<T>& container, P predicate)
+{
+	return (std::find_if(container.begin(), container.end(), predicate) != container.end());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,8 +94,8 @@ inline size_t indexOf(std::vector<T>& container, T value)
 ////////////////////////////////////////////////////////////////////////////////
 //! Remove items from a vector that match a predicate.
 
-template<typename T, typename F>
-inline void erase_if(std::vector<T>& container, F predicate)
+template<typename T, typename P>
+inline void erase_if(std::vector<T>& container, P predicate)
 {
 	typename std::vector<T>::iterator it = std::remove_if(container.begin(), container.end(), predicate);
 
@@ -149,15 +176,6 @@ inline V findOrDefault(const std::map<K, V>& container, K key, V defaultValue)
 		return defaultValue;
 
 	return it->second;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//! Find a value within a container using a predicate.
-
-template<typename T, typename P>
-inline typename std::vector<T>::const_iterator find_if(const std::vector<T>& container, P predicate)
-{
-	return std::find_if(container.begin(), container.end(), predicate);
 }
 
 //namespace Core
