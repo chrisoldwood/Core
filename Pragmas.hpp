@@ -20,6 +20,9 @@
 // Nameless struct/union.
 #pragma warning ( disable : 4201 )
 
+// Interfaces using virtual base classes.
+#pragma warning ( disable : 4250 )
+
 // 'this' used in base member initialisation list.
 #pragma warning ( disable : 4355 )
 
