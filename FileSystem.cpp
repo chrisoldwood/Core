@@ -13,6 +13,7 @@
 #include <malloc.h>
 #include <io.h>
 #include <tchar.h>
+#include <direct.h>
 
 #ifdef __GNUG__
 #pragma GCC diagnostic ignored "-Wunused-value"
