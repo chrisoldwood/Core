@@ -32,6 +32,28 @@ private:
 	NotCopyable& operator=(const NotCopyable&);
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//! The NotCopyable class does not work well with the GCC -Weff-c++ switch so
+//! the alternative is to define them directly in the class itself. However
+//! GCC 3.4 needs the copy ctor to be publicly accessible.
+
+#if ((__GNUC__ == 3) && (__GNUC_MINOR__ == 4)) // GCC 3.4.x
+
+#define CORE_NOT_COPYABLE(className)		\
+public:										\
+	className(const className&);			\
+private:									\
+	className& operator=(const className&);
+
+#else
+
+#define CORE_NOT_COPYABLE(className)		\
+private:									\
+	className(const className&);			\
+	className& operator=(const className&);
+
+#endif
+
 //namespace Core
 }
 

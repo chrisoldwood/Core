@@ -7,15 +7,28 @@
 #include <Core/UnitTest.hpp>
 #include <Core/NotCopyable.hpp>
 
+class CopyTest : public Core::NotCopyable
+{
+};
+
+class CopyTest2
+{
+public:
+	CopyTest2()
+	{ }
+
+	CORE_NOT_COPYABLE(CopyTest2);
+};
+
+static void TakesReference(const CopyTest2&)
+{
+}
+
 TEST_SET(NotCopyable)
 {
 
 TEST_CASE("compilation should succeed")
 {
-	class CopyTest : public Core::NotCopyable
-	{
-	};
-
 //	Core::NotCopyable test1;	// Not constructible.
 
 	CopyTest test2;
@@ -23,6 +36,14 @@ TEST_CASE("compilation should succeed")
 
 	CopyTest test4;
 //	test4 = test2;				// Not assignable.
+
+	TEST_PASSED("compilation succeeded");
+}
+TEST_CASE_END
+
+TEST_CASE("compilation should succeed for rvalue reference")
+{
+	TakesReference(CopyTest2());
 
 	TEST_PASSED("compilation succeeded");
 }
