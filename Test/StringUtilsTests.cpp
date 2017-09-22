@@ -9,7 +9,7 @@
 #include <limits>
 #include <limits.h>
 
-#ifdef __GNUG__
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 #endif
 
@@ -41,23 +41,27 @@ TEST_CASE("formatting a number returns the same output as printf")
 // _set_output_format() below to limit the exponent to only 2 digits.
 #ifndef __GNUG__
 
-#if (_MSC_VER < 1900)
+#if (_MSC_VER >= 1400) && (_MSC_VER < 1900)
 	_set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
 
 	double small = -0.1234567890123456789;
 	double large = -123456789012345667890.0;
 
+#if (_MSC_VER >= 1400)
 	TEST_TRUE(Core::fmt(TXT("%.10e"), small) == TXT("-1.2345678901e-01"));
 	TEST_TRUE(Core::fmt(TXT("%.10E"), large) == TXT("-1.2345678901E+20"));
+#endif
 	TEST_TRUE(Core::fmt(TXT("%.10f"), small) == TXT("-0.1234567890"));
-#if (_MSC_VER >= 1900)
+#if (_MSC_VER >= 1400) && (_MSC_VER >= 1900)
 	TEST_TRUE(Core::fmt(TXT("%.10f"), large) == TXT("-123456789012345667584.0000000000"));
 #else
 	TEST_TRUE(Core::fmt(TXT("%.10f"), large) == TXT("-123456789012345670000.0000000000"));
 #endif
 	TEST_TRUE(Core::fmt(TXT("%g"),    small) == TXT("-0.123457"));
+#if (_MSC_VER >= 1400)
 	TEST_TRUE(Core::fmt(TXT("%G"),    large) == TXT("-1.23457E+20"));
+#endif
 
 #endif // __GNUG__
 }

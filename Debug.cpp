@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Avoid bringing in <windows.h>.
 
+#if (!defined(__GNUC__)) || (defined(__GNUC__) && !defined(_WINBASE_H))
+
 #ifndef _STLPORT_VERSION
 extern "C" void __stdcall OutputDebugStringA(const char*);
 #endif
@@ -26,6 +28,8 @@ extern "C" void __stdcall OutputDebugStringW(const wchar_t*);
 #define	OutputDebugString	OutputDebugStringA
 #else
 #define	OutputDebugString	OutputDebugStringW
+#endif
+
 #endif
 
 namespace Core

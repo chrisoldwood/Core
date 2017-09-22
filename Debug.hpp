@@ -60,7 +60,7 @@ void traceEx(const tchar* format, ...);
 #define DEBUG_USE_ONLY(x)		((void)x)
 
 //! Mark a variable or parameter as unused in any build.
-#define UNUSED_VARIABLE(x)		(x)
+#define UNUSED_VARIABLE(x)		((void)x)
 
 //! The STATIC_ASSERT base template.
 template<bool C> struct STATIC_ASSERT_CHECK;
@@ -90,9 +90,9 @@ template<> struct STATIC_ASSERT_CHECK<true> {};
 #define TRACE4(x,a,b,c,d)
 #define TRACE5(x,a,b,c,d,e)
 
-#define DEBUG_USE_ONLY(x)	(x)
+#define DEBUG_USE_ONLY(x)	((void)x)
 
-#define UNUSED_VARIABLE(x)	(x)
+#define UNUSED_VARIABLE(x)	((void)x)
 
 #define STATIC_ASSERT(x)
 

@@ -54,8 +54,13 @@ inline long atomicDecrement(volatile long& value)
 // bringing in <windows.h>.
 
 #ifndef _WIN64
+#if (__GNUC__ >= 4)
 extern "C" long __stdcall InterlockedIncrement(volatile long* lpValue);
 extern "C" long __stdcall InterlockedDecrement(volatile long* lpValue);
+#else
+extern "C" long __stdcall InterlockedIncrement(long* lpValue);
+extern "C" long __stdcall InterlockedDecrement(long* lpValue);
+#endif
 #else
 extern "C" long __cdecl _InterlockedIncrement(volatile long* lpValue);
 extern "C" long __cdecl _InterlockedDecrement(volatile long* lpValue);
@@ -69,7 +74,7 @@ namespace Core
 ////////////////////////////////////////////////////////////////////////////////
 //! Thread-safe function for incrementing the value by one.
 
-inline long atomicIncrement(volatile long& value)
+inline long atomicIncrement(long& value)
 {
 	return InterlockedIncrement(&value);
 }
@@ -77,7 +82,7 @@ inline long atomicIncrement(volatile long& value)
 ////////////////////////////////////////////////////////////////////////////////
 //! Thread-safe function for decrementing the value by one.
 
-inline long atomicDecrement(volatile long& value)
+inline long atomicDecrement(long& value)
 {
 	return InterlockedDecrement(&value);
 }

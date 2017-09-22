@@ -15,7 +15,7 @@
 #include <tchar.h>
 #include <direct.h>
 
-#ifdef __GNUG__
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
 #pragma GCC diagnostic ignored "-Wunused-value"
 #endif
 
@@ -120,7 +120,7 @@ void createFolder(const tstring& path)
 
 	if (result != 0)
 	{
-		int     errorCode = errno;		
+		int     errorCode = errno;
 		tstring errorText = tstrerror(errorCode);
 
 		tstring operation = Core::fmt(TXT("Failed to create folder '%s'"), path.c_str());
@@ -139,7 +139,7 @@ void deleteFolder(const tstring& path, bool ignoreErrors)
 
 	if ( (result != 0) && (!ignoreErrors) )
 	{
-		int     errorCode = errno;		
+		int     errorCode = errno;
 		tstring errorText = tstrerror(errorCode);
 
 		tstring operation = Core::fmt(TXT("Failed to delete folder '%s'"), path.c_str());

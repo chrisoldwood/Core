@@ -30,7 +30,8 @@ Exception::Exception(const tstring& details)
 //! Copy constructor.
 
 Exception::Exception(const Exception& rhs)
-	: m_details(rhs.m_details)
+	: exception(rhs)
+    , m_details(rhs.m_details)
 {
 }
 

@@ -6,7 +6,7 @@
 #include "Common.hpp"
 #include <Core/UnitTest.hpp>
 
-#ifdef __GNUG__
+#if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
 #pragma GCC diagnostic ignored "-Wunused-value"
 #endif
 
