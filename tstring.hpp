@@ -110,6 +110,7 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tatoi			atoi
 #define tatol			atol
 #define tisspace		isspace
+#define ttoupper		toupper
 #define ttolower		tolower
 
 //
@@ -155,6 +156,7 @@ typedef std::wistream	tistream;	//!< Build agnostic input stream type.
 #define tatoi			_wtoi
 #define tatol			_wtol
 #define tisspace		iswspace
+#define ttoupper		towupper
 #define ttolower		towlower
 
 #endif
