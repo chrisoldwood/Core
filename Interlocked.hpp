@@ -62,10 +62,15 @@ extern "C" long __stdcall InterlockedIncrement(long* lpValue);
 extern "C" long __stdcall InterlockedDecrement(long* lpValue);
 #endif
 #else
+#if defined __BORLANDC__
+extern "C" long __cdecl InterlockedIncrement(volatile long* lpValue);
+extern "C" long __cdecl InterlockedDecrement(volatile long* lpValue);
+#else
 extern "C" long __cdecl _InterlockedIncrement(volatile long* lpValue);
 extern "C" long __cdecl _InterlockedDecrement(volatile long* lpValue);
 #define InterlockedIncrement _InterlockedIncrement
 #define InterlockedDecrement _InterlockedDecrement
+#endif
 #endif
 
 namespace Core

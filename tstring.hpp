@@ -28,6 +28,10 @@
 
 #include <string>
 #include <string.h>
+#if defined __BORLANDC__
+#include <tchar.h>
+#include <string>
+#endif
 
 namespace Core
 {
@@ -84,12 +88,20 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 // String functions.
 #define tstrlen			strlen
 #define tstrnlen		strnlen
+#if defined __BORLANDC__
+#define tstrlwr			strlwr
+#define tstrupr			strupr
+#define tstricmp		stricmp
+#define tstrnicmp		strnicmp
+#define wcsnlen     wcsnlen_s
+#else
 #define tstrlwr			_strlwr
 #define tstrupr			_strupr
-#define tstrcmp			strcmp
 #define tstricmp		_stricmp
-#define tstrncmp		strncmp
 #define tstrnicmp		_strnicmp
+#endif
+#define tstrcmp			strcmp
+#define tstrncmp		strncmp
 #define tstrcpy			strcpy
 #define tstrncpy		strncpy
 #define tstrcat			strcat

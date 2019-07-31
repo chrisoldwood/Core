@@ -54,6 +54,13 @@
 
 #endif // _DEBUG
 
+#if defined __BORLANDC__
+
+#include <cstdlib>
+#include <string.h>
+
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Common STL headers that generate level 4 warnings.
 
