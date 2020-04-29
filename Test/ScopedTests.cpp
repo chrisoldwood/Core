@@ -6,6 +6,9 @@
 #include "Common.hpp"
 #include <Core/UnitTest.hpp>
 #include <Core/Scoped.hpp>
+#ifdef __BORLANDC__
+#include <stdlib.h>
+#endif
 
 static void nullDeleter(void* /*buffer*/)
 {

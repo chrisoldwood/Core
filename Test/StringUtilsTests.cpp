@@ -11,6 +11,10 @@
 
 #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
 #pragma GCC diagnostic ignored "-Wwrite-strings"
+#elif defined(__BORLANDC__)
+#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
+#define strnlen strnlen_s
+#define wcsnlen wcsnlen_s
 #endif
 
 TEST_SET(StringUtils)

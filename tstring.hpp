@@ -87,9 +87,17 @@ typedef std::istream	tistream;	//!< Build agnostic input stream type.
 #define tstrlwr			_strlwr
 #define tstrupr			_strupr
 #define tstrcmp			strcmp
+#ifdef __BORLANDC__
+#define tstricmp		stricmp
+#else
 #define tstricmp		_stricmp
+#endif
 #define tstrncmp		strncmp
+#ifdef __BORLANDC__
+#define tstrnicmp		strnicmp
+#else
 #define tstrnicmp		_strnicmp
+#endif
 #define tstrcpy			strcpy
 #define tstrncpy		strncpy
 #define tstrcat			strcat

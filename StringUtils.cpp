@@ -140,7 +140,7 @@ struct FormatTraits<long>
 {
 	static int format(tchar* buffer, size_t size, long value)
 	{
-		return _sntprintf(buffer, size, TXT("%d"), value);
+		return _sntprintf(buffer, size, TXT("%ld"), value);
 	}
 
 	static long parse(const tchar* nptr, tchar** endptr, int base)
@@ -157,7 +157,7 @@ struct FormatTraits<ulong>
 {
 	static int format(tchar* buffer, size_t size, ulong value)
 	{
-		return _sntprintf(buffer, size, TXT("%u"), value);
+		return _sntprintf(buffer, size, TXT("%lu"), value);
 	}
 
 	static ulong parse(const tchar* nptr, tchar** endptr, int base)
@@ -180,7 +180,11 @@ struct FormatTraits<longlong>
 {
 	static int format(tchar* buffer, size_t size, longlong value)
 	{
+#ifdef __BORLANDC__
+		return _sntprintf(buffer, size, TXT("%lld"), value);
+#else
 		return _sntprintf(buffer, size, TXT("%I64d"), value);
+#endif
 	}
 
 	static longlong parse(const tchar* nptr, tchar** endptr, int base)
@@ -197,7 +201,11 @@ struct FormatTraits<ulonglong>
 {
 	static int format(tchar* buffer, size_t size, ulonglong value)
 	{
+#ifdef __BORLANDC__
+		return _sntprintf(buffer, size, TXT("%llu"), value);
+#else
 		return _sntprintf(buffer, size, TXT("%I64u"), value);
+#endif
 	}
 
 	static ulonglong parse(const tchar* nptr, tchar** endptr, int base)

@@ -57,16 +57,19 @@ inline long atomicDecrement(volatile long& value)
 #if (__GNUC__ >= 4)
 extern "C" long __stdcall InterlockedIncrement(volatile long* lpValue);
 extern "C" long __stdcall InterlockedDecrement(volatile long* lpValue);
+#elif defined(__BORLANDC__)
+extern "C" long __stdcall InterlockedIncrement(volatile long* lpValue);
+extern "C" long __stdcall InterlockedDecrement(volatile long* lpValue);
 #else
 extern "C" long __stdcall InterlockedIncrement(long* lpValue);
 extern "C" long __stdcall InterlockedDecrement(long* lpValue);
 #endif
-#else
+#else // _WIN64
 extern "C" long __cdecl _InterlockedIncrement(volatile long* lpValue);
 extern "C" long __cdecl _InterlockedDecrement(volatile long* lpValue);
 #define InterlockedIncrement _InterlockedIncrement
 #define InterlockedDecrement _InterlockedDecrement
-#endif
+#endif // _WIN64
 
 namespace Core
 {

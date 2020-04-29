@@ -38,10 +38,10 @@ private:
 } nullptr = {};
 
 // VC++ 6.x and earlier
-#elif (_MSC_VER < 1300)
+#elif ( (_MSC_VER < 1300) && !defined(__BORLANDC__) )
 
 // < VC++ 7.x can't cope with the template.
-#define nullptr 0					
+#define nullptr 0
 
 #endif
 

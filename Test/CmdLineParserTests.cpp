@@ -12,6 +12,8 @@
 #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2)) // GCC 4.2+
 // deprecated conversion from string constant to 'tchar*'
 #pragma GCC diagnostic ignored "-Wwrite-strings"
+#elif defined(__BORLANDC__)
+#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
 #endif
 
 TEST_SET(CmdLineParser)
