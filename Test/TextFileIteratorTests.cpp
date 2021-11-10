@@ -66,7 +66,7 @@ TEST_CASE("invoking ptr-to-member on an end iterator should throw an exception")
 {
 	Core::TextFileIterator end;
 
-	TEST_THROWS(end->empty());
+	TEST_THROWS(static_cast<void>(end->empty()));
 }
 TEST_CASE_END
 
