@@ -42,6 +42,7 @@
 			<Add option="-Wswitch-default" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-m32" />
 			<Add option="-Wmissing-format-attribute" />
 			<Add option="-Werror" />
 			<Add option="-Winvalid-pch" />
@@ -52,6 +53,9 @@
 			<Add option="-D_LIB" />
 			<Add directory="../../Lib" />
 		</Compiler>
+		<Linker>
+			<Add option="-m32" />
+		</Linker>
 		<Unit filename="Algorithm.hpp" />
 		<Unit filename="AnsiWide.cpp" />
 		<Unit filename="AnsiWide.hpp" />
@@ -110,10 +114,6 @@
 		<Unit filename="tiosfwd.hpp" />
 		<Unit filename="tiostream.hpp" />
 		<Unit filename="tstring.hpp" />
-		<Extensions>
-			<code_completion />
-			<debugger />
-			<envvars />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

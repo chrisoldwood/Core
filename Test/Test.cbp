@@ -21,7 +21,7 @@
 					<Add directory="../../../Lib" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="..\Debug\libCore.a" />
+					<Add library="../Debug/libCore.a" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
@@ -39,7 +39,7 @@
 					<Add directory="../../../Lib" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="..\Release\libCore.a" />
+					<Add library="../Release/libCore.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -54,6 +54,7 @@
 			<Add option="-Wswitch-default" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-m32" />
 			<Add option="-Wmissing-format-attribute" />
 			<Add option="-Werror" />
 			<Add option="-Winvalid-pch" />
@@ -64,6 +65,9 @@
 			<Add option="-D_CONSOLE" />
 			<Add directory="../../../Lib" />
 		</Compiler>
+		<Linker>
+			<Add option="-m32" />
+		</Linker>
 		<Unit filename="AlgorithmTests.cpp" />
 		<Unit filename="AnsiWideTests.cpp" />
 		<Unit filename="ArrayPtrTests.cpp" />
@@ -89,10 +93,6 @@
 		<Unit filename="TokeniserTests.cpp" />
 		<Unit filename="UniquePtrTests.cpp" />
 		<Unit filename="pch.cpp" />
-		<Extensions>
-			<code_completion />
-			<debugger />
-			<envvars />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
