@@ -267,8 +267,8 @@ void onEndTestSet()
 
 	if (!s_failures.empty())
 	{
-		const tstring failureCount = (s_quiet) ? Core::fmt(TXT(" %s: %u failure(s)"), s_currentTestSet.c_str(), s_failures.size())
-											   : Core::fmt(TXT(" %u failure(s)"), s_failures.size());
+		const tstring failureCount = (s_quiet) ? Core::fmt(TXT(" %s: %Iu failure(s)"), s_currentTestSet.c_str(), s_failures.size())
+											   : Core::fmt(TXT(" %Iu failure(s)"), s_failures.size());
 
 		tcout << std::endl;
 		tcout << failureCount << std::endl;
@@ -426,6 +426,12 @@ static const char* getFileName(const char* path)
 	return filename;
 }
 
+#if (__GNUC__ >= 8) // GCC 8+
+// error: format '%hs' expects argument of type 'short int*', but argument 3 has type 'const char*' [-Werror=format=]
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat"
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 //! Write the assert result to stdout.
 
@@ -442,7 +448,7 @@ void processAssertResult(const char* file, size_t line, const tchar* expression,
 
 	const tchar*  result = (passed) ? TXT("Passed") : TXT("FAILED");
 	const char*   filename = getFileName(file);
-	const tstring assert = Core::fmt(TXT(" %s [%hs, %3u] %s"), result, filename, line, expression);
+	const tstring assert = Core::fmt(TXT(" %s [%hs, %3Iu] %s"), result, filename, line, expression);
 
 	s_currentTestCaseAsserts.push_back(assert);
 
@@ -464,7 +470,7 @@ void processTestException(const char* file, size_t line, const tchar* error)
 
 	const tchar*  result = TXT("FAILED");
 	const char*   filename = getFileName(file);
-	const tstring assert = Core::fmt(TXT(" %s [%hs, %3u] Threw: %s"), result, filename, line, error);
+	const tstring assert = Core::fmt(TXT(" %s [%hs, %3Iu] Threw: %s"), result, filename, line, error);
 
 	s_currentTestCaseAsserts.push_back(assert);
 
@@ -476,6 +482,10 @@ void processTestException(const char* file, size_t line, const tchar* error)
 	if (s_debug)
 		::DebugBreak();
 }
+
+#if (__GNUC__ >= 8) // GCC 8+
+#pragma GCC diagnostic pop
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //! Process an unexpected exception during set-up or tear-down.

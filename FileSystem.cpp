@@ -48,7 +48,7 @@ tstring getTempFolder()
 	DWORD   result = ::GetTempPath(length, buffer);
 
 	if (result > length)
-		throw BadLogicException(fmt(TXT("Invalid buffer size used in ::GetTempPath(). Result: %u"), result));
+		throw BadLogicException(fmt(TXT("Invalid buffer size used in ::GetTempPath(). Result: %lu"), result));
 
 	return buffer;
 }
@@ -162,7 +162,7 @@ void deleteFile(const tstring& path, bool ignoreErrors)
 		tstring errorText = formatWin32ErrorMessage(errorCode);
 
 		tstring operation = Core::fmt(TXT("Failed to delete file '%s'"), path.c_str());
-		tstring message = Core::fmt(TXT("%s [0x%08X - %s]"), operation.c_str(), errorCode, errorText.c_str());
+		tstring message = Core::fmt(TXT("%s [0x%08lX - %s]"), operation.c_str(), errorCode, errorText.c_str());
 
 		throw FileSystemException(message);
 	}

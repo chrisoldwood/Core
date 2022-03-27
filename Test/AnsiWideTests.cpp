@@ -66,6 +66,12 @@ TEST_CASE("convert from build dependent type to ANSI/Unicode")
 }
 TEST_CASE_END
 
+#if (__GNUC__ >= 8) // GCC 8+
+#pragma GCC diagnostic push
+// error: too many arguments for format. Caused by %h[C|S].
+#pragma GCC diagnostic ignored "-Wformat-extra-args"
+#endif
+
 TEST_CASE("format a string from ANSI, Unicode or build dependent input strings")
 {
 	const tchar* result = TXT("[A]NSI [U]NICODE");
@@ -78,6 +84,10 @@ TEST_CASE("format a string from ANSI, Unicode or build dependent input strings")
 	TEST_TRUE(Core::fmt(TXT("[%hC]%hS [%wc]%ws"),  'A',  "NSI", L'U', L"NICODE") == result);
 }
 TEST_CASE_END
+
+#if (__GNUC__ >= 8) // GCC 8+
+#pragma GCC diagnostic pop
+#endif
 
 }
 TEST_SET_END

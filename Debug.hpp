@@ -21,6 +21,7 @@ namespace Core
 void enableLeakReporting(bool enable);
 
 // Write a message to the debugger stream in both Debug and Release builds.
+CORE_MSPRINTF(1, 2)
 void debugWrite(const tchar* format, ...);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +33,7 @@ void debugWrite(const tchar* format, ...);
 void assertFail(const char* expression, const char* file, uint line);
 
 // Function to write a message to the debugger output in a Debug build.
+CORE_MSPRINTF(1, 2)
 void traceEx(const tchar* format, ...);
 
 //! Evaluate the expression, and complain if 'false'.

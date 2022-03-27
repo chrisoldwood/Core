@@ -21,10 +21,6 @@
 #error Multi-threaded runtime required
 #endif
 
-#if !defined(_WIN32) && !defined(_WIN64)
-#error Build platform not specified - _WIN32 or _WIN64
-#endif
-
 #if !defined(_MBCS) && !defined(_UNICODE)
 #error Character set must be Multi-Byte or Unicode
 #endif
@@ -38,6 +34,10 @@
 #endif
 
 // Visual C++
+#endif
+
+#if !defined(_WIN32) && !defined(_WIN64)
+#error Build platform not specified - _WIN32 or _WIN64
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,5 +86,14 @@
 #define _STLP_NO_EXTENSIONS			//!< Disable all extensions.
 
 //#define _STLP_VERBOSE_AUTO_LINK	//!< Display the linkage type.
+
+////////////////////////////////////////////////////////////////////////////////
+// Attributes.
+
+#if (__GNUC__ >= 8) // GCC 8+
+#define CORE_MSPRINTF(f,c)      __attribute__((format(ms_printf, f, c)))
+#else
+#define CORE_MSPRINTF(f,c)
+#endif
 
 #endif // CORE_BUILDCONFIG_HPP

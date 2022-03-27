@@ -217,4 +217,10 @@ int getTestProcessResult();
 //namespace Core
 }
 
+#if (__GNUC__ >= 8) // GCC 8+
+// Caused by the TEST_THROWS macro and should really be localised to that macro.
+// error: format '%hs' expects argument of type 'short int*', but argument 3 has type 'const char*' [-Werror=format=]
+#pragma GCC diagnostic ignored "-Wformat"
+#endif
+
 #endif // CORE_UNITTEST_HPP
