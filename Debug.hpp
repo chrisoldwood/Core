@@ -98,7 +98,7 @@ template<> struct STATIC_ASSERT_CHECK<true> {};
 
 #define STATIC_ASSERT(x)
 
-#define ASSERT_RESULT(v, e)	(v)
+#define ASSERT_RESULT(v, e)	DEBUG_USE_ONLY(v)
 
 #endif // _DEBUG
 
