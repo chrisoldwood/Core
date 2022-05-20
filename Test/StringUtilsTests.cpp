@@ -35,7 +35,7 @@ TEST_CASE("formatting a number returns the same output as printf")
 
 	byte* p = 0;
 
-#ifndef __WIN64
+#ifndef _WIN64
 	TEST_TRUE(Core::fmt(TXT("%p"), --p) == TXT("FFFFFFFF"));
 #else
 	TEST_TRUE(Core::fmt(TXT("%p"), --p) == TXT("FFFFFFFFFFFFFFFF"));
