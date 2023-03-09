@@ -96,4 +96,13 @@
 #define CORE_MSPRINTF(f,c)
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+// C++ language workarounds.
+
+#if _MSC_VER > 1930
+#define CORE_NO_THROW	noexcept
+#else
+#define CORE_NO_THROW	throw()
+#endif
+
 #endif // CORE_BUILDCONFIG_HPP
