@@ -23,3 +23,5 @@
 - refactor algortihm header into separate extensions headers for each container type.
 
 - Add support for Scoped deleter's that do not return void, e.g. NetApiBufferFree.
+
+- Tokenizer tests hang with GCC 10.x / 64-bit.
