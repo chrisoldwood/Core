@@ -523,7 +523,7 @@ void writeTestsSummary()
 		tcout << std::endl << std::endl;
 	}
 
-	tstring str = Core::fmt(TXT("Test Results: %u Passed %u Failed %u Unknown"),
+	tstring str = Core::fmt(TXT("Test Results: %u Passed, %u Failed, %u Unknown"),
 							s_numPassed, s_numFailed, s_numUnknown);
 
 	if (!s_successful)
