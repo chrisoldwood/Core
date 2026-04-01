@@ -80,6 +80,7 @@
 		<Unit filename="FileSystem.cpp" />
 		<Unit filename="FileSystem.hpp" />
 		<Unit filename="FileSystemException.hpp" />
+		<Unit filename="Functional.hpp" />
 		<Unit filename="Functor.hpp" />
 		<Unit filename="Interlocked.hpp" />
 		<Unit filename="InvalidArgException.hpp" />

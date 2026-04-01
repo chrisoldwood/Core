@@ -299,6 +299,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Functional.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Functor.hpp"
 				>
 			</File>

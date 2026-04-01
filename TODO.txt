@@ -25,5 +25,3 @@
 - Add support for Scoped deleter's that do not return void, e.g. NetApiBufferFree.
 
 - Tokenizer tests hang with GCC 10.x / 64-bit.
-
-- Fix-up code for removal of std::unary_function() in C++ 17.

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "BadLogicException.hpp"
 #include <set>
+#include "Functional.hpp"
 
 namespace Core
 {
@@ -36,7 +37,7 @@ CmdLineParser::~CmdLineParser()
 ////////////////////////////////////////////////////////////////////////////////
 //! The predicate for finding the name/value separator.
 
-struct CmdLineParser::IsSeparator : public std::unary_function<tchar, bool>
+struct CmdLineParser::IsSeparator : public Core::unary_function<tchar, bool>
 {
 	//
 	// Members.
@@ -332,7 +333,7 @@ void CmdLineParser::reset()
 ////////////////////////////////////////////////////////////////////////////////
 //! The predicate for matching the switches short name.
 
-struct CmdLineParser::IsShortName : std::unary_function<const CmdLineSwitch&, bool>
+struct CmdLineParser::IsShortName : Core::unary_function<const CmdLineSwitch&, bool>
 {
 	//
 	// Members.
@@ -367,7 +368,7 @@ struct CmdLineParser::IsShortName : std::unary_function<const CmdLineSwitch&, bo
 ////////////////////////////////////////////////////////////////////////////////
 //! The predicate for matching the switches long name.
 
-struct CmdLineParser::IsLongName : std::unary_function<const CmdLineSwitch&, bool>
+struct CmdLineParser::IsLongName : Core::unary_function<const CmdLineSwitch&, bool>
 {
 	//
 	// Members.
