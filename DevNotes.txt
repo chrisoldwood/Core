@@ -2,7 +2,7 @@ Development Structure
 ---------------------
 
 The source folder structure is required by the solution & projects to be like
-this:-
+this:
 
 +-<application>
 | +-<tests>
@@ -12,25 +12,48 @@ this:-
 +-Scripts
 
 The following commands will create that structure by cloning the various
-application and library repositories:-
+application and library repositories under a C:\Dev\C++ root folder:
 
-C:\> mkdir Win32\Lib
-C:\> git clone https://github.com/chrisoldwood/Core.git Win32\Lib\Core
+C:\> mkdir C:\Dev\C++
+C:\> pushd C:\Dev\C++
+C:\> mkdir Lib
+C:\> git clone https://github.com/chrisoldwood/Core.git Lib\Core
 <optional>
-C:\> git clone https://github.com/chrisoldwood/Scripts.git Win32\Scripts
+C:\> git clone https://github.com/chrisoldwood/Scripts.git Scripts
 
 Command Line Builds
 -------------------
 
-Included in the scripts folder is one for building via the command line:-
+Included in the optional Scripts folder is one for building via the command line
+(e.g. for 32-bit):
 
-C:\> Win32\Scripts\SetVars vc90
-C:\> Win32\Scripts\Build debug Win32\Lib\Core\Test\Test.sln
+C:\> set "PATH=%PATH%;C:\Dev\C++\Scripts"
+C:\> pushd Lib\Core
 
-There is also one for upgrading to a later version of Visual C++:-
+C:\> SetVars vc90-x86
+C:\> Build debug Test\Test.vc9.sln
+C:\> RunTests debug
 
-C:\> Win32\Scripts\SetVars vc140
-C:\> Win32\Scripts\Upgrade Win32\Lib\Core\Test\Test.sln
+There is also a solution file for building with the latest version of Visual C++
+(e.g. for 64-bit):
+
+C:\> SetVars vc180-x64
+C:\> Build debug Test\Test.vc18.sln
+C:\> RunTests debug
+
+If you want to build for an intermediate version of Visual C++ there is a script
+for upgrading the VS 2008 based solution and project files to a later version:
+
+C:\> SetVars <version>
+C:\> Upgrade Test\Test.vc9.sln
+C:\> Build debug Test\Test.vc9.sln
+C:\> RunTests debug
+
+For GCC based builds there is a script to trigger a build via the Code::CodeBlocks
+IDE, assuming you already have Code::CodeBlocks suitably configured:
+
+C:\> CodeBlocksBuild Test\Test.workspace
+C:\> Test\Debug\Test.exe --quiet
 
 Chris Oldwood 
-22nd October 2013
+2nd April 2026

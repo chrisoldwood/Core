@@ -1,7 +1,7 @@
 # Visual C++
 [Dd]ebug
 [Rr]elease
-Solution.VC.db
+.vs
 *.ncb
 *.suo
 *.user
